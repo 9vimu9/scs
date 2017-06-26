@@ -87,7 +87,7 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $supplier=Supplier::find($id);
-      
+      //fjhkuy
         $this->validate($request,[
             'name'=>'required',
             'tel'=>"required|regex:/^[0-9]{10}$/"
