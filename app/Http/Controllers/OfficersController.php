@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Supplier;
+use App\Officer;
 
-class SuppliersController extends Controller
+class OfficersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,9 @@ class SuppliersController extends Controller
      */
     public function index()
     {
+         $data=Officer::OrderBy('created_at','desc')->paginate(8);
         
-        $data=Supplier::OrderBy('name','desc')->paginate(8);
-        
-        return view('suppliers.index')->with("all_suppliers",$data);
+        return view('officers.index')->with("all_officers",$data);
     }
 
     /**
@@ -29,7 +28,7 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        return view("suppliers.create");
+        return view("officers.create");
     }
 
     /**
@@ -40,9 +39,17 @@ class SuppliersController extends Controller
      */
     public function store(Request $request)
     {
-        $supplier=new Supplier();
-        $this->AddUpdateCore($supplier,$request);
-          return redirect('/items/')->with('success','successfully saved');
+         $officer=new Officer();
+        $this->validate($request,[
+            'name'=>'required',
+            'nic'=>"required|regex:/^[0-9]{9}$/"
+        ]);
+        $officer->name=$request['name'];
+        $officer->nic=$request['nic'];
+               
+        $officer->save();
+
+        return redirect('/officers/')->with('success','officer added successfully');
     }
 
     /**
@@ -64,9 +71,8 @@ class SuppliersController extends Controller
      */
     public function edit($id)
     {
-        $data=Supplier::find($id);
-        return view("suppliers.edit")->with('supplier',$data);
-          return redirect('/suppliers/')->with('success','successfully updated');
+        $data=Officer::find($id);
+        return view("officers.edit")->with('officer',$data);
     }
 
     /**
@@ -78,9 +84,18 @@ class SuppliersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $supplier=Supplier::find($id);
-       $this->AddUpdateCore($supplier,$request);
-        
+         $officer=Officer::find($id);
+      
+        $this->validate($request,[
+            'name'=>'required',
+            'nic'=>"required|regex:/^[0-9]{9}$/"
+        ]);
+        $officer->name=$request['name'];
+        $officer->nic=$request['nic'];
+               
+        $officer->save();
+
+         return redirect('/officers')->with('success','officer updated');
     }
 
     /**
@@ -91,24 +106,9 @@ class SuppliersController extends Controller
      */
     public function destroy($id)
     {
-       $supplier=Supplier::find($id);
-       $supplier->delete();
-       return redirect('/suppliers')->with('success',"supplier<strong> $supplier->name </strong>removed successfully");
-    }
-
-    private function AddUpdateCore($supplier,$request)
-    {
-        $this->validate($request,[
-            'name'=>'required',
-            'tel'=>"required|regex:/^[0-9]{10}$/"
-        ]);
-        $supplier->name=$request['name'];
-        $supplier->address=$request['address'];
-        $supplier->tel=$request['tel'];
-        
-        $supplier->save();
-
-        
-        # code...
+        $officer=Officer::find($id);
+       $officer->delete();
+       return redirect('/officers')->with('success',"officer<strong> $officer->name </strong>removed successfully");
+ 
     }
 }

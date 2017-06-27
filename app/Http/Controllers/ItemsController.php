@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Supplier;
+use App\Item;
 
-class SuppliersController extends Controller
+class ItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,10 @@ class SuppliersController extends Controller
      */
     public function index()
     {
+        $data=Item::OrderBy('name','desc')->paginate(8);
         
-        $data=Supplier::OrderBy('name','desc')->paginate(8);
-        
-        return view('suppliers.index')->with("all_suppliers",$data);
+        return view('items.index')->with("all_items",$data);
+  
     }
 
     /**
@@ -29,7 +29,7 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        return view("suppliers.create");
+        return view("items.create");
     }
 
     /**
@@ -40,9 +40,10 @@ class SuppliersController extends Controller
      */
     public function store(Request $request)
     {
-        $supplier=new Supplier();
-        $this->AddUpdateCore($supplier,$request);
-          return redirect('/items/')->with('success','successfully saved');
+        $item=new Item();
+         $this->AddUpdateCore($item,$request);
+           return redirect('/items/')->with('success','successfully saved');
+       
     }
 
     /**
@@ -64,9 +65,8 @@ class SuppliersController extends Controller
      */
     public function edit($id)
     {
-        $data=Supplier::find($id);
-        return view("suppliers.edit")->with('supplier',$data);
-          return redirect('/suppliers/')->with('success','successfully updated');
+         $data=Item::find($id);
+        return view("items.edit")->with('item',$data);
     }
 
     /**
@@ -78,9 +78,9 @@ class SuppliersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $supplier=Supplier::find($id);
-       $this->AddUpdateCore($supplier,$request);
-        
+        $item=Item::find($id);
+        $this->AddUpdateCore($item,$request);
+        return redirect('/items/')->with('success','successfully updated');
     }
 
     /**
@@ -91,24 +91,33 @@ class SuppliersController extends Controller
      */
     public function destroy($id)
     {
-       $supplier=Supplier::find($id);
-       $supplier->delete();
-       return redirect('/suppliers')->with('success',"supplier<strong> $supplier->name </strong>removed successfully");
+        $item=Item::find($id);
+       $item->delete();
+       return redirect('/items')->with('success',"item<strong> $item->name </strong>removed successfully");
+  
     }
-
-    private function AddUpdateCore($supplier,$request)
+    private function AddUpdateCore($item,$request)
     {
-        $this->validate($request,[
+         $this->validate($request,[
             'name'=>'required',
-            'tel'=>"required|regex:/^[0-9]{10}$/"
+            'code'=>"required",
+            'location'=>"required",
+            'max'=>"required|numeric",
+            'min'=>"required|numeric",
+            'reorder'=>"required|numeric",
+            'cat'=>"required|numeric",
         ]);
-        $supplier->name=$request['name'];
-        $supplier->address=$request['address'];
-        $supplier->tel=$request['tel'];
-        
-        $supplier->save();
+        $item->name=$request['name'];
+        $item->code=$request['code'];
+        $item->location=$request['location'];
+        $item->max=$request['max'];
+        $item->min=$request['min'];
+        $item->reorder=$request['reorder'];
+        $item->cat=$request['cat'];
+             
+        $item->save();
 
-        
-        # code...
+      
+    
     }
 }

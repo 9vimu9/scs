@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Supplier;
 
-class SuppliersController extends Controller
+class OrdersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +15,7 @@ class SuppliersController extends Controller
      */
     public function index()
     {
-        
-        $data=Supplier::OrderBy('name','desc')->paginate(8);
-        
-        return view('suppliers.index')->with("all_suppliers",$data);
+        //
     }
 
     /**
@@ -29,7 +25,7 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        return view("suppliers.create");
+        //
     }
 
     /**
@@ -40,9 +36,7 @@ class SuppliersController extends Controller
      */
     public function store(Request $request)
     {
-        $supplier=new Supplier();
-        $this->AddUpdateCore($supplier,$request);
-          return redirect('/items/')->with('success','successfully saved');
+        //
     }
 
     /**
@@ -64,9 +58,7 @@ class SuppliersController extends Controller
      */
     public function edit($id)
     {
-        $data=Supplier::find($id);
-        return view("suppliers.edit")->with('supplier',$data);
-          return redirect('/suppliers/')->with('success','successfully updated');
+        //
     }
 
     /**
@@ -78,9 +70,7 @@ class SuppliersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $supplier=Supplier::find($id);
-       $this->AddUpdateCore($supplier,$request);
-        
+        //
     }
 
     /**
@@ -91,24 +81,6 @@ class SuppliersController extends Controller
      */
     public function destroy($id)
     {
-       $supplier=Supplier::find($id);
-       $supplier->delete();
-       return redirect('/suppliers')->with('success',"supplier<strong> $supplier->name </strong>removed successfully");
-    }
-
-    private function AddUpdateCore($supplier,$request)
-    {
-        $this->validate($request,[
-            'name'=>'required',
-            'tel'=>"required|regex:/^[0-9]{10}$/"
-        ]);
-        $supplier->name=$request['name'];
-        $supplier->address=$request['address'];
-        $supplier->tel=$request['tel'];
-        
-        $supplier->save();
-
-        
-        # code...
+        //
     }
 }

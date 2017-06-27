@@ -17,3 +17,6 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::resource('suppliers','SuppliersController');
+Route::resource('officers','OfficersController');
+Route::resource('items','ItemsController');
+Route::resource('orders','OrdersController');

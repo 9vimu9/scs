@@ -5,21 +5,20 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <big>SUPPLIERS</big>
-                <a href="/suppliers/create" class="pull-right btn btn-primary btn-sm">add supplier</a>
+                <big>OFFICERS</big>
+                <a href="/officers/create" class="pull-right btn btn-primary btn-sm">add officer</a>
             </div>
                 <div class="panel-body">
-                    @if(count($all_suppliers)>0)
+                    @if(count($all_officers)>0)
                     <table class="table table-striped table-hover" >
-                        @foreach($all_suppliers as $supplier)
+                        @foreach($all_officers as $officer)
                             <tr>
-                                <td> <big><a href="/suppliers/{{$supplier->id}}">{{$supplier->name}}</a>  {{$supplier->tel}}</big></td>
-                                <td>
+                                <td> <big><a href="/officers/{{$officer->id}}">{{$officer->name}}</a>  {{$officer->nic}}</big></td>
+                                <td> <a href="/officers/{{$officer->id}}/edit" class="btn btn-warning">edit</a>
                                    
 
-                                    <form action="/suppliers/{{$supplier->id}}" class="pull-right" method="POST">
+                                    <form action="/officers/{{$officer->id}}" class="pull-right" method="POST">
                                         {{ csrf_field() }}
-                                         <a href="/suppliers/{{$supplier->id}}/edit" class="btn btn-warning">edit</a>
                                         <input type="submit" name="delete" value="remove" class="btn btn-danger">
                                         <input type="hidden" name="_method" value="DELETE">
                                     </form>
@@ -31,9 +30,9 @@
                             
                     @endforeach
                     </table>
-                        {{$all_suppliers->links()}}
+                        {{$all_officers->links()}}
                     @else
-                    no suppliers<br>click add supplier button
+                    no officers<br>click add officer button
                     
                     @endif
                 </div>
