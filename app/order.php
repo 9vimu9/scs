@@ -19,4 +19,9 @@ class order extends Model
     {
         return $this->hasMany('App\item_orders');
     }
+
+     public function items()
+    {
+        return $this->belongsToMany('App\item','item_orders')->withPivot('amount', 'unit_price','id');
+    }
 }

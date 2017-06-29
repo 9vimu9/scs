@@ -25,6 +25,13 @@
         .fa-btn {
             margin-right: 6px;
         }
+
+        .table {
+            border-radius: 5px;
+            width: 50%;
+            margin: 0px auto;
+            float: none;
+        }
     </style>
 </head>
 <body id="app-layout">

@@ -4,28 +4,29 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>Edit order item</big></strong></big></div>
+            <div class="panel-heading"><big>ADD ITEM</big></strong></big></div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/itemorders/{{$item_order->id}}">
+                <form class="form-horizontal" role="form" method="POST" action="/itemorders">
                         {{ csrf_field() }}
-                        <input type="hidden" name="_method" value="PUT">
+                      
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">item name</label>
                             <div class="col-md-4">
-                                 <select id="item"  name="item" class="form-control" data-width="100%"><option value="{{$item_order->item_id}}" selected="{{$item_order->item_name}}">{{$item_order->item_name}}</option></select>
-                                 <input type="hidden" id="item_id" value="{{$item_order->item_id}}" name="item_id"/>
+                                 <select id="item"  name="item" class="form-control" data-width="100%"></select>
+                                 <input type="hidden" id="item_id"  name="item_id"/>
+                                  <input type="hidden" id="order_id"  name="order_id" value="{{$order_id}}"/>
                                  
                             </div>
                              
-                               reorder quantity <span class="label label-danger" id="reorder_badge">{{$item_order->item_reorder}}</span>
+                               reorder quantity <span class="label label-danger" id="reorder_badge"></span>
                             
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">amount</label>
                             <div class="col-md-2">
-                                <input id="amount" type="text" class="form-control" name="amount" value="{{$item_order->amount}}">
+                                <input id="amount" type="text" class="form-control" name="amount" >
                             </div>
                         </div>
 
@@ -33,7 +34,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">unit price</label>
                             <div class="col-md-2">
-                                <input id="unit_price" type="text" class="form-control" name="unit_price" value="{{$item_order->unit_price}}">
+                                <input id="unit_price" type="text" class="form-control" name="unit_price" >
                             </div>
                         </div>
 
@@ -48,7 +49,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-plus"></i> update
+                                    <i class="fa fa-btn fa-plus"></i> add
                                 </button>
                             </div>
                         </div>

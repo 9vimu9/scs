@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\item_orders;
 use App\order;
+use Illuminate\Support\Facades\DB;
 
 class ItemOrdersController extends Controller
 {
@@ -25,9 +26,10 @@ class ItemOrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($order_id)
     {
-        //
+      //  echo($order_id);
+         return view("itemorders.create")->with('order_id',$order_id);
     }
 
     /**
@@ -40,7 +42,8 @@ class ItemOrdersController extends Controller
     {
          $item_order=new item_orders();
          $this->AddUpdateCore($item_order,$request);
-        return redirect('/itemorders/'.$item_order->order_id);
+       
+       return redirect('/itemorders/'.$item_order->order_id);
     }
 
     /**
@@ -51,10 +54,7 @@ class ItemOrdersController extends Controller
      */
     public function show($id)
     {
-        
         $order=order::find($id);
-        
-        
         return view('itemorders.index')->with('order',$order);
     }
 
@@ -66,7 +66,15 @@ class ItemOrdersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data=item_orders::find($id);
+        $results =  DB::table("items")->find($data->item_id);
+        $data['item_name']= $results->name;
+         $data['item_reorder']= $results->reorder;
+
+       
+     //echo($data);
+         
+       return view("itemorders.edit")->with('item_order',$data);
     }
 
     /**
@@ -78,7 +86,20 @@ class ItemOrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $item_order=item_orders::find($id);
+         $this->validate($request,[
+            'amount'=>'required',
+            'unit_price'=>"required",
+            'item_id'=>"required",
+         
+        ]);
+        $item_order->amount=$request['amount'];
+        $item_order->unit_price=$request['unit_price'];
+        $item_order->item_id=$request['item_id'];
+            
+        $item_order->save();
+        return redirect('/itemorders/'.$item_order->order_id);
+        
     }
 
     /**
@@ -89,7 +110,10 @@ class ItemOrdersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item_order=item_orders::find($id);
+       $item_order->delete();
+       return redirect('/itemorders/'.$item_order->order_id)->with('success',"item removed successfully");
+  
     }
 
     private function AddUpdateCore($item_order,$request)
