@@ -12,6 +12,8 @@
 */
 
 Route::get('/','HomeController@index');
+Route::get('/suggest', 'SuggestsController@suggest');
+Route::get('/checkreorder', 'ItemsController@CheckReorder');
 
 Route::auth();
 
@@ -20,3 +22,4 @@ Route::resource('suppliers','SuppliersController');
 Route::resource('officers','OfficersController');
 Route::resource('items','ItemsController');
 Route::resource('orders','OrdersController');
+Route::resource('itemorders','ItemOrdersController');

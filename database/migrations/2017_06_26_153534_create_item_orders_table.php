@@ -12,7 +12,7 @@ class CreateItemOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_order', function (Blueprint $table) {
+        Schema::create('item_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('amount');
             $table->integer('unit_price');

@@ -120,4 +120,19 @@ class ItemsController extends Controller
       
     
     }
+
+     public function CheckReorder(Request $request)
+    {
+        
+        $id = trim($request->q);
+        
+
+        if (empty($id)) {
+            return \Response::json([]);
+        }
+
+       
+         $item=Item::find($id);
+          return response()->json( $item->reorder);
+    }
 }

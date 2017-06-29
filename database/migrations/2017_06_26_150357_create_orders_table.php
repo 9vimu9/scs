@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->date('date');
             $table->date('deadline');
             $table->integer('supplier_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
