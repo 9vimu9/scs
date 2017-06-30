@@ -11,14 +11,18 @@ class CreateItemOrdersTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {//delete  FROM `migrations` WHERE migration=
         Schema::create('item_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('amount');
             $table->integer('unit_price');
-            $table->integer('item_id');
-            $table->integer('order_id');
+            $table->integer('item_id')->length(10)->unsigned();
+            $table->integer('order_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+     
+
         });
     }
 

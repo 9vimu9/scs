@@ -15,11 +15,13 @@ class CreateItemLoanissuesTable extends Migration
         Schema::create('item_loanissue', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('amount');
-            $table->integer('item_id');
-            $table->integer('loanissue_id');
             $table->date('return_date');
             
+            $table->integer('item_id')->length(10)->unsigned();
+            $table->integer('loanissue_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
+            $table->foreign('loanissue_id')->references('id')->on('loanissues')->onDelete('cascade');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateItemLoanissuesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('item_loanissues');
+        Schema::drop('item_loanissue');
     }
 }

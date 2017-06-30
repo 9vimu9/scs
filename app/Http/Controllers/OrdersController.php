@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Order;
 use Auth;
+use Illuminate\Support\Facades\DB;
 class OrdersController extends Controller
 {
     /**
@@ -40,17 +41,7 @@ class OrdersController extends Controller
     {
         $order=new Order();
         $this->AddUpdateCore($order,$request);
-         $this->validate($request,[
-            'supplier_id'=>'required',
-            'date'=>"required|date|before:deadline",
-            'deadline'=>"required|date|after:date"
-        ]);
-        $order->supplier_id=$request['supplier_id'];
-        $order->date=$request['date'];
-        $order->deadline=$request['deadline'];
-        $order->user_id=Auth::user()->id;
         
-        $order->save();
         return redirect("/itemorders/".$order->id);
   
         //
@@ -79,7 +70,7 @@ class OrdersController extends Controller
         $results =  DB::table("suppliers")->find($data->supplier_id);
         $data['supplier_name']= $results->name;
      
-       return view("itemorders.edit")->with('order',$data);
+       return view("orders.edit")->with('order',$data);
     }
 
     /**
@@ -91,10 +82,10 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $order=Order::find($id);
+        $order=Order::find($id);
         $this->AddUpdateCore($order,$request);
-        return redirect('/items/')->with('success','successfully updated');
-        return redirect('/itemorders/'.$item_order->order_id);
+       
+        return redirect('/itemorders/'.$order->id);
     }
 
     /**
@@ -112,6 +103,17 @@ class OrdersController extends Controller
 
     private function AddUpdateCore($order,$request)
     {
+        $this->validate($request,[
+            'supplier_id'=>'required',
+            'date'=>"required|date|before:deadline",
+            'deadline'=>"required|date|after:date"
+        ]);
+        $order->supplier_id=$request['supplier_id'];
+        $order->date=$request['date'];
+        $order->deadline=$request['deadline'];
+        $order->user_id=Auth::user()->id;
+        
+        $order->save();
 
        
 

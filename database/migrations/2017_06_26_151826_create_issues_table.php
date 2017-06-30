@@ -16,8 +16,10 @@ class CreateIssuesTable extends Migration
             $table->increments('id');
             $table->string('description');
             $table->date('issue_date');
-             $table->integer('officer_id');
+            
+            $table->integer('officer_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('officer_id')->references('id')->on('officers')->onDelete('cascade');
         });
     }
 

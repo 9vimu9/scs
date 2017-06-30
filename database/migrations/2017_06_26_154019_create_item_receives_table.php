@@ -16,9 +16,11 @@ class CreateItemReceivesTable extends Migration
             $table->increments('id');
             $table->integer('amount');
             $table->integer('rejected');
-            $table->integer('item_id');
-            $table->integer('receive_id');
+            $table->integer('item_id')->length(10)->unsigned();
+            $table->integer('receive_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
+            $table->foreign('receive_id')->references('id')->on('receives')->onDelete('cascade');
         });
     }
 

@@ -15,8 +15,9 @@ class CreateReceivesTable extends Migration
         Schema::create('receives', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
-            $table->integer('order_id');
+            $table->integer('order_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 

@@ -3,16 +3,29 @@
 
 
 @section('content')
+
+<?php $sub_tot=0;?>
+@if(count($order->item_order)>0)
+    @foreach($order->items as $item_order)
+        <?php
+            $sub_tot+=$item_order->pivot->amount*$item_order->pivot->unit_price;
+        ?>
+    @endforeach
+@endif
+
+                    
+
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading"><big>CREATE ORDER <span class="label label-primary"><big>#{{$order->id}}</big></span></big>
-                &nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp&nbsp&nbsp 
                 supplier : <strong class="text-info"><big>{{$order->supplier->name}}</big></strong>&nbsp&nbsp
                 contact : <strong>{{$order->supplier->tel}}</strong>&nbsp&nbsp
                 
                 <form action="/orders/{{$order->id}}" class="form-group pull-right" method="POST">
                     {{ csrf_field() }}
+                   <font size="4">sub total: </font> <span class="badge"><font size="4">Rs.{{$sub_tot}}</font></span>&nbsp&nbsp
                     <a href="/orders/{{$order->id}}/edit" class="btn btn-warning btn-xs ">edit this order</a>&nbsp&nbsp
                     <input type="submit" name="delete" value="delete this order" class="btn btn-danger btn-xs">
                     <input type="hidden" name="_method" value="DELETE">
@@ -21,7 +34,7 @@
             
             </div>
             <div class="panel-body">
-                 
+                
             
             @if(count($order->item_order)>0)
                 <table class="table table-striped table-hover" style="width: 75%" >
@@ -40,7 +53,7 @@
                             <td>{{$item_order->pivot->amount}}</td>
                             <td>{{$item_order->pivot->unit_price}}</td>
                             <td>{{($item_order->pivot->amount)*($item_order->pivot->unit_price)}}</td>
-
+                                
                             <td> 
                                 <form action="/itemorders/{{$item_order->pivot->id}}" class="form-inline" method="POST">
                                     {{ csrf_field() }}
@@ -51,10 +64,13 @@
                             </td>
                         </tr>
                     @endforeach
+                  
                 </table>
+                 
                 {{-- {{$all_items->links()}} --}}
             @else
-                no items <br>click add item button
+                <a href="/itemorders/create/{{$order->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a>
+                
             @endif      
                    
             </div>

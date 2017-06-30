@@ -15,9 +15,11 @@ class CreateIssueItemsTable extends Migration
         Schema::create('issue_item', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('amount');
-            $table->integer('item_id');
-            $table->integer('issue_id');
+            $table->integer('item_id')->length(10)->unsigned();
+            $table->integer('issue_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
+            $table->foreign('issue_id')->references('id')->on('issues')->onDelete('cascade');
         });
     }
 

@@ -27,7 +27,7 @@
                          <div class="form-group">
                             <label class="col-md-4 control-label">deadline</label>
                             <div class="col-md-3">
-                               <input id="datepicker2" type="text" class="datepicker form-control" name="deadline" value="{{$order->dealine}}">
+                               <input id="datepicker2" type="text" class="datepicker form-control" name="deadline" value="{{$order->deadline}}">
                             </div>
                         </div>
 

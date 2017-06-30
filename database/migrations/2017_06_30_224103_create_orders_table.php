@@ -16,9 +16,11 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->date('deadline');
-            $table->integer('supplier_id');
-            $table->integer('user_id');
+            $table->integer('supplier_id')->length(10)->unsigned();
+            $table->integer('user_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

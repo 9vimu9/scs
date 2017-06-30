@@ -16,9 +16,12 @@ class CreateItemLoanIssueReturnsTable extends Migration
             $table->increments('id');
              $table->integer('amount');
             $table->integer('rejected');
-            $table->integer('item_id'); 
-            $table->integer('loanissuereturn_id');
+               
+           $table->integer('item_id')->length(10)->unsigned();
+            $table->integer('loanissuereturn_id')->length(10)->unsigned();
             $table->timestamps();
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
+            $table->foreign('loanissuereturn_id')->references('id')->on('loanissuereturns')->onDelete('cascade');
         });
     }
 
