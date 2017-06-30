@@ -5,16 +5,16 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <big>ORDERS</big>
-                <a href="/orders/create" class="pull-right btn btn-primary btn-sm">add order</a>
+                <big>Goods receive notes</big>
+                <a href="/receives/create" class="pull-right btn btn-primary btn-sm">add grn</a>
             </div>
                 <div class="panel-body">
-                    @if(count($orders)>0)
+                    @if(count($receives)>0)
                      <table class="table table-striped table-hover" style="width: 75%" >
                     <thead>
                         <tr>
-                            <th style="width: 15%">order</th>
-                            <th style="width: 25%">supplier</th>
+                            <th style="width: 15%">grn</th>
+                            <th style="width: 25%">order</th>
                             <th style="width: 20%">date</th>
                             <th style="width: 15%">quantity</th>
                             <th style="width: 20%">total(Rs)</th>

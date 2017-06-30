@@ -14,13 +14,14 @@ class SuggestsController extends Controller
         
         $term = trim($request->q);
         $table = trim($request->t);
+        $column = trim($request->c);
 
         if (empty($term)) {
             return \Response::json([]);
         }
 
         $results = array();
-        $results =  DB::table($table)->whereName($term)->orWhere('name', 'LIKE', '%' . $term . '%')->get(['id', 'name as value']);
+        $results =  DB::table($table)->where($column, '=', $term)->orWhere($column, 'LIKE', '%' . $term . '%')->get(['id', $column.' as value']);
         return response()->json($results);
     }
 }

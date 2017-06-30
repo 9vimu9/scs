@@ -12,7 +12,11 @@
                          <div class="form-group">
                             <label class="col-md-4 control-label">supplier</label>
                             <div class="col-md-3">
-                               <select id="name"  class="form-control" ><option value="{{$order->supplier_id}}" selected="{{$order->supplier_name}}">{{$order->supplier_name}}</option></select>
+                                <select id="name"  class="form-control" >
+                                    <option value="{{$order->supplier_id}}" selected="{{$order->supplier_name}}">
+                                        {{$order->supplier_name}}
+                                    </option>
+                                </select>
                             <input type="hidden" id="supplier_id" name="supplier_id" value="{{$order->supplier_id}}" />
                             </div>
                         </div>
@@ -51,7 +55,7 @@
     @include('layouts.suggest');
 
     <script>
-        GetSuggestions("name","suppliers");
+        GetSuggestions("name","name","suppliers");
 
         $('#name').on('select2:select', function (evt) {
             console.log(evt.params.data.id);

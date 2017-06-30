@@ -28,7 +28,7 @@
     @include('layouts.suggest');
 
     <script>
-        GetSuggestions("tag_list","suppliers");
+        GetSuggestions("tag_list","name","suppliers");
 
         $('#tag_list').on('select2:select', function (evt) {
             console.log(evt.params.data.id);

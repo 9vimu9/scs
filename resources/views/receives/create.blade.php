@@ -5,33 +5,27 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>CREATE ORDER</big></div>
+            <div class="panel-heading"><big>CREATE GRN</big></div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/orders">
+                <form class="form-horizontal" role="form" method="POST" action="/receives">
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">supplier</label>
-                            <div class="col-md-3">
-                               <select id="name"  class="form-control" ></select>
-                            <input type="hidden" id="supplier_id" name="supplier_id" value="" />
+                            <label class="col-md-4 control-label">order no</label>
+                            <div class="col-md-2">
+                                <select id="order_no"  class="form-control" ></select>
+                                <input type="hidden" id="order_id" name="order_id" value="" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">date</label>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input id="datepicker" type="text" class="datepicker form-control" name="date" value="{{date('Y-m-d')}}">
                             </div>
                         </div>
 
-                         <div class="form-group">
-                            <label class="col-md-4 control-label">deadline</label>
-                            <div class="col-md-3">
-                               <input id="datepicker2" type="text" class="datepicker form-control" name="deadline">
-                            </div>
-                        </div>
-
+                        
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
@@ -52,11 +46,11 @@
     @include('layouts.suggest');
 
     <script>
-       GetSuggestions("name","name","suppliers");
+        GetSuggestions("order_no","id","orders");
 
-        $('#name').on('select2:select', function (evt) {
+        $('#order_no').on('select2:select', function (evt) {
             console.log(evt.params.data.id);
-            $('#supplier_id').val(evt.params.data.id);
+            $('#order_id').val(evt.params.data.id);
         });
     </script>
     {{-- end of autosuggest --}}

@@ -1,7 +1,7 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script>
    
-    function GetSuggestions(input_id, table) {
+    function GetSuggestions(input_id,showingCol,table) {
         
     $('#'+input_id).select2({
            // theme: "bootstrap",
@@ -12,6 +12,7 @@
                 data: function (params) {
                     return {
                         q: $.trim(params.term),
+                        c:showingCol,
                         t:table
                     };
                 },
