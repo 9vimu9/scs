@@ -11,7 +11,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">name</label>
+                            <label class="col-md-4 control-label">supplier</label>
                             <div class="col-md-3">
                                <select id="name"  class="form-control" ></select>
                             <input type="hidden" id="supplier_id" name="supplier_id" value="" />

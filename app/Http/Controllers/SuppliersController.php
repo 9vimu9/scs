@@ -80,7 +80,7 @@ class SuppliersController extends Controller
     {
         $supplier=Supplier::find($id);
        $this->AddUpdateCore($supplier,$request);
-        
+         return redirect('/suppliers')->with('success','supplier <strong>'.$supplier->name.'</strong> updated');
     }
 
     /**
