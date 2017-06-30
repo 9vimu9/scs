@@ -58,7 +58,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">store</a></li>
                     <li><a href="{{ url('/items') }}">items</a></li> 
-                    <li><a href="{{ url('/home') }}">orders</a></li>
+                    <li><a href="{{ url('/orders') }}">orders</a></li>
                     <li><a href="{{ url('/home') }}">issues</a></li>
                     <li><a href="{{ url('/home') }}">returns</a></li>
                     <li><a href="{{ url('/suppliers') }}">suppliers</a></li>

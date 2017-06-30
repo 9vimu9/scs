@@ -5,34 +5,60 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <big>OFFICERS</big>
-                <a href="/officers/create" class="pull-right btn btn-primary btn-sm">add officer</a>
+                <big>ORDERS</big>
+                <a href="/orders/create" class="pull-right btn btn-primary btn-sm">add order</a>
             </div>
                 <div class="panel-body">
-                    @if(count($all_officers)>0)
-                    <table class="table table-striped table-hover" >
-                        @foreach($all_officers as $officer)
+                    @if(count($orders)>0)
+                     <table class="table table-striped table-hover" style="width: 75%" >
+                    <thead>
+                        <tr>
+                            <th style="width: 15%">order</th>
+                            <th style="width: 25%">supplier</th>
+                            <th style="width: 20%">date</th>
+                            <th style="width: 15%">quantity</th>
+                            <th style="width: 20%">total</th>
+                            <th style="width: 10%"></th>
+                        </tr>
+                    </thead>
+                        @foreach($orders as $order)
                             <tr>
-                                <td> <big><a href="/officers/{{$officer->id}}">{{$officer->name}}</a>  {{$officer->nic}}</big></td>
-                                <td> <a href="/officers/{{$officer->id}}/edit" class="btn btn-warning">edit</a>
-                                   
-
-                                    <form action="/officers/{{$officer->id}}" class="pull-right" method="POST">
-                                        {{ csrf_field() }}
-                                        <input type="submit" name="delete" value="remove" class="btn btn-danger">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                    </form>
-                                </td>
-                            </tr>
-                           
+                                <td> <big>{{$order->id}}</big></td>
+                                <td> {{$order->supplier->name}}</td>
+                                <td> {{$order->date}}</td>
                                
-                              
-                            
+                                 @if(count($order->item_order)>0)
+                                  <?php
+                                        $tot=0;
+                                        $amount=0;
+
+                                    foreach($order->item_order as $items){
+                                        
+                                       
+                                        $tot+=$items->amount*$items->unit_price;
+                                         $amount+=$items->amount;
+                                        
+                                       // {{$items}}
+                                   }
+                                   ?>
+                                    
+                                
+                               <td> {{$amount}}</td>
+                                <td>{{$tot}}</td>
+                                
+                                 @else
+                                 <td>0</td>
+                                <td>0</td>
+                                 @endif
+
+                                <td> <a href="/itemorders/{{$order->id}}" class="btn btn-warning btn-xs">edit</a> </td>
+                            </tr>
+                                
                     @endforeach
                     </table>
-                        {{$all_officers->links()}}
+                        {{$orders->links()}}
                     @else
-                    no officers<br>click add officer button
+                    no orders<br>click add order button
                     
                     @endif
                 </div>

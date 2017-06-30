@@ -15,7 +15,9 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        //
+        $data=Order::OrderBy('id','desc')->paginate(8);
+        
+        return view('orders.index')->with("orders",$data);
     }
 
     /**
@@ -73,7 +75,11 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-        //
+         $data=Order::find($id);
+        $results =  DB::table("suppliers")->find($data->supplier_id);
+        $data['supplier_name']= $results->name;
+     
+       return view("itemorders.edit")->with('order',$data);
     }
 
     /**
@@ -85,7 +91,10 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $order=Order::find($id);
+        $this->AddUpdateCore($order,$request);
+        return redirect('/items/')->with('success','successfully updated');
+        return redirect('/itemorders/'.$item_order->order_id);
     }
 
     /**
