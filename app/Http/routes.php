@@ -30,3 +30,5 @@ Route::resource('itemorders','ItemOrdersController');
 Route::get('/itemorders/create/{id}', 'ItemOrdersController@create');
 
 Route::resource('receives','ReceivesController');
+
+Route::resource('itemreceives','itemreceivesController');

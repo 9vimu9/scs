@@ -40,8 +40,8 @@ class ItemOrdersController extends Controller
      */
     public function store(Request $request)
     {
-         $item_order=new item_orders();
-         $this->AddUpdateCore($item_order,$request);
+        $item_order=new item_orders();
+        $this->AddUpdateCore($item_order,$request);
        
        return redirect('/itemorders/'.$item_order->order_id);
     }
@@ -69,7 +69,7 @@ class ItemOrdersController extends Controller
         $data=item_orders::find($id);
         $results =  DB::table("items")->find($data->item_id);
         $data['item_name']= $results->name;
-         $data['item_reorder']= $results->reorder;
+        $data['item_reorder']= $results->reorder;
 
        
      //echo($data);

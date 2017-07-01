@@ -12,7 +12,7 @@ class CreateItemReceivesTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_receive', function (Blueprint $table) {
+        Schema::create('item_receives', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('amount');
             $table->integer('rejected');

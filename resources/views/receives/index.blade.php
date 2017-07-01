@@ -9,56 +9,70 @@
                 <a href="/receives/create" class="pull-right btn btn-primary btn-sm">add grn</a>
             </div>
                 <div class="panel-body">
+                {{($receives)}}
                     @if(count($receives)>0)
                      <table class="table table-striped table-hover" style="width: 75%" >
                     <thead>
                         <tr>
-                            <th style="width: 15%">grn</th>
-                            <th style="width: 25%">order</th>
-                            <th style="width: 20%">date</th>
-                            <th style="width: 15%">quantity</th>
+                            <th style="width: 10%">grn #</th>
+                            <th style="width: 10%">order #</th>
+                            <th style="width: 15%">date</th>
+                            <th style="width: 20%">quantity</th>
+                             <th style="width:15%">rejected</th>
+                             <th style="width:15%">accepted</th>
                             <th style="width: 20%">total(Rs)</th>
-                            <th style="width: 10%"></th>
+                            <th style="width: 15%"></th>
                         </tr>
                     </thead>
-                        @foreach($orders as $order)
+                        @foreach($receives as $receive)
                             <tr>
-                                <td> <big>{{$order->id}}</big></td>
-                                <td> {{$order->supplier->name}}</td>
-                                <td> {{$order->date}}</td>
+                                <td> <big>{{$receive->id}}</big></td>
+                                 <td> <a href="/itemorders/{{$receive->order_id}}">{{$receive->order_id}}</a></td>
                                
-                                 @if(count($order->item_order)>0)
+                                <td> {{$receive->date}}</td>
+                               {{$receive}}
+                                 @if(count($receive->item_receive)>0)
                                   <?php
-                                        $tot=0;
-                                        $amount=0;
-
-                                    foreach($order->item_order as $items){
-                                        
                                        
-                                        $tot+=$items->amount*$items->unit_price;
-                                         $amount+=$items->amount;
+                                        $amount=0;
+                                        $reject_amount=0;
+                                        $accept_amount=0;
+                                        $tot_rs=0;
+
+                                    foreach($receive->item_receive as $items){
+                                        
+                                        $amount+=$items->amount;
+                                        $reject_amount+=$items->rejected;
+                                        $accept_amount+=$amount- $reject_amount;
+                                        $tot_rs+=$accept_amount*$items->unit_price;
+                                        
                                         
                                        // {{$items}}
                                    }
                                    ?>
                                     
                                 
-                               <td> {{$amount}}</td>
-                                <td>{{$tot}}</td>
+                                <td> {{$amount}}</td>
+                                <td>{{$reject_amount}}</td>
+                                <td> {{$accept_amount}}</td>
+                                <td>{{$tot_rs}}</td>
+                               
                                 
-                                 @else
-                                 <td>0</td>
-                                <td>0</td>
+                                @else
+                                    <td>0</td>
+                                    <td>0</td>
+                                     <td>0</td>
+                                    <td>0</td>
                                  @endif
 
-                                <td> <a href="/itemorders/{{$order->id}}" class="btn btn-warning btn-xs">edit</a> </td>
+                                <td> <a href="/itemreceives/{{$receive->id}}" class="btn btn-warning btn-xs">edit</a> </td>
                             </tr>
                                 
                     @endforeach
                     </table>
-                        {{$orders->links()}}
+                        {{$receives->links()}}
                     @else
-                    no orders<br>click add order button
+                    no GRN<br>click add GRN button
                     
                     @endif
                 </div>

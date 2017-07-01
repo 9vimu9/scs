@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\item_receives;
 use App\receives;
-use App\Order;
-use Auth;
+use App\order;
 use Illuminate\Support\Facades\DB;
 
-class ReceivesController extends Controller
+class ItemreceivesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +19,6 @@ class ReceivesController extends Controller
      */
     public function index()
     {
-         $data=receives::OrderBy('id','desc')->paginate(8);
-       
-        return view('receives.index')->with("receives",$data);
         //
     }
 
@@ -32,7 +29,7 @@ class ReceivesController extends Controller
      */
     public function create()
     {
-         return view('receives.create');
+        //
     }
 
     /**
@@ -43,12 +40,10 @@ class ReceivesController extends Controller
      */
     public function store(Request $request)
     {
-        $receive=new receives();
-        $this->AddUpdateCore($receive,$request);
-        
-        return redirect('/itemreceives/'.$receive->id);
-        // return redirect("/receives/");
-
+         $item_receive=new item_receives();
+        $this->AddUpdateCore($item_receive,$request);
+       
+       return redirect('/itemreceives/'.$item_receive->receive_id);
     }
 
     /**
@@ -59,8 +54,13 @@ class ReceivesController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+         $receive=receives::find($id);
+         $order=order::find($receive->order_id);
+         $data=["order"=>$order];
+        return view('itemreceives.index')->with($data);
+       
+        
+            }
 
     /**
      * Show the form for editing the specified resource.
@@ -70,9 +70,7 @@ class ReceivesController extends Controller
      */
     public function edit($id)
     {
-        $data=receives::find($id);
-                   
-       return view("receives.edit")->with('receive',$data);
+        //
     }
 
     /**
@@ -84,12 +82,9 @@ class ReceivesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $receive=receives::find($id);
-        $this->AddUpdateCore($receive,$request);
-       
-        return redirect('/itemreceives/'.$receive->id);
-        // return redirect("/receives/");
-    
+        $item_receive=item_receives::find($id);
+          $this->AddUpdateCore($item_receive,$request);
+        return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"updated successfully");
     }
 
     /**
@@ -100,31 +95,30 @@ class ReceivesController extends Controller
      */
     public function destroy($id)
     {
-        $receive=receives::find($id);
-        $receive->delete();
-        return redirect('/receives/create')->with('success',"GRN no <strong> $receive->id </strong>removed successfully");
+        $item_receive=item_receives::find($id);
+        $item_receive->delete();
+        return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"item removed successfully");
     }
 
 
-    private function AddUpdateCore($receive,$request)
+    private function AddUpdateCore($item_receive,$request)
     {
-        if($receive->order_id==$request['order_id'])
-            $order_id_validation="required";
-        else
-            $order_id_validation="required|unique:receives";
-
-        $this->validate($request,[
-            'order_id'=>$order_id_validation,
-            'date'=>"required|date"
+         $this->validate($request,[
+            'amount'=>'required|numeric',
+            'rejected'=>'required|numeric',
+            'receive_id'=>"required",
+            'item_id'=>"required"
+            
         ]);
-        $receive->order_id=$request['order_id'];
-        $receive->date=$request['date'];
-       
-        $receive->user_id=Auth::user()->id;
-        
-        $receive->save();
+        $item_receive->amount=$request['amount'];
+        $item_receive->rejected=$request['rejected'];
+        $item_receive->receive_id=$request['receive_id'];
+         $item_receive->item_id=$request['item_id'];
+      
+             
+        $item_receive->save();
 
-       
-
+      
+    
     }
 }

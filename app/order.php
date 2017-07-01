@@ -11,6 +11,12 @@ class order extends Model
     //     return $this->hasMany('App\item_orders');
     // }
 
+
+    public function receive()
+    {
+        return $this->hasOne('App\receives');
+    }
+
     public function supplier(){
         return $this->belongsTo("App\Supplier");
     }
