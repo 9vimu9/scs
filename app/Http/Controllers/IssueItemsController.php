@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Http\Requests;
-use App\Order;
-use Auth;
+use App\issue_item;
+use App\issues;
 use Illuminate\Support\Facades\DB;
-class OrdersController extends Controller
+
+class IssueItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +18,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $data=Order::OrderBy('id','desc')->paginate(8);
-        
-        return view('orders.index')->with("orders",$data);
+        //
     }
 
     /**
@@ -28,7 +28,7 @@ class OrdersController extends Controller
      */
     public function create()
     {
-        return view('orders.create');
+        //
     }
 
     /**
@@ -39,12 +39,7 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        $order=new Order();
-        $this->AddUpdateCore($order,$request);
         
-        return redirect("/itemorders/".$order->id);
-  
-        //
     }
 
     /**
@@ -55,7 +50,8 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        //
+        $issue=issues::find($id);
+        return view('issueitems.index')->with('issue',$issue);
     }
 
     /**
@@ -66,10 +62,7 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-         $data=Order::find($id);
-       
-     
-       return view("orders.edit")->with('order',$data);
+        //
     }
 
     /**
@@ -81,10 +74,7 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order=Order::find($id);
-        $this->AddUpdateCore($order,$request);
-       
-        return redirect('/itemorders/'.$order->id);
+        //
     }
 
     /**
@@ -95,26 +85,6 @@ class OrdersController extends Controller
      */
     public function destroy($id)
     {
-        $order=order::find($id);
-       $order->delete();
-       return redirect('/orders/create')->with('success',"order no <strong> $order->id </strong>removed successfully");
-    }
-
-    private function AddUpdateCore($order,$request)
-    {
-        $this->validate($request,[
-            'supplier_id'=>'required',
-            'date'=>"required|date|before:deadline",
-            'deadline'=>"required|date|after:date"
-        ]);
-        $order->supplier_id=$request['supplier_id'];
-        $order->date=$request['date'];
-        $order->deadline=$request['deadline'];
-        $order->user_id=Auth::user()->id;
-        
-        $order->save();
-
-       
-
+        //
     }
 }

@@ -1,37 +1,39 @@
 @extends('layouts.app')
 
+
 @section('content')
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>Edit Order: <strong><big>{{$order->id}}</big></strong></big></div>
+            <div class="panel-heading"><big>EDIT ISSUE</big></div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/orders/{{$order->id}}">
+                <form class="form-horizontal" role="form" method="POST" action="/issues/{{$issue->id}}">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
-                         <div class="form-group">
-                            <label class="col-md-4 control-label">supplier</label>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">officer</label>
                             <div class="col-md-3">
-                                <select id="name"  class="form-control" >
-                                    <option value="{{$order->supplier_id}}" selected="{{$order->supplier->name}}">
-                                        {{$order->supplier->name}}
+                               <select id="name"  class="form-control" >
+                                    <option value="{{$issue->officer_id}}" selected=" {{$issue->officer->name}}">
+                                        {{$issue->officer->name}}
                                     </option>
                                 </select>
-                            <input type="hidden" id="supplier_id" name="supplier_id" value="{{$order->supplier_id}}" />
+                            <input type="hidden" id="officer_id" name="officer_id" value="{{$issue->officer_id}}" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">date</label>
+                            <label class="col-md-4 control-label">date of issue</label>
                             <div class="col-md-3">
-                                <input id="datepicker" type="text" class="datepicker form-control" name="date" value="{{$order->date}}">
+                                <input id="datepicker" type="text" class="datepicker form-control" name="issue_date" value="{{$issue->issue_date}}">
                             </div>
                         </div>
 
                          <div class="form-group">
-                            <label class="col-md-4 control-label">deadline</label>
-                            <div class="col-md-3">
-                               <input id="datepicker2" type="text" class="datepicker form-control" name="deadline" value="{{$order->deadline}}">
+                            <label class="col-md-4 control-label">description</label>
+                            <div class="col-md-4">
+                               <textarea name="description" class="form-control">{{$issue->description}}</textarea>
                             </div>
                         </div>
 
@@ -48,20 +50,23 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 
 
 @section('script')
  {{-- auto suggest --}}
     @include('layouts.suggest');
 
     <script>
-        GetSuggestions("name","name","suppliers");
+       GetSuggestions("name","name","officers");
 
         $('#name').on('select2:select', function (evt) {
             console.log(evt.params.data.id);
-            $('#supplier_id').val(evt.params.data.id);
+            $('#officer_id').val(evt.params.data.id);
         });
     </script>
     {{-- end of autosuggest --}}
 @endsection 
+
+
+
 

@@ -27,34 +27,35 @@
                         @foreach($receives as $receive)
                             <tr>
                                 <td> <big>{{$receive->id}}</big></td>
-                                 <td> <a href="/itemorders/{{$receive->order_id}}">{{$receive->order_id}}</a></td>
+                                <td> <a href="/itemorders/{{$receive->order_id}}">{{$receive->order_id}}</a></td>
                                
                                 <td> {{$receive->date}}</td>
-                               {{$receive}}
-                                 @if(count($receive->item_receive)>0)
-                                  <?php
-                                       
-                                        $amount=0;
-                                        $reject_amount=0;
-                                        $accept_amount=0;
-                                        $tot_rs=0;
+                               
+                                @if(count($receive->items)>0)
+                                <?php
+                                    $amount=0;
+                                    $reject_amount=0;
+                                    $tot_rs=0;
 
-                                    foreach($receive->item_receive as $items){
+                                    foreach($receive->items as $item_receive){
+                                        $amount+=$item_receive->pivot->amount;
+                                        $reject_amount+=$item_receive->pivot->rejected;
                                         
-                                        $amount+=$items->amount;
-                                        $reject_amount+=$items->rejected;
-                                        $accept_amount+=$amount- $reject_amount;
-                                        $tot_rs+=$accept_amount*$items->unit_price;
+                                        foreach($receive->order->items as $item_order){
+
+                                            if($item_order->pivot->item_id===$item_receive->pivot->item_id){
+                                                $tot_rs+=($item_receive->pivot->amount-$item_receive->pivot->rejected)*$item_order->pivot->unit_price;
+                                            }
+                                        }
                                         
-                                        
-                                       // {{$items}}
+                                      
                                    }
-                                   ?>
+                                ?>
                                     
                                 
                                 <td> {{$amount}}</td>
                                 <td>{{$reject_amount}}</td>
-                                <td> {{$accept_amount}}</td>
+                                <td> {{$amount-$reject_amount}}</td>
                                 <td>{{$tot_rs}}</td>
                                
                                 
