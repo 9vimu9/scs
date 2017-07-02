@@ -5,11 +5,11 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <big>ISSUES</big>
-                <a href="/issues/create" class="pull-right btn btn-primary btn-sm">add issue</a>
+                <big>LOAN ACCOUNT ISSUE</big>
+                <a href="/loanissues/create" class="pull-right btn btn-primary btn-sm">add loan account</a>
             </div>
                 <div class="panel-body">
-                    @if(count($issues)>0)
+                    @if(count($loanissues)>0)
                      <table class="table table-striped table-hover" style="width: 85%" >
                     <thead>
                         <tr>
@@ -23,24 +23,24 @@
                            
                         </tr>
                     </thead>
-                        @foreach($issues as $issue)
+                        @foreach($loanissues as $loanissue)
                             <tr>
-                                <td> <big>{{$issue->id}}</big></td>
-                               <td> {{$issue->officer->name}}</td>
-                                <td> {{$issue->issue_date}}</td>
-                                 <td> {{$issue->description}}</td>
-                                  <td> {{$issue->created_at->format('Y-m-d_h:m')}}</td>
-                                   <td> {{$issue->updated_at->format('Y-m-d_h:m')}}</td>
+                                <td> <big>{{$loanissue->id}}</big></td>
+                               <td> {{$loanissue->officer->name}}</td>
+                                <td> {{$loanissue->issue_date}}</td>
+                                 <td> {{$loanissue->description}}</td>
+                                  <td> {{$loanissue->created_at->format('Y-m-d_H:m')}}</td>
+                                   <td> {{$loanissue->updated_at->format('Y-m-d_H:m')}}</td>
                                  
 
-                                <td> <a href="/issueitems/{{$issue->id}}" class="btn btn-warning btn-xs">more</a> </td>
+                                <td> <a href="/itemloanissues/{{$loanissue->id}}" class="btn btn-warning btn-xs">more</a> </td>
                             </tr>
                                 
                     @endforeach
                     </table>
-                        {{$issues->links()}}
+                        {{$loanissues->links()}}
                     @else
-                    no issues<br>click add issue button
+                    no loan accounts<br>click add loan issue button
                     
                     @endif
                 </div>

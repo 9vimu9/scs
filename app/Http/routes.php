@@ -41,3 +41,6 @@ Route::get('/issueitems/create/{id}', 'IssueItemsController@create');
 
 Route::resource('loanissues','LoanIssuesController');
 
+Route::resource('itemloanissues','ItemLoanIssuesController');
+Route::get('/itemloanissues/create/{id}', 'ItemLoanIssuesController@create');
+

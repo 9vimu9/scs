@@ -5,9 +5,9 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>EDIT ISSUE</big></div>
+            <div class="panel-heading"><big>EDIT LOAN ACCOUNT ISSUE</big></div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/issues/{{$issue->id}}">
+                <form class="form-horizontal" role="form" method="POST" action="/loanissues/{{$loanissue->id}}">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
 
@@ -15,25 +15,25 @@
                             <label class="col-md-4 control-label">officer</label>
                             <div class="col-md-3">
                                <select id="name"  class="form-control" >
-                                    <option value="{{$issue->officer_id}}" selected=" {{$issue->officer->name}}">
-                                        {{$issue->officer->name}}
+                                    <option value="{{$loanissue->officer_id}}" selected=" {{$loanissue->officer->name}}">
+                                        {{$loanissue->officer->name}}
                                     </option>
                                 </select>
-                            <input type="hidden" id="officer_id" name="officer_id" value="{{$issue->officer_id}}" />
+                            <input type="hidden" id="officer_id" name="officer_id" value="{{$loanissue->officer_id}}" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">date of issue</label>
                             <div class="col-md-3">
-                                <input id="datepicker" type="text" class="datepicker form-control" name="issue_date" value="{{$issue->issue_date}}">
+                                <input id="datepicker" type="text" class="datepicker form-control" name="issue_date" value="{{$loanissue->issue_date}}">
                             </div>
                         </div>
 
                          <div class="form-group">
                             <label class="col-md-4 control-label">description</label>
                             <div class="col-md-4">
-                               <textarea name="description" class="form-control">{{$issue->description}}</textarea>
+                               <textarea name="description" class="form-control">{{$loanissue->description}}</textarea>
                             </div>
                         </div>
 

@@ -67,8 +67,8 @@
                                      <td>0</td>
                                     <td>0</td>
                                  @endif
-                                    <td>{{$receive->created_at->format('Y-m-d_h:m')}}</td>
-                                    <td>{{$receive->updated_at->format('Y-m-d_h:m')}}</td>
+                                    <td>{{$receive->created_at->format('Y-m-d_H:m')}}</td>
+                                    <td>{{$receive->updated_at->format('Y-m-d_H:m')}}</td>
                                 <td> <a href="/itemreceives/{{$receive->id}}" class="btn btn-warning btn-xs">more</a> </td>
                             </tr>
                                 

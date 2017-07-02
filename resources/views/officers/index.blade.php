@@ -14,8 +14,8 @@
                         @foreach($all_officers as $officer)
                             <tr>
                                 <td> <big><a href="/officers/{{$officer->id}}">{{$officer->name}}</a>  {{$officer->nic}}</big></td>
-                                <td>{{$officer->created_at->format('Y-m-d_h:m')}}</td>
-                                <td>{{$officer->updated_at->format('Y-m-d_h:m')}}</td>
+                                <td>{{$officer->created_at->format('Y-m-d_H:m')}}</td>
+                                <td>{{$officer->updated_at->format('Y-m-d_H:m')}}</td>
                                 
                                    
 

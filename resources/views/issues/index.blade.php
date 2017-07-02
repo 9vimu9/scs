@@ -29,8 +29,8 @@
                                <td> {{$issue->officer->name}}</td>
                                 <td> {{$issue->issue_date}}</td>
                                  <td> {{$issue->description}}</td>
-                                  <td> {{$issue->created_at->format('Y-m-d_h:m')}}</td>
-                                   <td> {{$issue->updated_at->format('Y-m-d_h:m')}}</td>
+                                  <td> {{$issue->created_at->format('Y-m-d_H:m')}}</td>
+                                   <td> {{$issue->updated_at->format('Y-m-d_H:m')}}</td>
                                  
 
                                 <td> <a href="/issueitems/{{$issue->id}}" class="btn btn-warning btn-xs">more</a> </td>

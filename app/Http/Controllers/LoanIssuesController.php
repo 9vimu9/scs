@@ -18,7 +18,9 @@ class LoanIssuesController extends Controller
      */
     public function index()
     {
-        //
+        $data=loanissues::OrderBy('id','desc')->paginate(8);
+        
+        return view('loanissues.index')->with("loanissues",$data);
     }
 
     /**
@@ -41,7 +43,7 @@ class LoanIssuesController extends Controller
     {
         $loanissue=new loanissues();
         $this->AddUpdateCore($loanissue,$request);
-       // return redirect("/loanissues/".$loanissues->id);
+        return redirect("/itemloanissues/".$loanissues->id);
     }
 
     /**
@@ -63,7 +65,10 @@ class LoanIssuesController extends Controller
      */
     public function edit($id)
     {
-        //
+         $data=loanissues::find($id);
+       
+     
+       return view("loanissues.edit")->with('loanissue',$data);
     }
 
     /**
@@ -75,7 +80,10 @@ class LoanIssuesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $loanissue=loanissues::find($id);
+        $this->AddUpdateCore($loanissue,$request);
+       
+      return redirect("/itemloanissues/".$loanissue->id);
     }
 
     /**
@@ -86,7 +94,10 @@ class LoanIssuesController extends Controller
      */
     public function destroy($id)
     {
-        //
+          $loanissue=loanissues::find($id);
+       $loanissue->delete();
+       
+        return redirect("/loanissues");
     }
 
 

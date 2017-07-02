@@ -55,8 +55,8 @@
                             <td>{{$item_order->pivot->amount}}</td>
                             <td>{{$item_order->pivot->unit_price}}</td>
                             <td>{{($item_order->pivot->amount)*($item_order->pivot->unit_price)}}</td>
-                            <td>{{$item_order->pivot->created_at->format('Y-m-d_h:m')}}</td>
-                            <td>{{$item_order->pivot->updated_at->format('Y-m-d_h:m')}}</td>
+                            <td>{{$item_order->pivot->created_at->format('Y-m-d_H:m')}}</td>
+                            <td>{{$item_order->pivot->updated_at->format('Y-m-d_H:m')}}</td>
                             <td> 
                                 <form action="/itemorders/{{$item_order->pivot->id}}" class="form-inline" method="POST">
                                     {{ csrf_field() }}

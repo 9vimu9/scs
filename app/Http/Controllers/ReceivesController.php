@@ -46,7 +46,7 @@ class ReceivesController extends Controller
         $receive=new receives();
         $this->AddUpdateCore($receive,$request);
         
-        return redirect('/itemreceives/'.$receive->id);
+        return redirect('/itemreceives");
         // return redirect("/receives/");
 
     }

@@ -14,8 +14,8 @@
                         @foreach($all_suppliers as $supplier)
                             <tr>
                                 <td> <big><a href="/suppliers/{{$supplier->id}}">{{$supplier->name}}</a>  {{$supplier->tel}}</big></td>
-                                <td>{{$supplier->created_at->format('Y-m-d_h:m')}}</td>
-                                <td>{{$supplier->updated_at->format('Y-m-d_h:m')}}</td>
+                                <td>{{$supplier->created_at->format('Y-m-d_H:m')}}</td>
+                                <td>{{$supplier->updated_at->format('Y-m-d_H:m')}}</td>
                                 <td>
                                    
 

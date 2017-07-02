@@ -52,8 +52,8 @@
                                  <td>0</td>
                                 <td>0</td>
                                  @endif
-                                <td>{{$order->created_at->format('Y-m-d_h:m')}}</td>
-                                <td>{{$order->updated_at->format('Y-m-d_h:m')}}</td>
+                                <td>{{$order->created_at->format('Y-m-d_H:m')}}</td>
+                                <td>{{$order->updated_at->format('Y-m-d_H:m')}}</td>
                                 <td> <a href="/itemorders/{{$order->id}}" class="btn btn-warning btn-xs">edit</a> </td>
                             </tr>
                                 

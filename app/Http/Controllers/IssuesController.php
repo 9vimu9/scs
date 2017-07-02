@@ -97,7 +97,8 @@ class IssuesController extends Controller
     {
          $issue=issues::find($id);
        $issue->delete();
-        return redirect("/issueitems/".$issue->id);
+       
+        return redirect("/issues");
  
     }
 

@@ -38,8 +38,8 @@
                         <tr>
                             <td>{{$issue_item->name}}</td>
                             <td>{{$issue_item->pivot->amount}}</td>
-                             <td> {{$issue_item->pivot->created_at->format('Y-m-d_h:m')}}</td>
-                                   <td> {{$issue_item->pivot->updated_at->format('Y-m-d_h:m')}}</td>
+                             <td> {{$issue_item->pivot->created_at->format('Y-m-d_H:m')}}</td>
+                                   <td> {{$issue_item->pivot->updated_at->format('Y-m-d_H:m')}}</td>
                                  
                                                            
                             <td> 
