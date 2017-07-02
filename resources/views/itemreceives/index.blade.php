@@ -38,7 +38,7 @@
             
             
             @if(count($order->item_order)>0)
-                <table class="table table-bordered table-hover" style="width: 75%" >
+                <table class="table table-bordered table-hover" style="width: 80%" >
                     <thead>
                         <tr>
                             <th colspan="4" style="text-align: center" ><big>ordered items details</big></th>
@@ -53,9 +53,9 @@
 
                             <th style="width: 8%">received amount</th>
                             <th style="width: 8%">rejected amount</th>
-                             <th style="width: 10%">actual amount</th>
+                             <th style="width: 8%">actual amount</th>
                               <th style="width: 15%">total(Rs)</th>
-                               <th style="width: 12%"></th>
+                               <th style="width: 15%"></th>
                         </tr>
                     </thead>
 
@@ -129,7 +129,7 @@
                                     <input type="hidden" name="receive_id" value="{{$item_receive->pivot->receive_id}}">
                                     <input type="hidden" name="item_id" value="{{$item_receive->pivot->item_id}}">
                                    <td>
-                                    <input type="submit" name="edit" value="edit" class="btn btn-warning btn-xs">
+                                    <input type="submit" name="edit" value="update" class="btn btn-warning btn-xs">
                                    
                                 </form>
                                  <form action="/itemreceives/{{$item_receive_id}}" class="pull-right" method="POST">

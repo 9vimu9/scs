@@ -17,6 +17,6 @@ class receives extends Model
 
      public function items()
     {
-        return $this->belongsToMany('App\item','item_receives','receive_id')->withPivot('amount','rejected','id');
+        return $this->belongsToMany('App\item','item_receives','receive_id')->withPivot('amount','rejected','id','created_at','updated_at');
     }
 }

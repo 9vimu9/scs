@@ -14,6 +14,8 @@
                         @foreach($all_items as $item)
                             <tr>
                                 <td> <big><a href="/items/{{$item->id}}">{{$item->name}}</a></big></td>
+                                <td>{{$item->created_at->format('Y-m-d_h:m')}}</td>
+                                <td>{{$item->updated_at->format('Y-m-d_h:m')}}</td>
                                 <td> 
                                    
 

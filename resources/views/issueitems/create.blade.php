@@ -8,18 +8,14 @@
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="/issueitems">
                         {{ csrf_field() }}
-                      
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">item name</label>
                             <div class="col-md-4">
-                                 <select id="item"  name="item" class="form-control" data-width="100%"></select>
-                                 <input type="hidden" id="item_id"  name="item_id"/>
-                                  <input type="hidden" id="order_id"  name="order_id" value="{{$issue_id}}"/>
-                                 
+                                <select id="item"  name="item" class="form-control" data-width="100%"></select>
+                                <input type="hidden" id="item_id"  name="item_id"/>
+                                <input type="hidden" id="issue_id"  name="issue_id" value="{{$issue_id}}"/>
                             </div>
-                             
-                              current quantity <span class="label label-danger" id="reorder_badge"></span>
+                            quantity in store <span class="label label-danger" id="quantity_badge"></span>
                             
                         </div>
 
@@ -48,49 +44,55 @@
 
 @section('script')
 
-    @include('layouts.suggest')
-   
-    <script>
-  
-    var reorder=parseInt($('#reorder_badge').text());
-    
+@include('layouts.suggest')
 
-     function checkReorder(){
-       
-      
-        if(reorder==0){
+@section('script')
+
+@include('layouts.suggest')
+
+<script>
+    var item_stock_amount=0;
+    getStoreQuantitiy(parseInt($('#item_id').val()))
+   
+    $("#amount").keyup(function(){checkitem_stock_amount();});
+
+    function checkitem_stock_amount(){
+    
+        if(item_stock_amount==0){
             alert("please select your item from item box");
-        } else{
-            
-            if(reorder<$("#amount").val()){
-                
-                alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+reorder+". apply below that")
+        } 
+        else{
+            if(item_stock_amount<$("#amount").val()){
+                alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
                 $("#amount").focus();
-              $("#amount").val('');
+                $("#amount").val('');
             }
         }
     }
-
+    
     GetSuggestions("item","name","items");
 
     $('#item').on('select2:select', function (evt) {
-        var seletedItemId=evt.params.data.id;
-       // console.log(seletedItemId);
-        $('#item_id').val(seletedItemId);
+        getStoreQuantitiy(evt.params.data.id);
+   
+    });
+    
+    function getStoreQuantitiy (item_id) {
+        $('#item_id').val(item_id);
         $.ajax({
             type:'GET',
-            url: '/checkreorder',
-            data:'q='+seletedItemId,
+            url: '/checkquantity',
+            data:'q='+item_id,
             success:function(data){
-                reorder=data;
-                $('#reorder_badge').html(reorder);
-                //reorder_badge
-               // console.log(reorder);
+                item_stock_amount=data;
+                $('#quantity_badge').html(item_stock_amount);
+            
             }
         });
-    });
- // $('#item').select2('data', {id: $('#item_id').val(), a_key: $('#item_name').val()});
-    </script>
+    }
+
+
+</script>
 
 @endsection 
 

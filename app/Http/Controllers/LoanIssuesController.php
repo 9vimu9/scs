@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Http\Requests;
-use App\Order;
+use App\loanissues;
 use Auth;
 use Illuminate\Support\Facades\DB;
-class OrdersController extends Controller
+
+class LoanIssuesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +18,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $data=Order::OrderBy('id','desc')->paginate(8);
-        
-        return view('orders.index')->with("orders",$data);
+        //
     }
 
     /**
@@ -28,7 +28,7 @@ class OrdersController extends Controller
      */
     public function create()
     {
-        return view('orders.create');
+         return view('loanissues.create');
     }
 
     /**
@@ -39,12 +39,9 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        $order=new Order();
-        $this->AddUpdateCore($order,$request);
-        
-        return redirect("/itemorders/".$order->id);
-  
-        //
+        $loanissue=new loanissues();
+        $this->AddUpdateCore($loanissue,$request);
+       // return redirect("/loanissues/".$loanissues->id);
     }
 
     /**
@@ -66,10 +63,7 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-         $data=Order::find($id);
-       
-     
-       return view("orders.edit")->with('order',$data);
+        //
     }
 
     /**
@@ -81,10 +75,7 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order=Order::find($id);
-        $this->AddUpdateCore($order,$request);
-       
-        return redirect('/itemorders/'.$order->id);
+        //
     }
 
     /**
@@ -95,24 +86,24 @@ class OrdersController extends Controller
      */
     public function destroy($id)
     {
-       $order=order::find($id);
-       $order->delete();
-       return redirect('/orders/create')->with('success',"order no <strong> $order->id </strong>removed successfully");
+        //
     }
 
-    private function AddUpdateCore($order,$request)
+
+    private function AddUpdateCore($loanissue,$request)
     {
         $this->validate($request,[
-            'supplier_id'=>'required',
-            'date'=>"required|date|before:deadline",
-            'deadline'=>"required|date|after:date"
+            'officer_id'=>'required',
+            'issue_date'=>"required|date",
+            'description'=>'required'
+            
         ]);
-        $order->supplier_id=$request['supplier_id'];
-        $order->date=$request['date'];
-        $order->deadline=$request['deadline'];
-        $order->user_id=Auth::user()->id;
+        $loanissue->officer_id=$request['officer_id'];
+        $loanissue->issue_date=$request['issue_date'];
+        $loanissue->description=$request['description'];
+        $loanissue->user_id=Auth::user()->id;
         
-        $order->save();
+        $loanissue->save();
 
        
 

@@ -4,55 +4,45 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>Edit order item</big></strong></big></div>
+            <div class="panel-heading"><big>EDIT ISSUED ITEM</big></strong></big>&nbsp&nbsp&nbsp&nbsp <big>issue</big> <span class="label label-primary"><big>#{{$issue_item->issue_id}}</big></span></div>
+           
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/itemorders/{{$item_order->id}}">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="_method" value="PUT">
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">item name</label>
-                            <div class="col-md-4">
-                                 <select id="item"  name="item" class="form-control" data-width="100%"><option value="{{$item_order->item_id}}" selected="{{$item_order->item_name}}">{{$item_order->item_name}}</option></select>
-                                 <input type="hidden" id="item_id" value="{{$item_order->item_id}}" name="item_id"/>
-                                 
-                            </div>
-                             
-                               reorder quantity <span class="label label-danger" id="reorder_badge">{{$item_order->item_reorder}}</span>
-                            
+                <form class="form-horizontal" role="form" method="POST" action="/issueitems/{{$issue_item->id}}">
+                    {{ csrf_field() }}
+                      <input type="hidden" name="_method" value="PUT">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">item name</label>
+                        <div class="col-md-4">
+                            <select id="item"  name="item" class="form-control" data-width="100%">
+                                <option value="{{$issue_item->item_id}}" selected="{{$issue_item->item->name}}">
+                                    {{$issue_item->item->name}}
+                                </option>
+                            </select>
+                            <input type="hidden" id="item_id"  name="item_id" value="{{$issue_item->item_id}}"/>
+                            <input type="hidden" id="issue_id"  name="issue_id" value="{{$issue_item->issue_id}}"/>
+                              quantity in store <span class="label label-danger" id="quantity_badge"></span>   
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">amount</label>
-                            <div class="col-md-2">
-                                <input id="amount" type="text" class="form-control" name="amount" value="{{$item_order->amount}}">
-                            </div>
                         </div>
+                       
+                        
+                   
 
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">unit price</label>
-                            <div class="col-md-2">
-                                <input id="unit_price" type="text" class="form-control" name="unit_price" value="{{$item_order->unit_price}}">
-                            </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">amount</label>
+                        <div class="col-md-2">
+                            <input id="amount" type="text" class="form-control" name="amount" value="{{$issue_item->amount}}" >
                         </div>
-
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"></label>
-                            <div class="col-md-2">
-                                <span class="badge" id="total"></span>
-                            </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-btn fa-plus"></i> update
+                            </button>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-plus"></i> update
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+                </form>
                 
             </div>
         </div>
@@ -62,58 +52,51 @@
 
 @section('script')
 
-    @include('layouts.suggest')
+@include('layouts.suggest')
+
+<script>
+    var item_stock_amount=0;
+    getStoreQuantitiy(parseInt($('#item_id').val()))
    
-    <script>
-  
-    var reorder=parseInt($('#reorder_badge').text());
+    $("#amount").keyup(function(){checkitem_stock_amount();});
+
+    function checkitem_stock_amount(){
     
-
-    $("#unit_price,#amount").keyup(function(){
-       
-        checkReorder();
-        var price=$('#unit_price').val();
-        var amount=$("#amount").val();
-        var itemTotal=price*amount;
-        $('#total').html('<h6><strong>Rs: '+itemTotal+'</strong></h6>');
-    });
-
-    function checkReorder(){
-       
-      
-        if(reorder==0){
+        if(item_stock_amount==0){
             alert("please select your item from item box");
-        } else{
-            
-            if(reorder<$("#amount").val()){
-                
-                alert($( "#item option:selected" ).text()+"'s maximum reorder value is "+reorder+". apply below that")
+        } 
+        else{
+            if(item_stock_amount<$("#amount").val()){
+                alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
                 $("#amount").focus();
-              $("#amount").val('');
+                $("#amount").val('');
             }
         }
     }
-
+    
     GetSuggestions("item","name","items");
 
     $('#item').on('select2:select', function (evt) {
-        var seletedItemId=evt.params.data.id;
-       // console.log(seletedItemId);
-        $('#item_id').val(seletedItemId);
+        getStoreQuantitiy(evt.params.data.id);
+   
+    });
+    
+    function getStoreQuantitiy (item_id) {
+        $('#item_id').val(item_id);
         $.ajax({
             type:'GET',
-            url: '/checkreorder',
-            data:'q='+seletedItemId,
+            url: '/checkquantity',
+            data:'q='+item_id,
             success:function(data){
-                reorder=data;
-                $('#reorder_badge').html(reorder);
-                //reorder_badge
-               // console.log(reorder);
+                item_stock_amount=data;
+                $('#quantity_badge').html(item_stock_amount);
+            
             }
         });
-    });
- // $('#item').select2('data', {id: $('#item_id').val(), a_key: $('#item_name').val()});
-    </script>
+    }
+
+
+</script>
 
 @endsection 
 

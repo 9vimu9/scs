@@ -11,17 +11,19 @@
                 <div class="panel-body">
                 {{($receives)}}
                     @if(count($receives)>0)
-                     <table class="table table-striped table-hover" style="width: 75%" >
+                     <table class="table table-striped table-hover" style="width: 100%" >
                     <thead>
                         <tr>
-                            <th style="width: 10%">grn #</th>
-                            <th style="width: 10%">order #</th>
-                            <th style="width: 15%">date</th>
-                            <th style="width: 20%">quantity</th>
-                             <th style="width:15%">rejected</th>
-                             <th style="width:15%">accepted</th>
-                            <th style="width: 20%">total(Rs)</th>
-                            <th style="width: 15%"></th>
+                            <th style="width: 8%">grn #</th>
+                            <th style="width: 8%">order #</th>
+                            <th style="width: 12%">date</th>
+                            <th style="width: 10%">quantity</th>
+                            <th style="width:10%">rejected</th>
+                            <th style="width:10%">accepted</th>
+                            <th style="width: 10%">total(Rs)</th>
+                            <th style="width: 15%">created</th>
+                            <th style="width: 15%">last updated</th>
+                            <th style="width: 10%"></th>
                         </tr>
                     </thead>
                         @foreach($receives as $receive)
@@ -65,8 +67,9 @@
                                      <td>0</td>
                                     <td>0</td>
                                  @endif
-
-                                <td> <a href="/itemreceives/{{$receive->id}}" class="btn btn-warning btn-xs">edit</a> </td>
+                                    <td>{{$receive->created_at->format('Y-m-d_h:m')}}</td>
+                                    <td>{{$receive->updated_at->format('Y-m-d_h:m')}}</td>
+                                <td> <a href="/itemreceives/{{$receive->id}}" class="btn btn-warning btn-xs">more</a> </td>
                             </tr>
                                 
                     @endforeach

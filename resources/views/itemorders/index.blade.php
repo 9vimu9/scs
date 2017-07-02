@@ -37,13 +37,15 @@
                 
             
             @if(count($order->item_order)>0)
-                <table class="table table-striped table-hover" style="width: 75%" >
+                <table class="table table-striped table-hover" style="width: 95%" >
                     <thead>
                         <tr>
                             <th style="width: 25%">item name</th>
                             <th style="width: 15%">amount</th>
-                            <th style="width: 15%">rate(Rs)</th>
-                            <th style="width: 20%">total(Rs)</th>
+                            <th style="width: 12%">rate(Rs)</th>
+                            <th style="width: 15%">total(Rs)</th>
+                            <th style="width: 15%">created</th>
+                            <th style="width: 20%">last updated</th>
                             <th style="width: 15%"> <a href="/itemorders/create/{{$order->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a></th>
                         </tr>
                     </thead>
@@ -53,7 +55,8 @@
                             <td>{{$item_order->pivot->amount}}</td>
                             <td>{{$item_order->pivot->unit_price}}</td>
                             <td>{{($item_order->pivot->amount)*($item_order->pivot->unit_price)}}</td>
-                                
+                            <td>{{$item_order->pivot->created_at->format('Y-m-d_h:m')}}</td>
+                            <td>{{$item_order->pivot->updated_at->format('Y-m-d_h:m')}}</td>
                             <td> 
                                 <form action="/itemorders/{{$item_order->pivot->id}}" class="form-inline" method="POST">
                                     {{ csrf_field() }}

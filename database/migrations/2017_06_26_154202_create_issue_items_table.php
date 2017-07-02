@@ -30,6 +30,6 @@ class CreateIssueItemsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('issue_items');
+        Schema::drop('issue_item');
     }
 }

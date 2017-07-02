@@ -14,12 +14,15 @@
                         @foreach($all_officers as $officer)
                             <tr>
                                 <td> <big><a href="/officers/{{$officer->id}}">{{$officer->name}}</a>  {{$officer->nic}}</big></td>
-                                <td> <a href="/officers/{{$officer->id}}/edit" class="btn btn-warning">edit</a>
+                                <td>{{$officer->created_at->format('Y-m-d_h:m')}}</td>
+                                <td>{{$officer->updated_at->format('Y-m-d_h:m')}}</td>
+                                
                                    
 
                                     <form action="/officers/{{$officer->id}}" class="pull-right" method="POST">
                                         {{ csrf_field() }}
-                                        <input type="submit" name="delete" value="remove" class="btn btn-danger">
+                                        <td> <a href="/officers/{{$officer->id}}/edit" class="btn btn-warning btn-xs">edit</a>
+                                        <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
                                         <input type="hidden" name="_method" value="DELETE">
                                     </form>
                                 </td>

@@ -14,6 +14,7 @@
 Route::get('/','HomeController@index');
 Route::get('/suggest', 'SuggestsController@suggest');
 Route::get('/checkreorder', 'ItemsController@CheckReorder');
+Route::get('/checkquantity', 'QuantityController@CheckQuantity');
 Route::get('/home', 'HomeController@index');
 
 Route::auth();
@@ -36,3 +37,7 @@ Route::resource('itemreceives','itemreceivesController');
 Route::resource('issues','IssuesController');
 
 Route::resource('issueitems','IssueItemsController');
+Route::get('/issueitems/create/{id}', 'IssueItemsController@create');
+
+Route::resource('loanissues','LoanIssuesController');
+

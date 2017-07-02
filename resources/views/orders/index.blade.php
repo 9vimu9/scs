@@ -5,19 +5,21 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <big>ORDERS</big>
+                <big>ORDERS </big>
                 <a href="/orders/create" class="pull-right btn btn-primary btn-sm">add order</a>
             </div>
                 <div class="panel-body">
                     @if(count($orders)>0)
-                     <table class="table table-striped table-hover" style="width: 75%" >
+                     <table class="table table-striped table-hover" style="width: 85%" >
                     <thead>
                         <tr>
-                            <th style="width: 15%">order</th>
-                            <th style="width: 25%">supplier</th>
-                            <th style="width: 20%">date</th>
-                            <th style="width: 15%">quantity</th>
-                            <th style="width: 20%">total(Rs)</th>
+                            <th style="width: 10%">order</th>
+                            <th style="width: 20%">supplier</th>
+                            <th style="width: 15%">date</th>
+                            <th style="width: 10%">quantity</th>
+                            <th style="width: 12%">total(Rs)</th>
+                            <th style="width: 15%">created</th>
+                            <th style="width: 18%">last updated</th>
                             <th style="width: 10%"></th>
                         </tr>
                     </thead>
@@ -50,7 +52,8 @@
                                  <td>0</td>
                                 <td>0</td>
                                  @endif
-
+                                <td>{{$order->created_at->format('Y-m-d_h:m')}}</td>
+                                <td>{{$order->updated_at->format('Y-m-d_h:m')}}</td>
                                 <td> <a href="/itemorders/{{$order->id}}" class="btn btn-warning btn-xs">edit</a> </td>
                             </tr>
                                 

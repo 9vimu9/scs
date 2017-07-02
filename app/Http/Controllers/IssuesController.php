@@ -18,7 +18,9 @@ class IssuesController extends Controller
      */
     public function index()
     {
-        //
+        $data=issues::OrderBy('id','desc')->paginate(8);
+        
+        return view('issues.index')->with("issues",$data);
     }
 
     /**
@@ -42,7 +44,7 @@ class IssuesController extends Controller
         $issue=new issues();
         $this->AddUpdateCore($issue,$request);
         
-       // return redirect("/itemorders/".$order->id);
+        return redirect("/issueitems/".$issue->id);
     }
 
     /**
@@ -82,7 +84,7 @@ class IssuesController extends Controller
         $issue=issues::find($id);
         $this->AddUpdateCore($issue,$request);
        
-        //return redirect('/itemorders/'.$order->id);
+       return redirect("/issueitems/".$issue->id);
     }
 
     /**
@@ -93,7 +95,10 @@ class IssuesController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $issue=issues::find($id);
+       $issue->delete();
+        return redirect("/issueitems/".$issue->id);
+ 
     }
 
 

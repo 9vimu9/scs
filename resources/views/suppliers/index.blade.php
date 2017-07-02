@@ -6,7 +6,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <big>SUPPLIERS</big>
-                <a href="/suppliers/create" class="pull-right btn btn-primary btn-sm">add supplier</a>
+                <a href="/suppliers/create" class="pull-right btn btn-primary btn-xs">add supplier</a>
             </div>
                 <div class="panel-body">
                     @if(count($all_suppliers)>0)
@@ -14,6 +14,8 @@
                         @foreach($all_suppliers as $supplier)
                             <tr>
                                 <td> <big><a href="/suppliers/{{$supplier->id}}">{{$supplier->name}}</a>  {{$supplier->tel}}</big></td>
+                                <td>{{$supplier->created_at->format('Y-m-d_h:m')}}</td>
+                                <td>{{$supplier->updated_at->format('Y-m-d_h:m')}}</td>
                                 <td>
                                    
 

@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
-
-
 @section('content')
-
-                  
-
+ 
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
@@ -33,19 +29,23 @@
                         <tr>
                             <th style="width: 25%">item name</th>
                             <th style="width: 15%">amount</th>
-                            
-                            <th style="width: 15%"> <a href="/issues/create/{{$issue->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a></th>
+                            <th style="width: 20%">created</th>
+                            <th style="width: 20%">last updated</th>
+                            <th style="width: 15%"> <a href="/issueitems/create/{{$issue->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a></th>
                         </tr>
                     </thead>
                     @foreach($issue->items as $issue_item)
                         <tr>
                             <td>{{$issue_item->name}}</td>
                             <td>{{$issue_item->pivot->amount}}</td>
+                             <td> {{$issue_item->pivot->created_at->format('Y-m-d_h:m')}}</td>
+                                   <td> {{$issue_item->pivot->updated_at->format('Y-m-d_h:m')}}</td>
+                                 
                                                            
                             <td> 
-                                <form action="/issues/{{$issue_item->pivot->id}}" class="form-inline" method="POST">
+                                <form action="/issueitems/{{$issue_item->pivot->id}}" class="form-inline" method="POST">
                                     {{ csrf_field() }}
-                                    <a href="/issues/{{$issue_item->pivot->id}}/edit" class="btn btn-warning btn-xs">edit</a>&nbsp&nbsp
+                                    <a href="/issueitems/{{$issue_item->pivot->id}}/edit" class="btn btn-warning btn-xs">edit</a>&nbsp&nbsp
                                     <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
                                     <input type="hidden" name="_method" value="DELETE">
                                 </form>
@@ -57,7 +57,7 @@
                  
                 {{-- {{$all_items->links()}} --}}
             @else
-                <a href="/issues/create/{{$issue->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a></th>
+                <a href="/issueitems/create/{{$issue->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a></th>
                 
             @endif      
                    

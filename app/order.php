@@ -28,6 +28,6 @@ class order extends Model
 
      public function items()
     {
-        return $this->belongsToMany('App\item','item_orders')->withPivot('amount', 'unit_price','id');
+        return $this->belongsToMany('App\item','item_orders')->withPivot('amount', 'unit_price','id','created_at','updated_at');
     }
 }

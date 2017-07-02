@@ -26,10 +26,11 @@ class IssueItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($issue_id)
     {
-        //
+          return view("issueitems.create")->with('issue_id',$issue_id);
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -39,6 +40,10 @@ class IssueItemsController extends Controller
      */
     public function store(Request $request)
     {
+        $issue_item=new issue_item();
+        $this->AddUpdateCore($issue_item,$request);
+       
+       return redirect('/issueitems/'.$issue_item->issue_id);
         
     }
 
@@ -62,7 +67,9 @@ class IssueItemsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data=issue_item::find($id);
+        
+        return view("issueitems.edit")->with('issue_item',$data);
     }
 
     /**
@@ -74,7 +81,10 @@ class IssueItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $issue_item=issue_item::find($id);
+        $this->AddUpdateCore($issue_item,$request);
+       
+        return redirect('/issueitems/'.$issue_item->issue_id);
     }
 
     /**
@@ -85,6 +95,27 @@ class IssueItemsController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $issue_item=issue_item::find($id);
+       $issue_item->delete();
+      return redirect('/issueitems/'.$issue_item->issue_id);
+
+    }
+
+    private function AddUpdateCore($issue_item,$request)
+    {
+         $this->validate($request,[
+            'amount'=>'required|numeric',
+            'item_id'=>"required|numeric",
+            'issue_id'=>"required|numeric"
+        ]);
+
+        $issue_item->amount=$request['amount'];
+        $issue_item->issue_id=$request['issue_id'];
+        $issue_item->item_id=$request['item_id'];
+           
+        $issue_item->save();
+
+      
+    
     }
 }

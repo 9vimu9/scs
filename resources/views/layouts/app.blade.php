@@ -61,7 +61,8 @@
                     <li><a href="{{ url('/items') }}">items</a></li> 
                     <li><a href="{{ url('/orders') }}">orders</a></li>
                      <li><a href="{{ url('/receives') }}">GRN</a></li>
-                    <li><a href="{{ url('/home') }}">issues</a></li>
+                    <li><a href="{{ url('/issues') }}">issues</a></li>
+                    <li><a href="{{ url('/loanissues') }}">loan account</a></li>
                     <li><a href="{{ url('/home') }}">returns</a></li>
                     <li><a href="{{ url('/suppliers') }}">suppliers</a></li>
                     <li><a href="{{ url('/officers') }}">officers</a></li>
