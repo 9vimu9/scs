@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\item_loanissuereturn;
+use App\loanissuereturns;
 use App\loanissues;
-use Auth;
 use Illuminate\Support\Facades\DB;
 
-class LoanIssuesController extends Controller
+class ItemLoanIssueReturnsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +19,7 @@ class LoanIssuesController extends Controller
      */
     public function index()
     {
-        $data=loanissues::OrderBy('id','desc')->paginate(8);
-        
-        return view('loanissues.index')->with("loanissues",$data);
+        //
     }
 
     /**
@@ -30,7 +29,7 @@ class LoanIssuesController extends Controller
      */
     public function create()
     {
-         return view('loanissues.create');
+        //
     }
 
     /**
@@ -41,9 +40,7 @@ class LoanIssuesController extends Controller
      */
     public function store(Request $request)
     {
-        $loanissue=new loanissues();
-        $this->AddUpdateCore($loanissue,$request);
-        return redirect("/itemloanissues/".$loanissue->id);
+        //
     }
 
     /**
@@ -54,7 +51,10 @@ class LoanIssuesController extends Controller
      */
     public function show($id)
     {
-        //
+         $loanissuereturn=loanissuereturns::find($id);
+         $loanissue=loanissues::find($loanissuereturnreceive->loanissue_id);
+         $data=["loanissue"=>$loanissue];
+        return view('itemreceives.index')->with($data);
     }
 
     /**
@@ -65,10 +65,7 @@ class LoanIssuesController extends Controller
      */
     public function edit($id)
     {
-         $data=loanissues::find($id);
-       
-     
-       return view("loanissues.edit")->with('loanissue',$data);
+        //
     }
 
     /**
@@ -80,10 +77,7 @@ class LoanIssuesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $loanissue=loanissues::find($id);
-        $this->AddUpdateCore($loanissue,$request);
-       
-      return redirect("/itemloanissues/".$loanissue->id);
+        //
     }
 
     /**
@@ -94,29 +88,6 @@ class LoanIssuesController extends Controller
      */
     public function destroy($id)
     {
-          $loanissue=loanissues::find($id);
-       $loanissue->delete();
-       
-        return redirect("/loanissues");
-    }
-
-
-    private function AddUpdateCore($loanissue,$request)
-    {
-        $this->validate($request,[
-            'officer_id'=>'required',
-            'issue_date'=>"required|date",
-            'description'=>'required'
-            
-        ]);
-        $loanissue->officer_id=$request['officer_id'];
-        $loanissue->issue_date=$request['issue_date'];
-        $loanissue->description=$request['description'];
-        $loanissue->user_id=Auth::user()->id;
-        
-        $loanissue->save();
-
-       
-
+        //
     }
 }

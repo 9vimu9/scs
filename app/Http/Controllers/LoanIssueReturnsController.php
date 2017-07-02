@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\loanissuereturns;
 use App\loanissues;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
-class LoanIssuesController extends Controller
+class LoanIssueReturnsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +19,9 @@ class LoanIssuesController extends Controller
      */
     public function index()
     {
-        $data=loanissues::OrderBy('id','desc')->paginate(8);
-        
-        return view('loanissues.index')->with("loanissues",$data);
+         $data=loanissuereturns::OrderBy('id','desc')->paginate(8);
+       
+        return view('loanissuereturns.index')->with("loanissuereturns",$data);
     }
 
     /**
@@ -30,7 +31,7 @@ class LoanIssuesController extends Controller
      */
     public function create()
     {
-         return view('loanissues.create');
+         return view('loanissuereturns.create');
     }
 
     /**
@@ -41,9 +42,10 @@ class LoanIssuesController extends Controller
      */
     public function store(Request $request)
     {
-        $loanissue=new loanissues();
-        $this->AddUpdateCore($loanissue,$request);
-        return redirect("/itemloanissues/".$loanissue->id);
+        $loanissuereturn=new loanissuereturns();
+        $this->AddUpdateCore($loanissuereturn,$request);
+        
+        return redirect('/loanissuereturns');
     }
 
     /**
@@ -65,10 +67,9 @@ class LoanIssuesController extends Controller
      */
     public function edit($id)
     {
-         $data=loanissues::find($id);
-       
-     
-       return view("loanissues.edit")->with('loanissue',$data);
+        $data=loanissuereturns::find($id);
+                   
+       return view("loanissuereturns.edit")->with('loanissuereturn',$data);
     }
 
     /**
@@ -80,10 +81,10 @@ class LoanIssuesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $loanissue=loanissues::find($id);
-        $this->AddUpdateCore($loanissue,$request);
+         $loanissuereturn=loanissuereturns::find($id);
+        $this->AddUpdateCore($loanissuereturn,$request);
        
-      return redirect("/itemloanissues/".$loanissue->id);
+       // return redirect('/itemreceives/'.$receive->id);
     }
 
     /**
@@ -94,27 +95,26 @@ class LoanIssuesController extends Controller
      */
     public function destroy($id)
     {
-          $loanissue=loanissues::find($id);
-       $loanissue->delete();
-       
-        return redirect("/loanissues");
+        //
     }
 
-
-    private function AddUpdateCore($loanissue,$request)
+    private function AddUpdateCore($loanissuereturn,$request)
     {
+        if($loanissuereturn->loanissue_id==$request['loanissue_id'])
+            $loanissue_id_validation="required";
+        else
+            $loanissue_id_validation="required|unique:loanissuereturns";
+
         $this->validate($request,[
-            'officer_id'=>'required',
-            'issue_date'=>"required|date",
-            'description'=>'required'
-            
+            'loanissue_id'=>$loanissue_id_validation,
+            'date'=>"required|date"
         ]);
-        $loanissue->officer_id=$request['officer_id'];
-        $loanissue->issue_date=$request['issue_date'];
-        $loanissue->description=$request['description'];
-        $loanissue->user_id=Auth::user()->id;
+        $loanissuereturn->loanissue_id=$request['loanissue_id'];
+        $loanissuereturn->date=$request['date'];
+       
+        $loanissuereturn->user_id=Auth::user()->id;
         
-        $loanissue->save();
+        $loanissuereturn->save();
 
        
 

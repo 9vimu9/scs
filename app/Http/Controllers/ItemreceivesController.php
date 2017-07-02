@@ -60,7 +60,7 @@ class ItemreceivesController extends Controller
         return view('itemreceives.index')->with($data);
        
         
-            }
+    }
 
     /**
      * Show the form for editing the specified resource.

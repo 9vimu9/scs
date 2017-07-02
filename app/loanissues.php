@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class loanissues extends Model
 {
+    public function loanissuereturn()
+    {
+        return $this->hasOne('App\loanissuereturns');
+    }
+
       public function officer(){
         return $this->belongsTo("App\officer");
     }
