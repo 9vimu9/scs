@@ -40,8 +40,10 @@ class ItemLoanIssuesController extends Controller
     public function store(Request $request)
     {
          $item_loanissue=new item_loanissue();
-        $this->AddUpdateCore($item_loanissue,$request);
-       
+         $val= $this->AddUpdateCore($item_loanissue,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        return redirect('/itemloanissues/'.$item_loanissue->loanissue_id);
         
     }
@@ -81,8 +83,11 @@ class ItemLoanIssuesController extends Controller
     public function update(Request $request, $id)
     {
         $item_loanissue=item_loanissue::find($id);
-        $this->AddUpdateCore($item_loanissue,$request);
-       
+        
+        $val= $this->AddUpdateCore($item_loanissue,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
         return redirect('/itemloanissues/'.$item_loanissue->loanissue_id);
     }
 
@@ -101,20 +106,21 @@ class ItemLoanIssuesController extends Controller
 
      private function AddUpdateCore($item_loanissue,$request)
     {
-         $this->validate($request,[
+         $validator = Validator::make($request->all(), [
             'amount'=>'required|numeric',
             'item_id'=>"required|numeric",
             'loanissue_id'=>"required|numeric",
             'return_date'=>"required|date"
         ]);
-
+if (!$validator->fails()){
         $item_loanissue->amount=$request['amount'];
         $item_loanissue->loanissue_id=$request['loanissue_id'];
         $item_loanissue->item_id=$request['item_id'];
         $item_loanissue->return_date=$request['return_date'];
            
         $item_loanissue->save();
-
+ }
+        return $validator;
       
     
     }

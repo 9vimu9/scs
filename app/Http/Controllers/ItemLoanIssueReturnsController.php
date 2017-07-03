@@ -42,8 +42,10 @@ class ItemLoanIssueReturnsController extends Controller
     {
         
         $item_loanissuereturn=new item_loanissuereturn();
-        $this->AddUpdateCore($item_loanissuereturn,$request);
-       
+         $val= $this->AddUpdateCore($item_loanissuereturn,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
     }
 
@@ -82,7 +84,10 @@ class ItemLoanIssueReturnsController extends Controller
     public function update(Request $request, $id)
     {
         $item_loanissuereturn=item_loanissuereturn::find($id);
-        $this->AddUpdateCore($item_loanissuereturn,$request);
+        $val= $this->AddUpdateCore($item_loanissuereturn,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
          return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
     }
 
@@ -101,13 +106,15 @@ class ItemLoanIssueReturnsController extends Controller
 
     private function AddUpdateCore($item_loanissuereturn,$request)
     {
-         $this->validate($request,[
+        $validator = Validator::make($request->all(), [
+      
             'amount'=>'required|numeric',
             'rejected'=>'required|numeric',
             'loanissuereturn_id'=>"required",
             'item_id'=>"required"
             
         ]);
+        if (!$validator->fails()){
         $item_loanissuereturn->amount=$request['amount'];
         $item_loanissuereturn->rejected=$request['rejected'];
         $item_loanissuereturn->loanissuereturn_id=$request['loanissuereturn_id'];
@@ -115,7 +122,8 @@ class ItemLoanIssueReturnsController extends Controller
       
              
         $item_loanissuereturn->save();
-
+  }
+        return $validator;
       
     
     }

@@ -41,8 +41,10 @@ class IssueItemsController extends Controller
     public function store(Request $request)
     {
         $issue_item=new issue_item();
-        $this->AddUpdateCore($issue_item,$request);
-       
+         $val= $this->AddUpdateCore($issue_item,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        return redirect('/issueitems/'.$issue_item->issue_id);
         
     }
@@ -82,7 +84,10 @@ class IssueItemsController extends Controller
     public function update(Request $request, $id)
     {
         $issue_item=issue_item::find($id);
-        $this->AddUpdateCore($issue_item,$request);
+        $val= $this->AddUpdateCore($issue_item,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        
         return redirect('/issueitems/'.$issue_item->issue_id);
     }
@@ -103,18 +108,19 @@ class IssueItemsController extends Controller
 
     private function AddUpdateCore($issue_item,$request)
     {
-         $this->validate($request,[
+         $validator = Validator::make($request->all(), [
             'amount'=>'required|numeric',
             'item_id'=>"required|numeric",
             'issue_id'=>"required|numeric"
         ]);
-
-        $issue_item->amount=$request['amount'];
-        $issue_item->issue_id=$request['issue_id'];
-        $issue_item->item_id=$request['item_id'];
-           
-        $issue_item->save();
-
+        if (!$validator->fails()){
+            $issue_item->amount=$request['amount'];
+            $issue_item->issue_id=$request['issue_id'];
+            $issue_item->item_id=$request['item_id'];
+            
+            $issue_item->save();
+        }
+        return $validator;
       
     
     }

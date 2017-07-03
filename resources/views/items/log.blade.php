@@ -94,7 +94,7 @@
  
 
                     @else
-                    no items<br>click add item button
+                   no history
                     
                     @endif
                 </div>

@@ -15,7 +15,7 @@
                                 <input type="hidden" id="item_id"  name="item_id"/>
                                 <input type="hidden" id="issue_id"  name="issue_id" value="{{$issue_id}}"/>
                             </div>
-                            quantity in store <span class="label label-danger" id="quantity_badge"></span>
+                            quantity in store <span class="label label-danger" id="quantity_badge">0</span>
                             
                         </div>
 
@@ -42,19 +42,17 @@
 </div>
 @endsection
 
-@section('script')
-
-@include('layouts.suggest')
 
 @section('script')
 
 @include('layouts.suggest')
 
 <script>
-    var item_stock_amount=0;
+    var item_stock_amount=parseInt($('#quantity_badge').text());
+    var iniitial_quantity=$("#amount").val();
     getStoreQuantitiy(parseInt($('#item_id').val()))
    
-    $("#amount").keyup(function(){checkitem_stock_amount();});
+    $("#amount").change(function(){checkitem_stock_amount();});
 
     function checkitem_stock_amount(){
     
@@ -62,6 +60,14 @@
             alert("please select your item from item box");
         } 
         else{
+            var diff=0;
+
+            if($('.panel-heading').text().includes("EDIT")){
+                item_stock_amount+=iniitial_quantity;
+
+
+            }
+            
             if(item_stock_amount<$("#amount").val()){
                 alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
                 $("#amount").focus();

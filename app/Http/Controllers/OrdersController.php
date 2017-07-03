@@ -40,8 +40,10 @@ class OrdersController extends Controller
     public function store(Request $request)
     {
         $order=new Order();
-        $this->AddUpdateCore($order,$request);
-        
+        $val=  $this->AddUpdateCore($order,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
         return redirect("/itemorders/".$order->id);
   
         //
@@ -83,7 +85,10 @@ class OrdersController extends Controller
     {
         $order=Order::find($id);
         $this->AddUpdateCore($order,$request);
-       
+        $val=  $this->AddUpdateCore($order,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
         return redirect('/itemorders/'.$order->id);
     }
 
@@ -102,18 +107,22 @@ class OrdersController extends Controller
 
     private function AddUpdateCore($order,$request)
     {
-        $this->validate($request,[
+        
+ $validator = Validator::make($request->all(), [
             'supplier_id'=>'required',
             'date'=>"required|date|before:deadline",
             'deadline'=>"required|date|after:date"
         ]);
+         if (!$validator->fails()){
+
         $order->supplier_id=$request['supplier_id'];
         $order->date=$request['date'];
         $order->deadline=$request['deadline'];
         $order->user_id=Auth::user()->id;
         
         $order->save();
-
+  }
+        return $validator;
        
 
     }

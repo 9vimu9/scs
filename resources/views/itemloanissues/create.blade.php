@@ -4,7 +4,8 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>ADD ITEM TO LOAN ACCOUNT ISSUE&nbsp&nbsp<span class="label label-primary"><big>#{{$loanissue_id}}</big></span></big>  <div class="panel-body">
+            <div class="panel-heading"><big>ADD ITEM TO LOAN ACCOUNT ISSUE&nbsp&nbsp<span class="label label-primary"><big>#{{$loanissue_id}}</big></span></big>  </div>
+            <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="/itemloanissues">
                         {{ csrf_field() }}
                         <div class="form-group">
@@ -57,10 +58,11 @@
 @include('layouts.suggest')
 
 <script>
-    var item_stock_amount=0;
+    var item_stock_amount=parseInt($('#quantity_badge').text());
+    var iniitial_quantity=$("#amount").val();
     getStoreQuantitiy(parseInt($('#item_id').val()))
    
-    $("#amount").keyup(function(){checkitem_stock_amount();});
+    $("#amount").change(function(){checkitem_stock_amount();});
 
     function checkitem_stock_amount(){
     
@@ -68,6 +70,14 @@
             alert("please select your item from item box");
         } 
         else{
+            var diff=0;
+
+            if($('.panel-heading').text().includes("EDIT")){
+                item_stock_amount+=iniitial_quantity;
+
+
+            }
+            
             if(item_stock_amount<$("#amount").val()){
                 alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
                 $("#amount").focus();

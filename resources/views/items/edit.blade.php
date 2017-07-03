@@ -45,7 +45,7 @@
                           
 
                           <div class="form-group">
-                            <label class="col-md-4 control-label">ordering quantity</label>
+                            <label class="col-md-4 control-label">reorder level</label>
                             <div class="col-md-1">
                                 <input id="reorder" type="text" class="form-control" name="reorder" value="{{$item->reorder}}">
                             </div>

@@ -12,6 +12,7 @@ use App\issue_item;
 use App\item_loanissue;
 use App\item_loanissuereturn;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ItemsController extends Controller
 {
@@ -47,9 +48,12 @@ class ItemsController extends Controller
     public function store(Request $request)
     {
         $item=new Item();
-         $this->AddUpdateCore($item,$request);
-           return redirect('/items/')->with('success','successfully saved');
-       
+        $val=  $this->AddUpdateCore($item,$request);
+        if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
+            return redirect('/items/')->with('success','successfully saved');
+
     }
 
     /**
@@ -114,8 +118,14 @@ class ItemsController extends Controller
     public function update(Request $request, $id)
     {
         $item=Item::find($id);
-        $this->AddUpdateCore($item,$request);
+        $val=  $this->AddUpdateCore($item,$request);
+        if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
         return redirect('/items/')->with('success','successfully updated');
+
+
+       
     }
 
     /**
@@ -133,25 +143,28 @@ class ItemsController extends Controller
     }
     private function AddUpdateCore($item,$request)
     {
-         $this->validate($request,[
+        $validator = Validator::make($request->all(), [
             'name'=>'required',
             'code'=>"required",
             'location'=>"required",
             'max'=>"required|numeric",
             'min'=>"required|numeric",
-            'reorder'=>"required|numeric",
+            'reorder'=>"required|numeric|between:min,max",
             'cat'=>"required|numeric",
         ]);
-        $item->name=$request['name'];
-        $item->code=$request['code'];
-        $item->location=$request['location'];
-        $item->max=$request['max'];
-        $item->min=$request['min'];
-        $item->reorder=$request['reorder'];
-        $item->cat=$request['cat'];
-             
-        $item->save();
+        if (!$validator->fails()){
 
+            $item->name=$request['name'];
+            $item->code=$request['code'];
+            $item->location=$request['location'];
+            $item->max=$request['max'];
+            $item->min=$request['min'];
+            $item->reorder=$request['reorder'];
+            $item->cat=$request['cat'];
+                
+            $item->save();
+        }
+        return $validator;
       
     
     }

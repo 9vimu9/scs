@@ -42,8 +42,10 @@ class IssuesController extends Controller
     public function store(Request $request)
     {
         $issue=new issues();
-        $this->AddUpdateCore($issue,$request);
-        
+         $val= $this->AddUpdateCore($issue,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
         return redirect("/issueitems/".$issue->id);
     }
 
@@ -82,7 +84,10 @@ class IssuesController extends Controller
     public function update(Request $request, $id)
     {
         $issue=issues::find($id);
-        $this->AddUpdateCore($issue,$request);
+        $val= $this->AddUpdateCore($issue,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        
        return redirect("/issueitems/".$issue->id);
     }
@@ -105,19 +110,21 @@ class IssuesController extends Controller
 
     private function AddUpdateCore($issue,$request)
     {
-        $this->validate($request,[
+       $validator = Validator::make($request->all(), [
             'officer_id'=>'required',
             'issue_date'=>"required|date",
             'description'=>'required'
             
         ]);
+        if (!$validator->fails()){
         $issue->officer_id=$request['officer_id'];
         $issue->issue_date=$request['issue_date'];
         $issue->description=$request['description'];
         $issue->user_id=Auth::user()->id;
         
         $issue->save();
-
+ }
+        return $validator;
        
 
     }

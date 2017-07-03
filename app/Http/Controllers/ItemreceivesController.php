@@ -41,8 +41,10 @@ class ItemreceivesController extends Controller
     public function store(Request $request)
     {
          $item_receive=new item_receives();
-        $this->AddUpdateCore($item_receive,$request);
-       
+         $val= $this->AddUpdateCore($item_receive,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        return redirect('/itemreceives/'.$item_receive->receive_id);
     }
 
@@ -83,7 +85,10 @@ class ItemreceivesController extends Controller
     public function update(Request $request, $id)
     {
         $item_receive=item_receives::find($id);
-          $this->AddUpdateCore($item_receive,$request);
+         $val= $this->AddUpdateCore($item_receive,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
         return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"updated successfully");
     }
 
@@ -103,13 +108,14 @@ class ItemreceivesController extends Controller
 
     private function AddUpdateCore($item_receive,$request)
     {
-         $this->validate($request,[
+        $validator = Validator::make($request->all(), [
             'amount'=>'required|numeric',
             'rejected'=>'required|numeric',
             'receive_id'=>"required",
             'item_id'=>"required"
             
         ]);
+         if (!$validator->fails()){
         $item_receive->amount=$request['amount'];
         $item_receive->rejected=$request['rejected'];
         $item_receive->receive_id=$request['receive_id'];
@@ -117,7 +123,8 @@ class ItemreceivesController extends Controller
       
              
         $item_receive->save();
-
+ }
+        return $validator;
       
     
     }

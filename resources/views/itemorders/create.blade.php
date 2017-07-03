@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>ADD ITEM</big></strong></big></div>
+            <div class="panel-heading"><big>ORDER #{{$order_id}} ADD ITEMS</big></strong></big></div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="/itemorders">
                         {{ csrf_field() }}
@@ -19,7 +19,7 @@
                                  
                             </div>
                              
-                               reorder quantity <span class="label label-danger" id="reorder_badge"></span>
+                               {{-- reorder quantity <span class="label label-danger" id="reorder_badge"></span> --}}
                             
                         </div>
 
@@ -72,7 +72,7 @@
 
     $("#unit_price,#amount").keyup(function(){
        
-        checkReorder();
+      //  checkReorder();
         var price=$('#unit_price').val();
         var amount=$("#amount").val();
         var itemTotal=price*amount;

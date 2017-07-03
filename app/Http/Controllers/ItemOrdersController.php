@@ -41,8 +41,10 @@ class ItemOrdersController extends Controller
     public function store(Request $request)
     {
         $item_order=new item_orders();
-        $this->AddUpdateCore($item_order,$request);
-       
+        $val=  $this->AddUpdateCore($item_order,$request);
+             if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        return redirect('/itemorders/'.$item_order->order_id);
     }
 
@@ -118,12 +120,13 @@ class ItemOrdersController extends Controller
 
     private function AddUpdateCore($item_order,$request)
     {
-         $this->validate($request,[
+         $validator = Validator::make($request->all(), [
             'amount'=>'required',
             'unit_price'=>"required",
             'item_id'=>"required",
             
         ]);
+         if (!$validator->fails()){
         $item_order->amount=$request['amount'];
         $item_order->unit_price=$request['unit_price'];
         $item_order->item_id=$request['item_id'];
@@ -131,7 +134,8 @@ class ItemOrdersController extends Controller
       
              
         $item_order->save();
-
+ }
+        return $validator;
       
     
     }

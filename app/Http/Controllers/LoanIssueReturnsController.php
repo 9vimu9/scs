@@ -43,8 +43,10 @@ class LoanIssueReturnsController extends Controller
     public function store(Request $request)
     {
         $loanissuereturn=new loanissuereturns();
-        $this->AddUpdateCore($loanissuereturn,$request);
-        
+        $val=  $this->AddUpdateCore($loanissuereturn,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
         return redirect('/loanissuereturns');
     }
 
@@ -82,7 +84,10 @@ class LoanIssueReturnsController extends Controller
     public function update(Request $request, $id)
     {
          $loanissuereturn=loanissuereturns::find($id);
-        $this->AddUpdateCore($loanissuereturn,$request);
+         $val=  $this->AddUpdateCore($loanissuereturn,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
        
         return redirect('/itemloanissuereturns/'.$loanissuereturn->id);
     }
@@ -108,17 +113,19 @@ class LoanIssueReturnsController extends Controller
         else
             $loanissue_id_validation="required|unique:loanissuereturns";
 
-        $this->validate($request,[
+        $validator = Validator::make($request->all(), [
             'loanissue_id'=>$loanissue_id_validation,
             'date'=>"required|date"
         ]);
+        if (!$validator->fails()){
         $loanissuereturn->loanissue_id=$request['loanissue_id'];
         $loanissuereturn->date=$request['date'];
        
         $loanissuereturn->user_id=Auth::user()->id;
         
         $loanissuereturn->save();
-
+ }
+        return $validator;
        
 
     }

@@ -18,7 +18,7 @@
                                  
                             </div>
                              
-                               reorder quantity <span class="label label-danger" id="reorder_badge">{{$item_order->item_reorder}}</span>
+                               {{-- reorder quantity <span class="label label-danger" id="reorder_badge">{{$item_order->item_reorder}}</span> --}}
                             
                         </div>
 
@@ -71,7 +71,7 @@
 
     $("#unit_price,#amount").keyup(function(){
        
-        checkReorder();
+      //  checkReorder();
         var price=$('#unit_price').val();
         var amount=$("#amount").val();
         var itemTotal=price*amount;

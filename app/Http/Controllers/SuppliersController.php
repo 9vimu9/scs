@@ -41,7 +41,10 @@ class SuppliersController extends Controller
     public function store(Request $request)
     {
         $supplier=new Supplier();
-        $this->AddUpdateCore($supplier,$request);
+        $val=  $this->AddUpdateCore($supplier,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
           return redirect('/suppliers/')->with('success','successfully saved');
     }
 
@@ -79,7 +82,11 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $supplier=Supplier::find($id);
-       $this->AddUpdateCore($supplier,$request);
+      
+        $val=  $this->AddUpdateCore($supplier,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
          return redirect('/suppliers')->with('success','supplier <strong>'.$supplier->name.'</strong> updated');
     }
 
@@ -98,16 +105,18 @@ class SuppliersController extends Controller
 
     private function AddUpdateCore($supplier,$request)
     {
-        $this->validate($request,[
+        $validator = Validator::make($request->all(), [
             'name'=>'required',
             'tel'=>"required|regex:/^[0-9]{10}$/"
         ]);
+         if (!$validator->fails()){
         $supplier->name=$request['name'];
         $supplier->address=$request['address'];
         $supplier->tel=$request['tel'];
         
         $supplier->save();
-
+ }
+        return $validator;
         
         # code...
     }
