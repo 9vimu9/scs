@@ -84,7 +84,7 @@ class LoanIssueReturnsController extends Controller
          $loanissuereturn=loanissuereturns::find($id);
         $this->AddUpdateCore($loanissuereturn,$request);
        
-       // return redirect('/itemreceives/'.$receive->id);
+        return redirect('/itemloanissuereturns/'.$loanissuereturn->id);
     }
 
     /**
@@ -95,7 +95,10 @@ class LoanIssueReturnsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $loanissuereturn=loanissuereturns::find($id);
+       $loanissuereturn->delete();
+       
+        return redirect("/loanissuereturns");
     }
 
     private function AddUpdateCore($loanissuereturn,$request)

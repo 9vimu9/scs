@@ -5,7 +5,7 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <big>LOAN ACCOUNT ISSUE RETURNS</big>
+                <big>LOAN ACCOUNT ISSUE ITEMS RETURN</big>
                 <a href="/loanissuereturns/create" class="pull-right btn btn-primary btn-sm">add loan issue return</a>
             </div>
                 <div class="panel-body">
@@ -33,7 +33,7 @@
                                 
                                 <td>{{$loanissuereturn->created_at->format('Y-m-d_H:m')}}</td>
                                 <td>{{$loanissuereturn->updated_at->format('Y-m-d_H:m')}}</td>
-                                <td> <a href="/itemreceives/{{$loanissuereturn->id}}" class="btn btn-warning btn-xs">more</a> </td>
+                                <td> <a href="/itemloanissuereturns/{{$loanissuereturn->id}}" class="btn btn-warning btn-xs">more</a> </td>
                             </tr>
                                 
                     @endforeach

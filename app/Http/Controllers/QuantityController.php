@@ -50,7 +50,7 @@ class QuantityController extends Controller
                      ->groupBy('item_id')
                      ->value('loanissue_amount');
 
-        $item_loanissue_amount = DB::table('item_receives')->select(DB::raw('sum(amount-rejected) as receive_amount'))
+        $item_loanissue_amount = DB::table('item_loanissuereturns')->select(DB::raw('sum(amount-rejected) as receive_amount'))
                      ->where('item_id', '=', $item_id)
                      ->groupBy('item_id')
                      ->value('receive_amount');

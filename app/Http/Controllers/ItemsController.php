@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Item;
+use App\item_orders;
+use App\item_receives;
+use App\issue_item;
+use App\item_loanissue;
+use App\item_loanissuereturn;
+use Illuminate\Support\Facades\DB;
 
 class ItemsController extends Controller
 {
@@ -54,7 +60,36 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $data_o = item_orders::select(DB::raw('"o" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,order_id as id,amount,created_at'))
+                    ->where('item_id', '=', $id);
+
+                   //  DATE_FORMAT(created_at, "%Y/%l/%d")
+
+        $data_r = item_receives::select(DB::raw('"r" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,receive_id as id,(amount-rejected)as amount,created_at'))
+                    ->where('item_id', '=', $id);
+
+        $data_li = item_loanissue::select(DB::raw('"li" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissue_id as id,amount,created_at'))
+                    ->where('item_id', '=', $id);
+        
+        $data_lir = item_loanissuereturn::select(DB::raw('"lir" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissuereturn_id as id,(amount-rejected)as amount,created_at'))
+                    ->where('item_id', '=', $id);
+    
+                
+        $logs = issue_item::select(DB::raw('"i" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,issue_id as id,(amount)as amount,created_at'))
+                    ->where('item_id', '=', $id)
+                    ->union($data_r)
+                    ->union($data_o)
+                    ->union($data_li)
+                    ->union($data_lir)
+                    ->orderBy('created_at')
+                    ->get();
+
+//return $logs;
+      
+        return view("items.log")->with(['logs'=>$logs,'item'=>Item::find($id)]);
+
+       
     }
 
     /**

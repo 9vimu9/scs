@@ -148,8 +148,7 @@
                  
                 {{-- {{$all_items->links()}} --}}
             @else
-                <a href="/itemorders/create/{{$order->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a>
-                
+               no items 
             @endif      
                    
             </div>

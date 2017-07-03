@@ -10,11 +10,11 @@
             </div>
                 <div class="panel-body">
                     @if(count($issues)>0)
-                     <table class="table table-striped table-hover" style="width: 85%" >
+                     <table class="table table-striped table-hover" style="width: 92%" >
                     <thead>
                         <tr>
                             <th style="width: 10%">issue</th>
-                            <th style="width: 20%">officer</th>
+                            <th style="width: 15%">officer</th>
                             <th style="width: 12%">date</th>
                             <th style="width: 30%">description</th>
                             <th style="width: 15%">created</th>

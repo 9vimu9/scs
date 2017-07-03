@@ -40,7 +40,11 @@ class ItemLoanIssueReturnsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $item_loanissuereturn=new item_loanissuereturn();
+        $this->AddUpdateCore($item_loanissuereturn,$request);
+       
+       return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
     }
 
     /**
@@ -52,9 +56,9 @@ class ItemLoanIssueReturnsController extends Controller
     public function show($id)
     {
          $loanissuereturn=loanissuereturns::find($id);
-         $loanissue=loanissues::find($loanissuereturnreceive->loanissue_id);
+         $loanissue=loanissues::find($loanissuereturn->loanissue_id);
          $data=["loanissue"=>$loanissue];
-        return view('itemreceives.index')->with($data);
+        return view('itemloanissuereturns.index')->with($data);
     }
 
     /**
@@ -77,7 +81,9 @@ class ItemLoanIssueReturnsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item_loanissuereturn=item_loanissuereturn::find($id);
+        $this->AddUpdateCore($item_loanissuereturn,$request);
+         return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
     }
 
     /**
@@ -88,6 +94,29 @@ class ItemLoanIssueReturnsController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $item_loanissuereturn=item_loanissuereturn::find($id);
+        $item_loanissuereturn->delete();
+        return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
+    }
+
+    private function AddUpdateCore($item_loanissuereturn,$request)
+    {
+         $this->validate($request,[
+            'amount'=>'required|numeric',
+            'rejected'=>'required|numeric',
+            'loanissuereturn_id'=>"required",
+            'item_id'=>"required"
+            
+        ]);
+        $item_loanissuereturn->amount=$request['amount'];
+        $item_loanissuereturn->rejected=$request['rejected'];
+        $item_loanissuereturn->loanissuereturn_id=$request['loanissuereturn_id'];
+         $item_loanissuereturn->item_id=$request['item_id'];
+      
+             
+        $item_loanissuereturn->save();
+
+      
+    
     }
 }

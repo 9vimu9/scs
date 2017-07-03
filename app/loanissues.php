@@ -8,7 +8,7 @@ class loanissues extends Model
 {
     public function loanissuereturn()
     {
-        return $this->hasOne('App\loanissuereturns');
+        return $this->hasOne('App\loanissuereturns',"loanissue_id");
     }
 
       public function officer(){

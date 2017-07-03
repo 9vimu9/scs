@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>CREATE lOAN ISSUE RETURNS NOTE <span class="label label-primary"><big>#{{$loanissue->loanissuereturn->id}}</big></span></big>
+            <div class="panel-heading"><big>CREATE LOAN ACCOUNT ISSUE ITEMS RETURN NOTE <span class="label label-primary"><big>#{{$loanissue->loanissuereturn->id}}</big></span></big>
                 &nbsp&nbsp    
                 for loan account issue : <strong class="text-info"><big><a href="/itemloanissues/{{$loanissue->id}}">#{{$loanissue->id}}</a></big></strong>
                 &nbsp&nbsp&nbsp&nbsp
@@ -31,19 +31,19 @@
                     <thead>
                         <tr>
                             <th colspan="2" style="text-align: center" ><big>issued items details</big></th>
-                            <th colspan="3"style="text-align: center"><big>returning data</big></th>
+                            <th colspan="3"style="text-align: center"><big>returning items details</big></th>
                         </tr>
 
                         <tr>
                             <th style="width: 15%">item name</th>
                            
-                            <th style="width: 8%">amount</th>
+                            <th style="width: 8%">issued amount</th>
 
-                            <th style="width: 8%">received amount</th>
-                            <th style="width: 8%">rejected amount</th>
-                             <th style="width: 8%">actual amount</th>
+                            <th style="width: 10%">received amount</th>
+                            <th style="width: 10%">rejected amount</th>
+                             <th style="width: 10%">actual amount</th>
                              
-                               <th style="width: 15%"></th>
+                               <th style="width: 8%"></th>
                         </tr>
                     </thead>
 
@@ -86,31 +86,31 @@
                                     {{ csrf_field() }}
                                     <td><input id="amount" type="text" class="form-control" name="amount" ></td>
                                     <td><input id="rejected" type="text" class="form-control" name="rejected"></td>
-                                     <input type="hidden" name="item_id" value="{{$itemloanissuereturn->pivot->item_id}}">
-                                      <input type="hidden" name="loanissuereturns_id" value="{{$loanissue->loanissuereturn->id}}">
-                                    <td>{{$item_loanissue->item_id}}</td>/\/\
-                                    <td></td>
-                                    
+                                     <input type="hidden" name="item_id" value="{{$item_loanissue->pivot->item_id}}">
+                                      <input type="hidden" name="loanissuereturn_id" value="{{$loanissue->loanissuereturn->id}}">
+                                    <td>{{$item_loanissue->item_id}}</td>
+                                   
+                                   
                                    <td>
                                         <input type="submit" name="delete" value="add" class="btn btn-primary btn-xs">
                                    </td>
                                 </form>
                                 
                             @else
-                               
-                                <form action="/itemreceives/{{$item_receive_id}}" class="pull-right" method="POST">
+                              
+                                <form action="/itemloanissuereturns/{{$item_loanissuereturn_id}}" class="pull-right" method="POST">
                                     {{ csrf_field() }}
-                                    <td><input id="amount" type="text" class="form-control" name="amount" value="{{$item_receive_amount}}"></td>
-                                    <td><input id="rejected" type="text" class="form-control" name="rejected" value="{{$item_receive_reject}}"></td>
+                                    <td><input id="amount" type="text" class="form-control" name="amount" value="{{$item_loanissuereturn_amount}}"></td>
+                                    <td><input id="rejected" type="text" class="form-control" name="rejected" value="{{$item_loanissuereturn_reject}}"></td>
                                    
                                     <input type="hidden" name="_method" value="PUT">
-                                    <input type="hidden" name="receive_id" value="{{$item_receive->pivot->receive_id}}">
-                                    <input type="hidden" name="item_id" value="{{$item_receive->pivot->item_id}}">
+                                    <input type="hidden" name="loanissuereturn_id" value="{{$item_loanissuereturn->pivot->loanissuereturn_id}}">
+                                    <input type="hidden" name="item_id" value="{{$item_loanissuereturn->pivot->item_id}}">
                                    <td>
                                     <input type="submit" name="edit" value="update" class="btn btn-warning btn-xs">
-                                   
+                                  
                                 </form>
-                                 <form action="/itemreceives/{{$item_receive_id}}" class="pull-right" method="POST">
+                                 <form action="/itemloanissuereturns/{{$item_loanissuereturn_id}}" class="pull-right" method="POST">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
@@ -126,7 +126,7 @@
                  
                 {{-- {{$all_items->links()}} --}}
             @else
-                <a href="/itemorders/create/{{$order->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a>
+                no items 
                 
             @endif      
                    

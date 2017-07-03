@@ -97,7 +97,7 @@ class OrdersController extends Controller
     {
        $order=order::find($id);
        $order->delete();
-       return redirect('/orders/create')->with('success',"order no <strong> $order->id </strong>removed successfully");
+       return redirect('/orders')->with('success',"order no <strong> $order->id </strong>removed successfully");
     }
 
     private function AddUpdateCore($order,$request)
