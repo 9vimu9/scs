@@ -12,14 +12,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">name</label>
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name">
+                                <input id="name" type="text" class="form-control" name="name" value={{old('name')}}>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">NIC</label>
                             <div class="col-md-2">
-                                <input id="nic" type="text" class="form-control" name="nic">
+                                <input id="nic" type="text" class="form-control" name="nic" value={{old('nic')}}>
                             </div>
                         </div>
 

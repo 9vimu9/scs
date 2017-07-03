@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">amount</label>
                             <div class="col-md-2">
-                                <input id="amount" type="text" class="form-control" name="amount" >
+                                <input id="amount" type="text" class="form-control" name="amount"value={{old('amount')}} >
                             </div>
                         </div>
 
@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">unit price</label>
                             <div class="col-md-2">
-                                <input id="unit_price" type="text" class="form-control" name="unit_price" >
+                                <input id="unit_price" type="text" class="form-control" name="unit_price" value={{old('unit_price')}} >
                             </div>
                         </div>
 

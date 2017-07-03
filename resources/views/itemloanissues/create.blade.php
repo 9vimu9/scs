@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">amount</label>
                             <div class="col-md-2">
-                                <input id="amount" type="text" class="form-control" name="amount" >
+                                <input id="amount" type="text" class="form-control" name="amount" value={{old('amount')}} >
                             </div>
                         </div>
 

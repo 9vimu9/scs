@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\issue_item;
 use App\issues;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class IssueItemsController extends Controller
 {
@@ -41,11 +42,11 @@ class IssueItemsController extends Controller
     public function store(Request $request)
     {
         $issue_item=new issue_item();
-         $val= $this->AddUpdateCore($issue_item,$request);
-             if ($val->fails())
+        $val= $this->AddUpdateCore($issue_item,$request);
+        if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
         else
-       return redirect('/issueitems/'.$issue_item->issue_id);
+            return redirect('/issueitems/'.$issue_item->issue_id);
         
     }
 
@@ -85,7 +86,7 @@ class IssueItemsController extends Controller
     {
         $issue_item=issue_item::find($id);
         $val= $this->AddUpdateCore($issue_item,$request);
-             if ($val->fails())
+        if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
         else
        

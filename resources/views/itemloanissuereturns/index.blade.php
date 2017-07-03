@@ -41,9 +41,9 @@
 
                             <th style="width: 10%">received amount</th>
                             <th style="width: 10%">rejected amount</th>
-                             <th style="width: 10%">actual amount</th>
+                             <th style="width: 8%">actual amount</th>
                              
-                               <th style="width: 8%"></th>
+                               <th style="width: 10%"></th>
                         </tr>
                     </thead>
 
@@ -102,7 +102,7 @@
                                     {{ csrf_field() }}
                                     <td><input id="amount" type="text" class="form-control" name="amount" value="{{$item_loanissuereturn_amount}}"></td>
                                     <td><input id="rejected" type="text" class="form-control" name="rejected" value="{{$item_loanissuereturn_reject}}"></td>
-                                   
+                                    <td></td>
                                     <input type="hidden" name="_method" value="PUT">
                                     <input type="hidden" name="loanissuereturn_id" value="{{$item_loanissuereturn->pivot->loanissuereturn_id}}">
                                     <input type="hidden" name="item_id" value="{{$item_loanissuereturn->pivot->item_id}}">

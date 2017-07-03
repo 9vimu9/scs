@@ -12,7 +12,9 @@ use App\issue_item;
 use App\item_loanissue;
 use App\item_loanissuereturn;
 use Illuminate\Support\Facades\DB;
+
 use Validator;
+
 
 class ItemsController extends Controller
 {
@@ -142,14 +144,14 @@ class ItemsController extends Controller
   
     }
     private function AddUpdateCore($item,$request)
-    {
+    {//'email' => 'required|unique:users,email,' . $user->id
         $validator = Validator::make($request->all(), [
             'name'=>'required',
             'code'=>"required",
             'location'=>"required",
             'max'=>"required|numeric",
             'min'=>"required|numeric",
-            'reorder'=>"required|numeric|between:min,max",
+            'reorder'=>"required|numeric",
             'cat'=>"required|numeric",
         ]);
         if (!$validator->fails()){

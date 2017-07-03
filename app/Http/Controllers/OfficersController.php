@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Officer;
+use Validator;
 
 class OfficersController extends Controller
 {

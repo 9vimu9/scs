@@ -72,3 +72,31 @@
     </div>
 </div>
 @endsection
+
+
+@section("script")
+<script>
+  $("#max,#min,#reorder").change(function(){
+       
+      //  checkReorder();
+        var max=parseInt($('#max').val());
+        var min=parseInt($("#min").val());
+        var reorder=parseInt($("#reorder").val());
+
+
+        if(max<=min){
+            alert("check your max and min  values");
+            $(this).focus();
+            $(this).val('');
+        }
+
+        if( max<=reorder || min>=reorder){
+           alert("check your reorder value");
+           $("#reorder").focus();
+          $("#reorder").val('');
+     }
+       
+    });
+</script>
+
+@endsection

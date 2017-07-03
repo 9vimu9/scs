@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Order;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Validator;
 class OrdersController extends Controller
 {
     /**

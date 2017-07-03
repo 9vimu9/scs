@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\item_orders;
 use App\order;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ItemOrdersController extends Controller
 {

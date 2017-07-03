@@ -44,12 +44,10 @@ class ReceivesController extends Controller
     public function store(Request $request)
     {
         $receive=new receives();
-         $val= $this->AddUpdateCore($receive,$request);
-              if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+         $this->AddUpdateCore($receive,$request);
+           
         return redirect('/itemreceives/'.$receive->id);
-        // return redirect("/receives/");
+      
 
     }
 
@@ -88,10 +86,7 @@ class ReceivesController extends Controller
     {
         $receive=receives::find($id);
         $this->AddUpdateCore($receive,$request);
-       $val= $this->AddUpdateCore($receive,$request);
-              if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+      
         return redirect('/itemreceives/'.$receive->id);
         // return redirect("/receives/");
     
@@ -118,11 +113,11 @@ class ReceivesController extends Controller
         else
             $order_id_validation="required|unique:receives";
 
-        $validator = Validator::make($request->all(), [
+        $this->validate($request,[
             'order_id'=>$order_id_validation,
             'date'=>"required|date"
         ]);
-         if (!$validator->fails()){
+        
         $receive->order_id=$request['order_id'];
         $receive->date=$request['date'];
        
@@ -130,8 +125,7 @@ class ReceivesController extends Controller
         
         $receive->save();
 
-        }
-        return $validator;
+      
 
     }
 }

@@ -19,42 +19,42 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">code</label>
                             <div class="col-md-3">
-                                <input id="code" type="text" class="form-control" name="code">
+                                <input id="code" type="text" class="form-control" name="code" value={{old('code')}}>
                             </div>
                         </div>
 
                           <div class="form-group">
                             <label class="col-md-4 control-label">location</label>
                             <div class="col-md-3">
-                                <input id="location" type="text" class="form-control" name="location">
+                                <input id="location" type="text" class="form-control" name="location" value={{old('location')}}>
                             </div>
                         </div>
 
                           <div class="form-group">
                             <label class="col-md-4 control-label">max level</label>
                             <div class="col-md-1">
-                                <input id="max" type="text" class="form-control" name="max">
+                                <input id="max" type="text" class="form-control" name="max" value={{old('max')}}>
                             </div>
 
                              <label class="col-md-1 control-label">min level</label>
                             <div class="col-md-1">
-                                <input id="min" type="text" class="form-control" name="min">
+                                <input id="min" type="text" class="form-control" name="min" value={{old('min')}}>
                             </div>
                         </div>
 
                           
 
-                          <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">reorder level</label>
                             <div class="col-md-1">
-                                <input id="reorder" type="text" class="form-control" name="reorder">
+                                <input id="reorder" type="text" class="form-control" name="reorder" value={{old('reorder')}}>
                             </div>
                         </div>
 
                           <div class="form-group">
                             <label class="col-md-4 control-label">category</label>
                             <div class="col-md-1">
-                                <input id="cat" type="text" class="form-control" name="cat">
+                                <input id="cat" type="text" class="form-control" name="cat" value={{old('cat')}}>
                             </div>
                         </div>
 
@@ -73,4 +73,31 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section("script")
+<script>
+  $("#max,#min,#reorder").change(function(){
+       
+      //  checkReorder();
+        var max=parseInt($('#max').val());
+        var min=parseInt($("#min").val());
+        var reorder=parseInt($("#reorder").val());
+
+
+        if(max<=min){
+            alert("check your max and min  values");
+            $(this).focus();
+            $(this).val('');
+        }
+
+        if( max<=reorder || min>=reorder){
+           alert("check your reorder value");
+           $("#reorder").focus();
+          $("#reorder").val('');
+     }
+       
+    });
+</script>
+
 @endsection

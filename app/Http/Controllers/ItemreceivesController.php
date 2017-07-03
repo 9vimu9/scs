@@ -9,6 +9,7 @@ use App\item_receives;
 use App\receives;
 use App\order;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ItemreceivesController extends Controller
 {
@@ -85,7 +86,7 @@ class ItemreceivesController extends Controller
     public function update(Request $request, $id)
     {
         $item_receive=item_receives::find($id);
-         $val= $this->AddUpdateCore($item_receive,$request);
+        $val= $this->AddUpdateCore($item_receive,$request);
              if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
         else

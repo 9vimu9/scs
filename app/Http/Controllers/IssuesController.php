@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\issues;
 use Auth;
 use Illuminate\Support\Facades\DB;
-
+use Validator;
 class IssuesController extends Controller
 {
     /**
@@ -85,11 +85,10 @@ class IssuesController extends Controller
     {
         $issue=issues::find($id);
         $val= $this->AddUpdateCore($issue,$request);
-              if ($val->fails())
+        if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
         else
-       
-       return redirect("/issueitems/".$issue->id);
+            return redirect("/issueitems/".$issue->id);
     }
 
     /**
@@ -117,13 +116,13 @@ class IssuesController extends Controller
             
         ]);
         if (!$validator->fails()){
-        $issue->officer_id=$request['officer_id'];
-        $issue->issue_date=$request['issue_date'];
-        $issue->description=$request['description'];
-        $issue->user_id=Auth::user()->id;
-        
-        $issue->save();
- }
+            $issue->officer_id=$request['officer_id'];
+            $issue->issue_date=$request['issue_date'];
+            $issue->description=$request['description'];
+            $issue->user_id=Auth::user()->id;
+            
+            $issue->save();
+        }
         return $validator;
        
 

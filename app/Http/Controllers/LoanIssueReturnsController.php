@@ -10,6 +10,7 @@ use App\loanissues;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class LoanIssueReturnsController extends Controller
 {
     /**
@@ -43,10 +44,8 @@ class LoanIssueReturnsController extends Controller
     public function store(Request $request)
     {
         $loanissuereturn=new loanissuereturns();
-        $val=  $this->AddUpdateCore($loanissuereturn,$request);
-              if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+         $this->AddUpdateCore($loanissuereturn,$request);
+             
         return redirect('/loanissuereturns');
     }
 
@@ -84,10 +83,8 @@ class LoanIssueReturnsController extends Controller
     public function update(Request $request, $id)
     {
          $loanissuereturn=loanissuereturns::find($id);
-         $val=  $this->AddUpdateCore($loanissuereturn,$request);
-              if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+          $this->AddUpdateCore($loanissuereturn,$request);
+             
        
         return redirect('/itemloanissuereturns/'.$loanissuereturn->id);
     }
@@ -113,19 +110,18 @@ class LoanIssueReturnsController extends Controller
         else
             $loanissue_id_validation="required|unique:loanissuereturns";
 
-        $validator = Validator::make($request->all(), [
+        $this->validate($request,[
             'loanissue_id'=>$loanissue_id_validation,
             'date'=>"required|date"
         ]);
-        if (!$validator->fails()){
+       
         $loanissuereturn->loanissue_id=$request['loanissue_id'];
         $loanissuereturn->date=$request['date'];
        
         $loanissuereturn->user_id=Auth::user()->id;
         
         $loanissuereturn->save();
- }
-        return $validator;
+ 
        
 
     }

@@ -71,6 +71,19 @@
                                             $no_col_header="IO #";
                                             $balance-=$log->amount;
                                             
+                                        }else if($log->type=="li"){
+                                            $link_prhase="/itemloanissues/";
+                                            $title="LOAN ACCOUNT ISSUED";
+                                            $no_col_header="LIO #";
+                                            $balance-=$log->amount;
+                                            
+                                        
+                                        }else if($log->type=="lir"){
+                                            $link_prhase="/itemloanissuereturns/";
+                                            $title="LOAN ITEM RETURNED";
+                                            $no_col_header="LIRO #";
+                                            $balance+=$log->amount;
+                                            
                                         }
                                     ?>
                                     <td>{{$title}}</td>

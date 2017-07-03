@@ -9,7 +9,7 @@ use App\item_loanissuereturn;
 use App\loanissuereturns;
 use App\loanissues;
 use Illuminate\Support\Facades\DB;
-
+use Validator;
 class ItemLoanIssueReturnsController extends Controller
 {
     /**
@@ -42,11 +42,11 @@ class ItemLoanIssueReturnsController extends Controller
     {
         
         $item_loanissuereturn=new item_loanissuereturn();
-         $val= $this->AddUpdateCore($item_loanissuereturn,$request);
-             if ($val->fails())
+        $val= $this->AddUpdateCore($item_loanissuereturn,$request);
+        if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
         else
-       return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
+            return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
     }
 
     /**
@@ -85,10 +85,10 @@ class ItemLoanIssueReturnsController extends Controller
     {
         $item_loanissuereturn=item_loanissuereturn::find($id);
         $val= $this->AddUpdateCore($item_loanissuereturn,$request);
-             if ($val->fails())
+        if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
         else
-         return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
+            return redirect('/itemloanissuereturns/'.$item_loanissuereturn->loanissuereturn_id);
     }
 
     /**
@@ -115,14 +115,14 @@ class ItemLoanIssueReturnsController extends Controller
             
         ]);
         if (!$validator->fails()){
-        $item_loanissuereturn->amount=$request['amount'];
-        $item_loanissuereturn->rejected=$request['rejected'];
-        $item_loanissuereturn->loanissuereturn_id=$request['loanissuereturn_id'];
-         $item_loanissuereturn->item_id=$request['item_id'];
-      
-             
-        $item_loanissuereturn->save();
-  }
+            $item_loanissuereturn->amount=$request['amount'];
+            $item_loanissuereturn->rejected=$request['rejected'];
+            $item_loanissuereturn->loanissuereturn_id=$request['loanissuereturn_id'];
+            $item_loanissuereturn->item_id=$request['item_id'];
+        
+                
+            $item_loanissuereturn->save();
+        }
         return $validator;
       
     

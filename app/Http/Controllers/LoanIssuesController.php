@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\loanissues;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class LoanIssuesController extends Controller
 {

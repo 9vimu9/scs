@@ -63,18 +63,22 @@ $(document).ready(function(){
 
     getStoreQuantitiy(parseInt($('#item_id').val()))
     
-    
+    <?php sleep(1); ?>
     
     var iniitial_quantity=parseInt($('#amount').val());
     var iniitial_id=parseInt($('#item_id').val());
-
+var temp=0;
+    setTimeout(function(){
+   temp= item_stock_amount=item_stock_amount+iniitial_quantity;
+}, 1000);
 
     
-    //item_stock_amount=item_stock_amount+iniitial_quantity;
+    
     $("#amount").change(function(){
         
-        if( iniitial_quantity==parseInt($('#amount').val()) && iniitial_id==parseInt($('#item_id').val())){
-            item_stock_amount=item_stock_amount+iniitial_quantity;
+        if( iniitial_id==parseInt($('#item_id').val())){
+           item_stock_amount=temp;
+            console.log(item_stock_amount);
         }
        
        
