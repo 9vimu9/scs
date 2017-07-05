@@ -113,15 +113,20 @@ class SuppliersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'=>'required',
-            'tel'=>"required|regex:/^[0-9]{10}$/"
+            'tel'=>"required|regex:/^[0-9]{10}$/",
+            'email'=>'required|email',
+            'cat_id'=>'required|integer'
         ]);
-         if (!$validator->fails()){
-        $supplier->name=$request['name'];
-        $supplier->address=$request['address'];
-        $supplier->tel=$request['tel'];
+        if (!$validator->fails()){
+            $supplier->name=$request['name'];
+            $supplier->address=$request['address'];
+            $supplier->tel=$request['tel'];
+            $supplier->email=$request['email'];
+            $supplier->cat_id=$request['cat_id'];
+            
+            $supplier->save();
+        }
         
-        $supplier->save();
- }
         return $validator;
         
         # code...

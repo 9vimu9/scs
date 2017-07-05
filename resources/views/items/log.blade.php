@@ -6,8 +6,10 @@
         <div class="panel panel-default ">
             <div class="panel-heading">
                 <big>{{$item->name}}</big>
+                 &nbsp&nbsp    
+                category :<strong class="text-info"><big>{{$item->cat->name}}</big></strong>
                 &nbsp&nbsp    
-                stock code no : <strong class="text-info"><big>{{$item->code}}</big></strong>
+                item code : <strong class="text-info"><big>{{$item->code}}</big></strong>
                 &nbsp&nbsp    
                 location : <strong class="text-info"><big>{{$item->location}}</big></strong>
                 <div class="pull-right">&nbsp&nbsp    
@@ -16,6 +18,7 @@
                 min level: <strong class="text-info"><big>{{$item->min}}</big></strong>
                 &nbsp&nbsp    
                 reorder level: <strong class="text-info"><big>{{$item->reorder}}</big></strong>
+               
                 </div>
                 
             

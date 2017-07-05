@@ -10,10 +10,23 @@
             </div>
                 <div class="panel-body">
                     @if(count($all_suppliers)>0)
-                    <table class="table table-striped table-hover" >
+                    <table class="table table-striped table-hover"style="width: 75%" >
+                     <thead>
+                        <tr>
+                            <th style="width: 25%">name</th>
+                             <th style="width: 15%">category</th>
+
+                            <th style="width: 12%">tel</th>
+                            <th style="width: 17%">created</th>
+                            <th style="width: 17%">last updated</th>
+                            <th style="width: 20%"></th>
+                           
+                        </tr>
                         @foreach($all_suppliers as $supplier)
                             <tr>
-                                <td> <big><a href="/suppliers/{{$supplier->id}}">{{$supplier->name}}</a>  {{$supplier->tel}}</big></td>
+                                <td> <big><a href="/suppliers/{{$supplier->id}}">{{$supplier->name}}</a></big></td>
+                                <td>{{$supplier->cat->name}}</td>
+                                <td>{{$supplier->tel}}</td>
                                 <td>{{$supplier->created_at->format('Y-m-d_H:m')}}</td>
                                 <td>{{$supplier->updated_at->format('Y-m-d_H:m')}}</td>
                                 <td>

@@ -12,7 +12,7 @@ class CreateItemLoanIssueReturnsTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_loanissuereturn', function (Blueprint $table) {
+        Schema::create('item_loanissuereturns', function (Blueprint $table) {
             $table->increments('id');
              $table->integer('amount');
             $table->integer('rejected');

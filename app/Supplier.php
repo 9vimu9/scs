@@ -10,4 +10,9 @@ class Supplier extends Model
     {
         return $this->hasMany('App\order');
     }
+
+     public function cat()
+    {
+        return $this->belongsTo('App\cat');
+    }
 }

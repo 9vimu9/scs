@@ -9,6 +9,15 @@
                 <form class="form-horizontal" role="form" method="POST" action="/items">
                         {{ csrf_field() }}
 
+                         <div class="form-group">
+                            <label class="col-md-4 col-sm-4 control-label">category</label>
+                            <div class="col-md-3 col-sm-3">
+                                 <select id="cat"  name="cat" class="form-control" data-width="100%"></select>
+                                 <input type="hidden" id="cat_id"  name="cat_id"/>
+                            </div>
+                             
+                                 
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">name</label>
                             <div class="col-md-4">
@@ -51,13 +60,7 @@
                             </div>
                         </div>
 
-                          <div class="form-group">
-                            <label class="col-md-4 control-label">category</label>
-                            <div class="col-md-1">
-                                <input id="cat" type="text" class="form-control" name="cat" value={{old('cat')}}>
-                            </div>
-                        </div>
-
+                         
                         
 
                         <div class="form-group">
@@ -76,7 +79,22 @@
 @endsection
 
 @section("script")
+
+@include('layouts.suggest')
 <script>
+
+    GetSuggestions("cat","name","cats");
+
+     $('#cat').on('select2:select', function (evt) {
+         var cat_id=evt.params.data.id;
+           $('#cat_id').val(cat_id);
+           GetColumnData(cat_id,"symbol","cats","#code");
+       
+   
+    });
+
+ 
+
   $("#max,#min,#reorder").change(function(){
        
       //  checkReorder();

@@ -31,6 +31,26 @@
 
 }
 
+function GetColumnData (input_id,column,table,output_device) {
+    var data;
+      
+        $.ajax({
+            type:'GET',
+            url: '/getcolumndata',
+            
+
+            data:"?q="+input_id+"&c="+column+"&t="+table,
+            
+            success:function(data){
+               
+                $(output_device).val(data);
+                  $(output_device).html(data);
+
+            
+            }
+        });
+    }
+
 
         
     </script>

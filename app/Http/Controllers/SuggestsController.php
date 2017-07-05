@@ -24,4 +24,5 @@ class SuggestsController extends Controller
         $results =  DB::table($table)->where($column, '=', $term)->orWhere($column, 'LIKE', '%' . $term . '%')->get(['id', $column.' as value']);
         return response()->json($results);
     }
+    
 }

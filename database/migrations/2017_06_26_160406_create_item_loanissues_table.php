@@ -12,7 +12,7 @@ class CreateItemLoanissuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_loanissue', function (Blueprint $table) {
+        Schema::create('item_loanissues', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('amount');
             $table->date('return_date');
@@ -32,6 +32,6 @@ class CreateItemLoanissuesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('item_loanissue');
+        Schema::drop('item_loanissues');
     }
 }

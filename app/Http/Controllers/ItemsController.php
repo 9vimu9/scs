@@ -158,7 +158,7 @@ class ItemsController extends Controller
             'max'=>"required|numeric",
             'min'=>"required|numeric",
             'reorder'=>"required|numeric",
-            'cat'=>"required|numeric",
+            'cat_id'=>"required|numeric",
         ]);
         if (!$validator->fails()){
 
@@ -168,7 +168,7 @@ class ItemsController extends Controller
             $item->max=$request['max'];
             $item->min=$request['min'];
             $item->reorder=$request['reorder'];
-            $item->cat=$request['cat'];
+            $item->cat_id=$request['cat_id'];
                 
             $item->save();
         }
@@ -177,18 +177,7 @@ class ItemsController extends Controller
     
     }
 
-     public function CheckReorder(Request $request)
-    {
-        
-        $id = trim($request->q);
-        
+    
 
-        if (empty($id)) {
-            return \Response::json([]);
-        }
-
-       
-         $item=item::find($id);
-          return response()->json( $item->reorder);
-    }
+    
 }

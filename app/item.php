@@ -10,4 +10,9 @@ class item extends Model
     {
         return $this->belongsToMany('App\order','item_orders')->withPivot('amount', 'unit_price','id','created_at','updated_at');
     }
+
+     public function cat()
+    {
+        return $this->belongsTo('App\cat');
+    }
 }

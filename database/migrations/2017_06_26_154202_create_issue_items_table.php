@@ -12,7 +12,7 @@ class CreateIssueItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('issue_item', function (Blueprint $table) {
+        Schema::create('issue_items', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('amount');
             $table->integer('item_id')->length(10)->unsigned();
@@ -30,6 +30,6 @@ class CreateIssueItemsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('issue_item');
+        Schema::drop('issue_items');
     }
 }
