@@ -4,22 +4,22 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>Edit officer: <strong><big>{{$officer->name}}</big></strong></big></div>
+            <div class="panel-heading"><big>Edit category: <strong><big>{{$cat->name}}</big></strong></big></div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/officers/{{$officer->id}}">
+                <form class="form-horizontal" role="form" method="POST" action="/cats/{{$cat->id}}">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
                         <div class="form-group">
                             <label class="col-md-4 control-label">name</label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{$officer->name}}">
+                            <div class="col-md-5">
+                                <input id="name" type="text" class="form-control" name="name" value="{{$cat->name}}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">nic</label>
+                            <label class="col-md-4 control-label">symbol</label>
                             <div class="col-md-6">
-                                <input id="nic" type="text" class="form-control" name="nic" value="{{$officer->nic}}">
+                                <input id="symbol" type="text" class="form-control" name="symbol" value="{{$cat->symbol}}">
                             </div>
                         </div>
 

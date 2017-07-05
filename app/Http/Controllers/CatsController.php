@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\cat;
+use Validator;
 
 class CatsController extends Controller
 {
@@ -13,9 +15,18 @@ class CatsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        $data=cat::OrderBy('name','desc')->paginate(8);
+        
+        return view('cats.index')->with("cats",$data);
+      
     }
 
     /**
@@ -25,7 +36,7 @@ class CatsController extends Controller
      */
     public function create()
     {
-        //
+         return view("cats.create");//
     }
 
     /**
@@ -36,8 +47,14 @@ class CatsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cat=new cat();
+        $val=  $this->AddUpdateCore($cat,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
+          return redirect('/cats/')->with('success','successfully saved');
     }
+    
 
     /**
      * Display the specified resource.
@@ -58,7 +75,8 @@ class CatsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data=cat::find($id);
+        return view("cats.edit")->with('cat',$data);
     }
 
     /**
@@ -70,7 +88,13 @@ class CatsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $cat=cat::find($id);
+      
+        $val=  $this->AddUpdateCore($cat,$request);
+              if ($val->fails())
+            return redirect()->back()->withErrors($val)->withInput();
+        else
+         return redirect('/cats')->with('success','cat <strong>'.$cat->name.'</strong> updated');
     }
 
     /**
@@ -82,5 +106,24 @@ class CatsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+     private function AddUpdateCore($cat,$request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'=>'required',
+            'symbol'=>"required|"
+        ]);
+         if (!$validator->fails()){
+        $cat->name=$request['name'];
+        $cat->symbol=$request['symbol'];
+       
+        
+        $cat->save();
+ }
+        return $validator;
+        
+        # code...
     }
 }

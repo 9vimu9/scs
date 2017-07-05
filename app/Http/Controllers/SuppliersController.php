@@ -76,7 +76,6 @@ class SuppliersController extends Controller
     {
         $data=Supplier::find($id);
         return view("suppliers.edit")->with('supplier',$data);
-          return redirect('/suppliers/')->with('success','successfully updated');
     }
 
     /**

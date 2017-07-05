@@ -4,9 +4,9 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>CREATE OFFICER</big></div>
+            <div class="panel-heading"><big>CREATE CATEGORY</big></div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/officers">
+                <form class="form-horizontal" role="form" method="POST" action="/cats">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -17,9 +17,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">NIC</label>
+                            <label class="col-md-4 control-label">symbol</label>
                             <div class="col-md-2">
-                                <input id="nic" type="text" class="form-control" name="nic" value={{old('nic')}}>
+                                <input id="symbol" type="text" class="form-control" name="symbol" value={{old('symbol')}}>
                             </div>
                         </div>
 
