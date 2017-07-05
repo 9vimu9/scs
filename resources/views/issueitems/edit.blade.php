@@ -63,7 +63,7 @@ $(document).ready(function(){
 
     getStoreQuantitiy(parseInt($('#item_id').val()))
     
-    <?php sleep(1); ?>
+ 
     
     var iniitial_quantity=parseInt($('#amount').val());
     var iniitial_id=parseInt($('#item_id').val());

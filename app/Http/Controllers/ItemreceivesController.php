@@ -119,7 +119,7 @@ class ItemreceivesController extends Controller
             'amount'=>'required|numeric',
             'rejected'=>'required|numeric',
             'receive_id'=>"required",
-            'item_id'=>"required"
+            'item_id' => 'required'
             
         ]);
          if (!$validator->fails()){

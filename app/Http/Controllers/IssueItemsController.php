@@ -47,10 +47,8 @@ class IssueItemsController extends Controller
     public function store(Request $request)
     {
         $issue_item=new issue_item();
-        $val= $this->AddUpdateCore($issue_item,$request);
-        if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+       $this->AddUpdateCore($issue_item,$request);
+      
             return redirect('/issueitems/'.$issue_item->issue_id);
         
     }
@@ -90,10 +88,8 @@ class IssueItemsController extends Controller
     public function update(Request $request, $id)
     {
         $issue_item=issue_item::find($id);
-        $val= $this->AddUpdateCore($issue_item,$request);
-        if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+        $this->AddUpdateCore($issue_item,$request);
+      
        
         return redirect('/issueitems/'.$issue_item->issue_id);
     }
@@ -114,19 +110,29 @@ class IssueItemsController extends Controller
 
     private function AddUpdateCore($issue_item,$request)
     {
-         $validator = Validator::make($request->all(), [
+        $item_id_validation;
+        if( $issue_item->id>0)//0 wata wadaa wadi kiyanne update ekak
+        {
+            $item_id_validation='required|unique_with:issue_items,issue_id,'. $issue_item->id;
+
+        }
+        else
+        {
+             $item_id_validation='required|unique_with:issue_items,issue_id';
+        }
+         $this->validate($request,[
             'amount'=>'required|numeric',
-            'item_id'=>"required|numeric",
+            'item_id' => $item_id_validation,
             'issue_id'=>"required|numeric"
         ]);
-        if (!$validator->fails()){
+      
             $issue_item->amount=$request['amount'];
             $issue_item->issue_id=$request['issue_id'];
             $issue_item->item_id=$request['item_id'];
             
             $issue_item->save();
-        }
-        return $validator;
+        
+      
       
     
     }

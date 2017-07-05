@@ -21,6 +21,7 @@ class CreateItemReceivesTable extends Migration
             $table->timestamps();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
             $table->foreign('receive_id')->references('id')->on('receives')->onDelete('cascade');
+            $table->unique(['receive_id', 'item_id'],"composite 2");
         });
     }
 

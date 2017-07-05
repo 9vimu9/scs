@@ -23,6 +23,7 @@ class CreateItemsTable extends Migration
             $table->integer('cat');
             $table->timestamps();
             
+            
         });
     }
 

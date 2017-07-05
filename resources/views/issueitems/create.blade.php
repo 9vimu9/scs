@@ -48,33 +48,43 @@
 @include('layouts.suggest')
 
 <script>
-    var item_stock_amount=parseInt($('#quantity_badge').text());
-    var iniitial_quantity=$("#amount").val();
+
+$(document).ready(function(){
+
+
+    var item_stock_amount=0;
+
     getStoreQuantitiy(parseInt($('#item_id').val()))
-   
-    $("#amount").change(function(){checkitem_stock_amount();});
-
-    function checkitem_stock_amount(){
     
-        if(item_stock_amount==0){
-            alert("please select your item from item box");
-        } 
-        else{
-            var diff=0;
+ 
+    
+    var iniitial_quantity=parseInt($('#amount').val());
+    var iniitial_id=parseInt($('#item_id').val());
+var temp=0;
+    setTimeout(function(){
+   temp= item_stock_amount=item_stock_amount+iniitial_quantity;
+}, 1000);
 
-            if($('.panel-heading').text().includes("EDIT")){
-                item_stock_amount+=iniitial_quantity;
-
-
-            }
-            
-            if(item_stock_amount<$("#amount").val()){
-                alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
-                $("#amount").focus();
-                $("#amount").val('');
-            }
+    
+    
+    $("#amount").change(function(){
+        
+        if( iniitial_id==parseInt($('#item_id').val())){
+           item_stock_amount=temp;
+            console.log(item_stock_amount);
         }
-    }
+       
+       
+        
+        if(item_stock_amount<$("#amount").val()){
+            alert($("#item option:selected").text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
+            $("#amount").focus();
+            $("#amount").val('');
+        }
+        
+    });
+
+    
     
     GetSuggestions("item","name","items");
 
@@ -90,12 +100,21 @@
             url: '/checkquantity',
             data:'q='+item_id,
             success:function(data){
-                item_stock_amount=data;
+                item_stock_amount=parseInt(data);
+               
                 $('#quantity_badge').html(item_stock_amount);
             
             }
         });
     }
+
+
+
+
+
+
+});
+    
 
 
 </script>

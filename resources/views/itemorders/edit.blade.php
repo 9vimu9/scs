@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><big>Edit order item</big></strong></big></div>
+            <div class="panel-heading"><big>ORDER #{{$item_order->order_id}} EDIT ITEMS</big></strong></big></div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="/itemorders/{{$item_order->id}}">
                         {{ csrf_field() }}
@@ -13,8 +13,9 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">item name</label>
                             <div class="col-md-4">
-                                 <select id="item"  name="item" class="form-control" data-width="100%"><option value="{{$item_order->item_id}}" selected="{{$item_order->item_name}}">{{$item_order->item_name}}</option></select>
+                                 <select id="item"  name="item" class="form-control" data-width="100%"><option value="{{$item_order->item_id}}" selected="{{$item_order->item->name}}">{{$item_order->item->name}}</option></select>
                                  <input type="hidden" id="item_id" value="{{$item_order->item_id}}" name="item_id"/>
+                                  <input type="hidden" id="order_id" value="{{$item_order->order_id}}" name="order_id"/>
                                  
                             </div>
                              

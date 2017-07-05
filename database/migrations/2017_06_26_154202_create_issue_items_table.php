@@ -20,6 +20,7 @@ class CreateIssueItemsTable extends Migration
             $table->timestamps();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
             $table->foreign('issue_id')->references('id')->on('issues')->onDelete('cascade');
+              $table->unique(['issue_id', 'item_id'], 'composite_index3');
         });
     }
 

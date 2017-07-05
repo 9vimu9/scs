@@ -9,6 +9,7 @@ use App\item_orders;
 use App\order;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use Illuminate\Validation\Rule;
 
 class ItemOrdersController extends Controller
 {
@@ -48,10 +49,8 @@ class ItemOrdersController extends Controller
     public function store(Request $request)
     {
         $item_order=new item_orders();
-        $val=  $this->AddUpdateCore($item_order,$request);
-             if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+        $this->AddUpdateCore($item_order,$request);
+            
        return redirect('/itemorders/'.$item_order->order_id);
     }
 
@@ -76,9 +75,9 @@ class ItemOrdersController extends Controller
     public function edit($id)
     {
         $data=item_orders::find($id);
-        $results =  DB::table("items")->find($data->item_id);
-        $data['item_name']= $results->name;
-        $data['item_reorder']= $results->reorder;
+        // $results =  DB::table("items")->find($data->item_id);
+        // $data['item_name']= $results->name;
+        // $data['item_reorder']= $results->reorder;
 
        
      //echo($data);
@@ -96,19 +95,10 @@ class ItemOrdersController extends Controller
     public function update(Request $request, $id)
     {
          $item_order=item_orders::find($id);
-         $this->validate($request,[
-            'amount'=>'required',
-            'unit_price'=>"required",
-            'item_id'=>"required",
-         
-        ]);
-        $item_order->amount=$request['amount'];
-        $item_order->unit_price=$request['unit_price'];
-        $item_order->item_id=$request['item_id'];
+         $this->AddUpdateCore($item_order,$request);
             
-        $item_order->save();
-        return redirect('/itemorders/'.$item_order->order_id);
-        
+       return redirect('/itemorders/'.$item_order->order_id);
+       
     }
 
     /**
@@ -127,23 +117,51 @@ class ItemOrdersController extends Controller
 
     private function AddUpdateCore($item_order,$request)
     {
-         $validator = Validator::make($request->all(), [
-            'amount'=>'required',
-            'unit_price'=>"required",
-            'item_id'=>"required",
+        
+
+
+        $item_id_validation;
+        if( $item_order->id!=null)//0 wata wadaa wadi kiyanne update ekak
+        {
+           
+            $item_id_validation='required|unique_with:item_orders,order_id,'.$item_order->id;
+           
+        }
+        else
+        {
             
+             $item_id_validation='required|unique_with:item_orders,order_id';
+        }
+ echo($request['order_id']."gfsgssd");
+         $this->validate($request,[
+            'amount'=>'required|numeric',
+            'unit_price'=>"required|numeric",
+            'item_id' => $item_id_validation,
+           //  'order_id'=>"required|numeric"
+           
         ]);
-         if (!$validator->fails()){
-        $item_order->amount=$request['amount'];
-        $item_order->unit_price=$request['unit_price'];
-        $item_order->item_id=$request['item_id'];
-        $item_order->order_id=$request['order_id'];
       
-             
-        $item_order->save();
- }
-        return $validator;
+            $item_order->amount=$request['amount'];
+            $item_order->unit_price=$request['unit_price'];
+            $item_order->item_id=$request['item_id'];
+            $item_order->order_id=$request['order_id'];
+            
+            $item_order->save();
+        
+      
       
     
     }
-}
+
+
+
+
+
+
+
+
+
+
+
+    }
+
