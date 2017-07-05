@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoryTable extends Migration
+class RemoveCatColumnFromItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,8 @@ class CreateCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('cats', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('symbol');
-               
-           
+        Schema::table('items', function (Blueprint $table) {
+            $table->dropColumn('cat');
         });
     }
 
@@ -28,6 +24,9 @@ class CreateCategoryTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cats');
+        Schema::table('items', function (Blueprint $table) {
+            $table->dropColumn('cat');
+        });
+    
     }
 }

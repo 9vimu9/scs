@@ -48,3 +48,5 @@ Route::resource('loanissuereturns','LoanIssueReturnsController');
 
 Route::resource('itemloanissuereturns','ItemLoanIssueReturnsController');
 
+Route::resource('cats','CatsController');
+
