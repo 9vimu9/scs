@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Order;
+use App\order;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -15,9 +15,14 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+      public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
-        $data=Order::OrderBy('id','desc')->paginate(8);
+        $data=order::OrderBy('id','desc')->paginate(8);
         
         return view('orders.index')->with("orders",$data);
     }
@@ -40,7 +45,7 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        $order=new Order();
+        $order=new order();
         $val=  $this->AddUpdateCore($order,$request);
               if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
@@ -69,7 +74,7 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-         $data=Order::find($id);
+         $data=order::find($id);
        
      
        return view("orders.edit")->with('order',$data);
@@ -84,7 +89,7 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order=Order::find($id);
+        $order=order::find($id);
         $this->AddUpdateCore($order,$request);
         $val=  $this->AddUpdateCore($order,$request);
               if ($val->fails())

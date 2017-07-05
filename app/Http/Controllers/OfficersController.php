@@ -15,6 +15,11 @@ class OfficersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+      public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
          $data=Officer::OrderBy('created_at','desc')->paginate(8);

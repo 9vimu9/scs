@@ -16,6 +16,12 @@ class IssuesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $data=issues::OrderBy('id','desc')->paginate(8);

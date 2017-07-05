@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Item;
+use App\item;
 use App\item_orders;
 use App\item_receives;
 use App\issue_item;
@@ -23,9 +23,15 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     
+ public function __construct()
+    {
+        $this->middleware('auth');
+    }     
     public function index()
     {
-        $data=Item::OrderBy('name','desc')->paginate(8);
+        $data=item::OrderBy('name','desc')->paginate(8);
         
         return view('items.index')->with("all_items",$data);
   
@@ -49,7 +55,7 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-        $item=new Item();
+        $item=new item();
         $val=  $this->AddUpdateCore($item,$request);
         if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
@@ -93,7 +99,7 @@ class ItemsController extends Controller
 
 //return $logs;
       
-        return view("items.log")->with(['logs'=>$logs,'item'=>Item::find($id)]);
+        return view("items.log")->with(['logs'=>$logs,'item'=>item::find($id)]);
 
        
     }
@@ -106,7 +112,7 @@ class ItemsController extends Controller
      */
     public function edit($id)
     {
-         $data=Item::find($id);
+         $data=item::find($id);
         return view("items.edit")->with('item',$data);
     }
 
@@ -119,7 +125,7 @@ class ItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $item=Item::find($id);
+        $item=item::find($id);
         $val=  $this->AddUpdateCore($item,$request);
         if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
@@ -138,7 +144,7 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
-        $item=Item::find($id);
+        $item=item::find($id);
        $item->delete();
        return redirect('/items')->with('success',"item<strong> $item->name </strong>removed successfully");
   
@@ -182,7 +188,7 @@ class ItemsController extends Controller
         }
 
        
-         $item=Item::find($id);
+         $item=item::find($id);
           return response()->json( $item->reorder);
     }
 }
