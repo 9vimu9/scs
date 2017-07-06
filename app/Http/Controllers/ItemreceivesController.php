@@ -93,10 +93,11 @@ class ItemreceivesController extends Controller
     {
         $item_receive=item_receives::find($id);
         $val= $this->AddUpdateCore($item_receive,$request);
-             if ($val->fails())
+
+        if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
         else
-        return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"updated successfully");
+            return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"updated successfully");
     }
 
     /**
@@ -115,6 +116,7 @@ class ItemreceivesController extends Controller
 
     private function AddUpdateCore($item_receive,$request)
     {
+
         $validator = Validator::make($request->all(), [
             'amount'=>'required|numeric',
             'rejected'=>'required|numeric',
@@ -122,14 +124,22 @@ class ItemreceivesController extends Controller
             'item_id' => 'required'
             
         ]);
-         if (!$validator->fails()){
-        $item_receive->amount=$request['amount'];
-        $item_receive->rejected=$request['rejected'];
-        $item_receive->receive_id=$request['receive_id'];
-         $item_receive->item_id=$request['item_id'];
-      
-             
-        $item_receive->save();
+        if (!$validator->fails()){
+            $item_receive->amount=$request['amount'];
+            $item_receive->rejected=$request['rejected'];
+            $item_receive->receive_id=$request['receive_id'];
+            $item_receive->item_id=$request['item_id'];
+
+           
+            if($request['precentage']=="on"){
+                $item_receive->precentage=DB::table('meta')->latest()->value("discount");
+               
+            }
+            else{
+                
+                $item_receive->precentage=0;
+            }
+            $item_receive->save();
  }
         return $validator;
       

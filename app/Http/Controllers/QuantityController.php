@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Item;
+use App\item;
 use Illuminate\Support\Facades\DB;
 
 class QuantityController extends Controller
@@ -13,21 +13,13 @@ class QuantityController extends Controller
    
 
     public function CheckQuantity(Request $request)
-    {
-        
+    {      
         $item_id = trim($request->q);
-        
-
+     
         if (empty($item_id)) {
             return \Response::json([]);
         }
-
-
-
-       //your logic here babe
-        //  $item=Item::find($item_id);
-        //   return response()->json( $item->reorder);
-        return $this->QuanitiyPerItem($item_id);
+       return $this->QuanitiyPerItem($item_id);
     }
 
 
@@ -56,5 +48,21 @@ class QuantityController extends Controller
                      ->value('receive_amount');
         $item_stock_amount=$item_receive_amount+$item_loanissue_amount-($item_issue_amount+$item_loanissue_amount);
         return $item_stock_amount;
+    }
+
+
+
+     public function GetCurrentStore()
+    {      
+        $items = item::all();
+        foreach($items as $item) 
+        {
+            $item['current']=$this->QuanitiyPerItem($item->id);
+
+        }
+        
+          return view('stores.current')->with("items",$items); 
+
+
     }
 }

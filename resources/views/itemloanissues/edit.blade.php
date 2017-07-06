@@ -71,11 +71,24 @@
     function checkitem_stock_amount(){
     
         if(item_stock_amount==0){
-            alert("please select your item from item box");
+           
+             $(document).trigger("add-alerts", [
+            {
+                "message": "please select your item from item box",
+                "priority": 'danger'
+            }
+            ]);
+            
         } 
         else{
             if(item_stock_amount<$("#amount").val()){
-                alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
+              
+                 $(document).trigger("add-alerts", [
+            {
+                "message": "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that",
+                "priority": 'danger'
+            }
+            ]);
                 $("#amount").focus();
                 $("#amount").val('');
             }

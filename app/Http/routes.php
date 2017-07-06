@@ -14,8 +14,13 @@
 Route::get('/','HomeController@index');
 Route::get('/suggest', 'SuggestsController@suggest');
 Route::get('/getcolumndata', 'ColumnDataController@GetColumnData');
-Route::get('/checkquantity', 'QuantityController@CheckQuantity');
+
 Route::get('/home', 'HomeController@index');
+
+
+Route::get('/checkquantity', 'QuantityController@CheckQuantity');
+Route::get('/stores/current', 'QuantityController@GetCurrentStore');
+
 
 Route::auth();
 

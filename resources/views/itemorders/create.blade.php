@@ -83,14 +83,25 @@
        
       
         if(reorder==0){
-            alert("please select your item from item box");
+           
+             $(document).trigger("add-alerts", [
+            {
+                "message": "please select your item from item box",
+                "priority": 'danger'
+            }
+            ]);
         } else{
             
             if(reorder<$("#amount").val()){
-                
-                alert($( "#item option:selected" ).text()+"'s maximum reorder value is "+reorder+". apply below that")
+               
+                $(document).trigger("add-alerts", [
+                {
+                "message": $( "#item option:selected" ).text()+"'s maximum reorder value is "+reorder+". apply below that",
+                "priority": 'danger'
+                }
+                ]);
                 $("#amount").focus();
-              $("#amount").val('');
+                $("#amount").val('');
             }
         }
     }

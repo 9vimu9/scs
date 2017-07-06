@@ -91,7 +91,7 @@
    
     });
 
-  $("#max,#min,#reorder").change(function(){
+ $("#max,#min,#reorder").change(function(){
        
       //  checkReorder();
         var max=parseInt($('#max').val());
@@ -100,13 +100,25 @@
 
 
         if(max<=min){
-            alert("check your max and min  values");
+          
+              $(document).trigger("add-alerts", [
+                {
+                "message": "check your max and min  values",
+                "priority": 'danger'
+                }
+                ]);
             $(this).focus();
             $(this).val('');
         }
 
         if( max<=reorder || min>=reorder){
-           alert("check your reorder value");
+         
+           $(document).trigger("add-alerts", [
+                {
+                "message": "check your reorder value",
+                "priority": 'danger'
+                }
+                ]);
            $("#reorder").focus();
           $("#reorder").val('');
      }

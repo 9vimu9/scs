@@ -92,6 +92,7 @@
         </div>
     </nav>
     @include('layouts.alerts')
+    <div data-alerts="alerts" data-titles='{"warning": "<em>Warning!</em>", "error": "Error!"}' data-ids="myid" data-fade="3000"></div>
     @yield('content')
 
     <!-- JavaScripts -->
@@ -101,6 +102,9 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  <script src="{{ asset('js/jquery.bsAlerts.min.js') }}"></script>
+
+
  
  
   <script>

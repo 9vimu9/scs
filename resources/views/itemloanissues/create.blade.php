@@ -67,7 +67,15 @@
     function checkitem_stock_amount(){
     
         if(item_stock_amount==0){
-            alert("please select your item from item box");
+          
+            $(document).trigger("add-alerts", [
+            {
+                "message": "please select your item from item box",
+                "priority": 'danger'
+            }
+            ]);
+            $(this).val(" ");
+            $(this).focus();
         } 
         else{
             var diff=0;
@@ -79,9 +87,15 @@
             }
             
             if(item_stock_amount<$("#amount").val()){
-                alert($( "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that")
-                $("#amount").focus();
-                $("#amount").val('');
+              
+                 $(document).trigger("add-alerts", [
+            {
+                "message":  "#item option:selected" ).text()+"'s quanitiy in stock is "+item_stock_amount+". apply below that",
+                "priority": 'danger'
+            }
+            ]);
+            $(this).val(" ");
+            $(this).focus();
             }
         }
     }
