@@ -39,7 +39,7 @@
                                    <td>{{$item->min}}</td>
                                     <td></td>
 
-                                   
+                                  // ff
 
                                     {{-- <form action="/officers/{{$officer->id}}" class="pull-right" method="POST">
                                         {{ csrf_field() }}
