@@ -19,7 +19,9 @@ Route::get('/home', 'HomeController@index');
 
 
 Route::get('/checkquantity', 'QuantityController@CheckQuantity');
+
 Route::get('/stores/current', 'QuantityController@GetCurrentStore');
+Route::get('/to_request_report', 'QuantityController@GetDataSelectedForReport');
 
 
 Route::auth();
@@ -55,3 +57,6 @@ Route::resource('itemloanissuereturns','ItemLoanIssueReturnsController');
 
 Route::resource('cats','CatsController');
 
+
+
+Route::get('/requestselected/{id}/{selected_items}', 'ItemsReportrequestController@seedinfo');

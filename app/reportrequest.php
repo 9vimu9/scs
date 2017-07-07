@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class item_loanissuereturn extends Model
+class reportrequest extends Model
 {
-    //sfadfad
+    //
 }

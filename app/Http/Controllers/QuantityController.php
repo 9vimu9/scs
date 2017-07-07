@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\item;
 use Illuminate\Support\Facades\DB;
+use App\reportrequest;//requests table eka 
 
 class QuantityController extends Controller
 {
@@ -65,4 +66,75 @@ class QuantityController extends Controller
 
 
     }
+
+
+     public function GetDataSelectedForReport(Request $request)
+    {
+         $selected_items_for_report= $request->selected_ids;
+         $report_id=0;
+        // $arrray_selected_items_for_report  = explode(",", $request->selected_ids);
+        // $selected_items = item::whereIn('id',$arrray_selected_items_for_report)->get();
+
+        // foreach($selected_items as $item) 
+        // {
+        //     $item['current']=$this->QuanitiyPerItem($item->id);
+
+        // }
+
+        if($request->btn_this_month){
+          //  return "this month ".$request->selected_ids;
+            $report_id= $this->GetMonthlyReportId();
+
+        } 
+        else if($request->btn_quick){
+             $report_id= $this->CreateQuickReport();
+             
+        }
+
+
+       return redirect('/requestselected/'.$report_id.'/'.$selected_items_for_report);
+    }
+
+    public function GetMonthlyReportId()
+    {
+     
+       $request_report_id = reportrequest::
+                            whereYear('created_at', '=',date('Y'))
+                            ->whereMonth('created_at', '=', date('m'))
+                            ->where('type', 1)
+                            
+                            ->pluck('id');
+
+
+        if(count($request_report_id)>0){
+           return $request_report_id;
+       
+        }
+        else{
+            $reportrequest=new reportrequest();
+            $reportrequest->type=1;//1 motnhly report
+            $reportrequest->save();
+            return  $reportrequest->id;
+
+        //     return redirect('/items/')->with('success','successfully saved');
+
+        }
+    }
+
+    public function CreateQuickReport()
+    {
+            $reportrequest=new reportrequest();
+            $reportrequest->type=0;//0 quick report
+            $reportrequest->save();
+            return  $reportrequest->id;
+        
+        
+    }
+
 }
+
+
+
+
+      
+ 
