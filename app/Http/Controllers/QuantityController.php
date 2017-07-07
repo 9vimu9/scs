@@ -72,15 +72,7 @@ class QuantityController extends Controller
     {
          $selected_items_for_report= $request->selected_ids;
          $report_id=0;
-        // $arrray_selected_items_for_report  = explode(",", $request->selected_ids);
-        // $selected_items = item::whereIn('id',$arrray_selected_items_for_report)->get();
-
-        // foreach($selected_items as $item) 
-        // {
-        //     $item['current']=$this->QuanitiyPerItem($item->id);
-
-        // }
-
+       
         if($request->btn_this_month){
           //  return "this month ".$request->selected_ids;
             $report_id= $this->GetMonthlyReportId();
