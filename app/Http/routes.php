@@ -22,6 +22,8 @@ Route::get('/checkquantity', 'QuantityController@CheckQuantity');
 
 Route::get('/stores/current', 'QuantityController@GetCurrentStore');
 Route::get('/to_request_report', 'QuantityController@GetDataSelectedForReport');
+Route::delete('/destroy_request_report/{reportrequests}', 'QuantityController@DestroyRequestReport');
+Route::get('/request_report_list', 'QuantityController@AllRequestReports');
 
 
 Route::auth();
@@ -59,4 +61,10 @@ Route::resource('cats','CatsController');
 
 
 
-Route::get('/requestselected/{id}/{selected_items}', 'ItemsReportrequestController@seedinfo');
+Route::get('/requestselected/{id}', 'ItemsReportrequestController@seedinfo');
+
+//Route::resource('requestreports','ItemsReportrequestController');
+
+Route::post('itemrequestreportsupdate', 'ItemsReportrequestController@update');//update route for itemsreportrequest ajax
+Route::post('itemrequestreportsadd', 'ItemsReportrequestController@store');//aadd route for itemsreportrequest ajax
+Route::delete('itemrequestreportsdelete', 'ItemsReportrequestController@destroy');//delet route for itemsreportrequest ajax

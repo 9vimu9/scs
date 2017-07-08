@@ -55,15 +55,11 @@ $(document).ready(function(){
     var item_stock_amount=0;
 
     getStoreQuantitiy(parseInt($('#item_id').val()))
-    
- 
-    
+        
     var iniitial_quantity=parseInt($('#amount').val());
     var iniitial_id=parseInt($('#item_id').val());
-var temp=0;
-    setTimeout(function(){
-   temp= item_stock_amount=item_stock_amount+iniitial_quantity;
-}, 1000);
+    var temp=0;
+    setTimeout(function(){temp= item_stock_amount=item_stock_amount+iniitial_quantity;}, 1000);
 
     
     
@@ -90,8 +86,6 @@ var temp=0;
         
     });
 
-    
-    
     GetSuggestions("item","name","items");
 
     $('#item').on('select2:select', function (evt) {

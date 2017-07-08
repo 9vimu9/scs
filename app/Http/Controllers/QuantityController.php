@@ -68,23 +68,24 @@ class QuantityController extends Controller
     }
 
 
-     public function GetDataSelectedForReport(Request $request)
+    public function GetDataSelectedForReport(Request $request)
     {
-         $selected_items_for_report= $request->selected_ids;
-         $report_id=0;
+        $selected_items_for_report= $request->selected_ids;
+        $report_id=0;
        
         if($request->btn_this_month){
-          //  return "this month ".$request->selected_ids;
+         
             $report_id= $this->GetMonthlyReportId();
-
+          
         } 
         else if($request->btn_quick){
-             $report_id= $this->CreateQuickReport();
+             $report_id= $this->CreateReport_GetId(0);
              
         }
+ 
+        session(['selected_items_for_report' => $selected_items_for_report]);
 
-
-       return redirect('/requestselected/'.$report_id.'/'.$selected_items_for_report);
+        return redirect('/requestselected/'.$report_id);
     }
 
     public function GetMonthlyReportId()
@@ -94,34 +95,52 @@ class QuantityController extends Controller
                             whereYear('created_at', '=',date('Y'))
                             ->whereMonth('created_at', '=', date('m'))
                             ->where('type', 1)
-                            
                             ->pluck('id');
 
 
         if(count($request_report_id)>0){
-           return $request_report_id;
-       
+           return $request_report_id[0];
         }
         else{
-            $reportrequest=new reportrequest();
-            $reportrequest->type=1;//1 motnhly report
-            $reportrequest->save();
-            return  $reportrequest->id;
-
-        //     return redirect('/items/')->with('success','successfully saved');
+           
+            return  $this->CreateReport_GetId(1);//monthly report
 
         }
     }
 
-    public function CreateQuickReport()
-    {
-            $reportrequest=new reportrequest();
-            $reportrequest->type=0;//0 quick report
-            $reportrequest->save();
-            return  $reportrequest->id;
-        
-        
+    public function CreateReport_GetId($type){
+        // $reportrequest=new reportrequest();
+        // $reportrequest->type=$type;//0 quick report
+        // $reportrequest->save();
+        // var_dump($reportrequest);
+        // die($reportrequest['attributes']['id']);
+        // return  $reportrequest->id;
+//what th hell this happaend
+        $reportrequest = reportrequest::create(['type'=>$type]);
+        $last = DB::table('reportrequests')->latest()->get();
+        $arr=get_object_vars($last[0]);
+        //  print_r($arr["id"]);
+        return $arr["id"];
+          
     }
+
+    public function DestroyRequestReport($id)
+    {
+        $reportrequest=reportrequest::find($id);
+        $reportrequest->delete();
+        return redirect('/request_report_list')->with('success',"remove report");
+ 
+    }
+
+    public function AllRequestReports()
+    {
+        return "sdmhsdgjl";
+    //    $reportrequests=reportrequest::OrderBy('created_at','desc')->paginate(8);
+        
+    //     return view('stores.requestreportlist')->with("reportrequests",$reportrequests);
+    }
+
+
 
 }
 

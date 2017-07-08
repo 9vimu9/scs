@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\item;
 use App\Http\Requests;
+use App\items_reportrequest;
+use App\reportrequest;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ItemsReportrequestController extends Controller
 {
@@ -35,8 +39,31 @@ class ItemsReportrequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {       
+        $items_reportrequest=new items_reportrequest();
+       
+        $validator = Validator::make($request->all(), [
+            'amount'=>'required|numeric',
+            'amount_in_store'=>"required|numeric",
+            'item_id'=>'required|unique_with:items_reportrequests,reportrequest_id',
+            'reportrequest_id'=>"required|numeric"
+        ]);
+
+        if (!$validator->fails()){
+           
+            $items_reportrequest->requested_amount=$request['amount'];
+            $items_reportrequest->amount_in_store=$request['amount_in_store'];
+            $items_reportrequest->item_id=$request['item_id'];
+            $items_reportrequest->reportrequest_id=$request['reportrequest_id'];
+             
+            $items_reportrequest->save();
+            
+            return redirect('/requestselected/'.$items_reportrequest->reportrequest_id)->with('success','successfully saved');
+        }
+        else{
+             return redirect()->back()->withErrors($validator)->withInput();
+        }
+
     }
 
     /**
@@ -68,9 +95,12 @@ class ItemsReportrequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $items_reportrequest = items_reportrequest::find ( $request->id );
+        $items_reportrequest->requested_amount=$request['requested_amount'];
+        $items_reportrequest->save ();
+        return response ()->json ( $items_reportrequest );
     }
 
     /**
@@ -84,21 +114,81 @@ class ItemsReportrequestController extends Controller
         //
     }
 
-    public function seedinfo($id,$selected_items){
 
-        die($id."   ".$selected_items);
+//     private function AddUpdateCore($items_reportrequest,$request)
+//     {
+//        $item_id_validation;
 
-        $arrray_selected_items_for_report  = explode(",", $selected_items);
-        $selected_items = item::whereIn('id',$arrray_selected_items_for_report)->get();
+//         if( $items_reportrequest->id!=null){
+//            $item_id_validation='required|unique_with:items_reportrequests,reportrequest_id,'.$items_reportrequest->id;
+    
+//         }
+//         else{
+         
+//             $item_id_validation='required|unique_with:items_reportrequests,reportrequest_id';
+//         }      
+ 
+//         $validator = Validator::make($request->all(), [
+//             'amount'=>'required|numeric',
+//             'amount_in_store'=>"required|numeric",
+//             'item_id'=>$item_id_validation,
+//             'reportrequest_id'=>"required|numeric"
+//         ]);
 
-        foreach($selected_items as $item) 
-        {
-            $item['current']=$this->QuanitiyPerItem($item->id);
-           // $item['']
+//         if (!$validator->fails()){
+//             print_r($validator->fails());
+//             print_r("gggggggggggg");
+//             $items_reportrequest->requested_amount=$request['amount'];
+//             $items_reportrequest->amount_in_store=$request['amount_in_store'];
+//             $items_reportrequest->item_id=$request['item_id'];
+//             $items_reportrequest->reportrequest_id=$request['reportrequest_id'];
+             
+//             $items_reportrequest->save();
+            
+//             return redirect('/requestselected/{{items_reportrequest->reportrequest_id}}')->with('success','successfully saved');
+//         }
+//         else{
+//              return redirect()->back()->withErrors($validator)->withInput();
+//         }
 
+// //             print_r($validator->fails());
+// // die(" dddd");
+
+ 
+    
+//     }
+
+
+    public function seedinfo($id){
+
+        $selected_items = session('selected_items_for_report');
+        session(['selected_items_for_report' => "0"]);
+
+    
+       
+        if( $selected_items !=0){
+            $arrray_selected_items_for_report  = explode(",", $selected_items);
+            $selected_items = item::whereIn('id',$arrray_selected_items_for_report)->get();
+
+            foreach($selected_items as $item) 
+            {
+            
+                $result=DB::table('items_reportrequests')->where('reportrequest_id', '=', $id)->where('item_id', '=', $item->id)->get();
+               
+                if(count($result)==0){
+
+                    $items_reportrequest=new items_reportrequest();
+                    $items_reportrequest->amount_in_store=app('App\Http\Controllers\QuantityController')->QuanitiyPerItem($item->id);
+                    $items_reportrequest->item_id=$item->id;
+                
+                    $items_reportrequest->reportrequest_id=$id;
+                    $items_reportrequest->save();
+                }
+            }
         }
-
-
+        $reportrequest= reportrequest::find($id);
+       
+        return view('stores.requestreport')->with("reportrequest",$reportrequest); 
 
 
 

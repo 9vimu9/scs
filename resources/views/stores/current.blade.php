@@ -14,19 +14,19 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-             <div class="btn-toolbar">
-                <big>current situation</big>
+                <div class="btn-toolbar">
+                    <big>current situation</big>
                
               
                     {{ csrf_field() }}
-                    <input type="hidden" name="selected_ids" id="selected_ids" value="">
+                    <input type="hidden" name="selected_ids" id="selected_ids" value="0">
                     
                     <input type="submit" id="to_this_month_button" class="pull-right btn btn-primary btn-sm" value="this month report" name="btn_this_month">
                     <input type="submit" id="to_quick_button" class="pull-right btn btn-warning btn-sm" value="quick item request"  name="btn_quick"> 
                    
-             </form>
+                </form>
 
-              </div>
+                </div>
             </div>
             <div class="panel-body">
             @if(count($items)>0)
