@@ -26,6 +26,7 @@
                 <form action="/orders/{{$order->id}}" class="form-group pull-right" method="POST">
                     {{ csrf_field() }}
                    <font size="4">sub total: </font> <span class="badge"><font size="4">Rs.{{$sub_tot}}</font></span>&nbsp&nbsp
+                     <a href="/reports/order/{{$order->id}}" class="btn btn-danger btn-xs">print</a>
                     <a href="/orders/{{$order->id}}/edit" class="btn btn-warning btn-xs ">edit this order</a>&nbsp&nbsp
                     <input type="submit" name="delete" value="delete this order" class="btn btn-danger btn-xs">
                     <input type="hidden" name="_method" value="DELETE">

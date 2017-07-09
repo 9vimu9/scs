@@ -11,6 +11,11 @@ use App\reportrequest;//requests table eka
 
 class QuantityController extends Controller
 {
+
+       public function __construct()
+    {
+        $this->middleware('auth');
+    }
    
 
     public function CheckQuantity(Request $request)
@@ -134,10 +139,10 @@ class QuantityController extends Controller
 
     public function AllRequestReports()
     {
-        return "sdmhsdgjl";
-    //    $reportrequests=reportrequest::OrderBy('created_at','desc')->paginate(8);
+       // return "sdmhsdgjl";
+       $reportrequests=reportrequest::OrderBy('created_at','desc')->paginate(8);
         
-    //     return view('stores.requestreportlist')->with("reportrequests",$reportrequests);
+        return view('stores.requestreportlist')->with("reportrequests",$reportrequests);
     }
 
 

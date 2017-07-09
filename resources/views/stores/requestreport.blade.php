@@ -23,7 +23,7 @@
               
                 <form action="/destroy_request_report/{{$reportrequest->id}}" class="form-group pull-right" method="POST">
                     {{ csrf_field() }}
-                   
+                   <a href="/reports/requestmonthly/{{$reportrequest->id}}" class="btn btn-danger btn-xs">print</a>
                    <input type="submit" name="delete" value="delete this report" class="btn btn-danger btn-xs">
                     <input type="hidden" name="_method" value="DELETE">
                 </form>
@@ -67,16 +67,15 @@
   {{ csrf_field() }}
 
                 @if(count($reportrequest->items_reportrequest)>0)
-                    <table id="current" class="table table-hover table-striped"  width="70%">
+                    <table id="current" class="table table-hover table-striped"  width="75%">
                         <thead>
                             <tr>
                                 <th width="25%">item name</th>
                                 <th width="5%">requested quantitiy</th>
-                                <th width="15%">current quantity</th>
+                                <th width="20%">current quantity</th>
                                 <th width="10%">max</th>
                                 <th width="10%">reorder</th>
-                                <th width="30%"> <button type="button" id="edit_main" class="edit btn btn-warning btn-xs">save all</button>
-                                    <button type="button" id="delete_main" class="delete btn btn-danger btn-xs">remove all</button></th>
+                                <th width="20%"> <button type="button" id="edit_main" class="edit btn btn-warning btn-xs">save all</button></th>
                             </tr>
                         </thead>
 
@@ -84,7 +83,7 @@
                         <tbody>
                             @foreach($reportrequest->items as $items_reportrequest)
                              
-                                <tr>
+                                <tr id="row_{{$items_reportrequest->pivot->id}}">
                                     <td> <a href="/items/{{$items_reportrequest->id}}">{{$items_reportrequest->name}}</a></td>
                                     <td><input type="text" id="{{$items_reportrequest->pivot->id}}" class="form-control" name="requested_amount" value="{{$items_reportrequest->pivot->requested_amount}}">
                                     </td>
@@ -122,7 +121,7 @@
 
 $(document).ready(function(){
 
-    $('#current').DataTable({
+    var table=$('#current').DataTable({
       'paging'      : false,
       'lengthChange': false,
       'searching'   : true,
@@ -141,17 +140,16 @@ $(document).ready(function(){
         console.log(current+" "+max);
        
                 
-        if( max+current<$("#amount").val()){
+        if(  $('#item_id').val()>0 && max-current<$("#amount").val()){
 
             
             $(document).trigger("add-alerts", [
                 {
                 "message":'you applied more than can request for '+$("#item option:selected").text(),
-                "priority": 'danger'
+                "priority": 'warning'
                 }
                 ]);
-            $("#amount").focus();
-            $("#amount").val('');
+           
         }
         
     });
@@ -185,10 +183,10 @@ $(document).ready(function(){
     }
 
 
-//$('[name="save"]').click(function(){
- //   alert("The paragraph was clicked.");
-//});
+
 $('#edit_main').click(function(){ all_child_save.click() });
+
+
 
 
 
@@ -203,11 +201,41 @@ var all_child_save=$('[name="save"]').click(function(){
                 'id': $(this).attr('id'),
                 'requested_amount': $(this).closest('tr').find('input[name="requested_amount"]').val()
             }
-            //,
-           // success: function(data) {
-               // alert("dfdf");
-                //$('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.name + "</td><td><button class='edit-modal btn btn-info' data-id='" + data.id + "' data-name='" + data.name + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-id='" + data.id + "' data-name='" + data.name + "' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
-           // }
+           ,
+            success: function(data) {
+                 $(document).trigger("add-alerts", [
+                {
+                "message":'sucessfully updated',
+                "priority": 'success'
+                }
+                ]);
+            //alert("dfdf");
+           //$('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.name + "</td><td><button class='edit-modal btn btn-info' data-id='" + data.id + "' data-name='" + data.name + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-id='" + data.id + "' data-name='" + data.name + "' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
+            }
+        });
+    });
+
+    var all_child_delete=$('[name="delete"]').click(function(){
+        var id=$(this).attr('id');
+ 
+        $.ajax({
+            type: 'post',
+            url: '/itemrequestreportsdelete/',
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': $(this).attr('id')
+                
+            },
+            
+            success: function(data) {
+              table.row($('#row_'+id)).remove().draw();
+               $(document).trigger("add-alerts", [
+                {
+                "message":'sucessfully removed',
+                "priority": 'success'
+                }
+                ]);
+            }
         });
     });
 

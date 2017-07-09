@@ -17,6 +17,12 @@ class ItemsReportrequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
@@ -109,9 +115,12 @@ class ItemsReportrequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+      
+
+         items_reportrequest::find ( $request->id )->delete ();
+        return response ()->json ();
     }
 
 

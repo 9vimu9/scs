@@ -62,9 +62,12 @@ Route::resource('cats','CatsController');
 
 
 Route::get('/requestselected/{id}', 'ItemsReportrequestController@seedinfo');
-
-//Route::resource('requestreports','ItemsReportrequestController');
-
 Route::post('itemrequestreportsupdate', 'ItemsReportrequestController@update');//update route for itemsreportrequest ajax
 Route::post('itemrequestreportsadd', 'ItemsReportrequestController@store');//aadd route for itemsreportrequest ajax
-Route::delete('itemrequestreportsdelete', 'ItemsReportrequestController@destroy');//delet route for itemsreportrequest ajax
+Route::post('itemrequestreportsdelete', 'ItemsReportrequestController@destroy');//delet route for itemsreportrequest ajax
+
+
+Route::get('/reports/requestmonthly/{id}', 'ReportsController@ShowMonthlyRequestReport');
+Route::get('/reports/order/{id}', 'ReportsController@ShowOrderReport');
+Route::get('/reports/grn/{id}', 'ReportsController@ShowGrnReport');
+Route::get('/reports/issue/{id}', 'ReportsController@ShowIssueReport');

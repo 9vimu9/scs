@@ -34,8 +34,9 @@
                 <form action="/receives/{{$order->receive->id}}" class="form-group pull-right" method="POST">
                     {{ csrf_field() }}
                    
-                <font size="3">grn value : </font> <span class="badge" id="grn_tot"><font size="5">Rs.1234</font></span>&nbsp&nbsp
+                <font size="3">grn value : </font> <span class="badge" id="grn_tot"><font size="5"></font></span>&nbsp&nbsp
                   &nbsp&nbsp
+                    <a href="/reports/grn/{{$order->receive->id}}" class="btn btn-danger btn-xs">print</a>
                     <a href="/receives/{{$order->receive->id}}/edit" class="btn btn-warning btn-xs ">edit this GRN</a>&nbsp&nbsp
                     <input type="submit" name="delete" value="delete this GRN" class="btn btn-danger btn-xs">
                     <input type="hidden" name="_method" value="DELETE">

@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container" >
 <form  method="GET" action="/to_request_report">
     <div class="row">
         <div class="panel panel-default">
@@ -149,7 +149,9 @@ $(document).ready(function() {
             
         }
     } );
+//window.onload = function() { window.print(); }
 });
+
 </script>
 
   @endsection

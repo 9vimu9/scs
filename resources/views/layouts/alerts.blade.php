@@ -1,4 +1,7 @@
+
 @if(count($errors)>0)
+
+
     <div class="alert alert-danger">
         <ul>
             @foreach($errors->all() as $error)
@@ -20,3 +23,15 @@
     {!!session('error')!!}
     </div>
 @endif
+
+{{-- <script>
+$( document ).ready(function() {
+    $(document).trigger("add-alerts", [
+                {
+                "message":'sucessfully removed',
+                "priority": 'success'
+                }
+                ]);
+});
+
+</script> --}}

@@ -61,7 +61,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     {{-- <li><a href="{{ url('/home') }}">store</a></li> --}}
-                   
+                    <li><a href="{{ url('/request_report_list') }}">item requests</a></li>
                     <li><a href="{{ url('/orders') }}">orders</a></li>
                      <li><a href="{{ url('/receives') }}">GRN</a></li>
                     <li><a href="{{ url('/issues') }}">issues</a></li>
@@ -70,7 +70,7 @@
                      <li><a href="{{ url('/items') }}">store bin cards</a></li> 
                     <li><a href="{{ url('/suppliers') }}">suppliers</a></li>
                     <li><a href="{{ url('/officers') }}">officers</a></li>
-                   
+                  
                 </ul>
 
                 <!-- Right Side Of Navbar -->
