@@ -70,6 +70,7 @@
                      <li><a href="{{ url('/items') }}">store bin cards</a></li> 
                     <li><a href="{{ url('/suppliers') }}">suppliers</a></li>
                     <li><a href="{{ url('/officers') }}">officers</a></li>
+                     <li><a href="{{ url('/cats') }}">categories</a></li>
                   
                 </ul>
 
@@ -89,6 +90,7 @@
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
+                        <li><a href="/change-password">settings</a></li> 
                     @endif
                 </ul>
             </div>

@@ -29,6 +29,8 @@ class ItemsController extends Controller
     {
         $this->middleware('auth');
     }     
+
+    
     public function index()
     {
         $data=item::OrderBy('name','desc')->paginate(8);

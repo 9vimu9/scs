@@ -114,13 +114,7 @@ class QuantityController extends Controller
     }
 
     public function CreateReport_GetId($type){
-        // $reportrequest=new reportrequest();
-        // $reportrequest->type=$type;//0 quick report
-        // $reportrequest->save();
-        // var_dump($reportrequest);
-        // die($reportrequest['attributes']['id']);
-        // return  $reportrequest->id;
-//what th hell this happaend
+      
         $reportrequest = reportrequest::create(['type'=>$type]);
         $last = DB::table('reportrequests')->latest()->get();
         $arr=get_object_vars($last[0]);
