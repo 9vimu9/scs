@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\receives;
-use App\Order;
+
 use Auth;
 use Illuminate\Support\Facades\DB;
 

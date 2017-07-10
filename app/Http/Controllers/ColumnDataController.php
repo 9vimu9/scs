@@ -8,6 +8,12 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 class ColumnDataController extends Controller
 {
+
+      public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     
      public function GetColumnData(Request $request)
     {
@@ -20,8 +26,6 @@ class ColumnDataController extends Controller
         if (empty($id)) {
             return \Response::json([]);
         }
-
-     //  $data=item::find($id)[$column];
         return DB::table($table)->select(DB::raw($column))->where("id", '=', $id)->value($column);
       
     }

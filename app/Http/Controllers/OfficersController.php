@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Officer;
+use App\officer;
 use Validator;
 
 class OfficersController extends Controller
@@ -22,7 +22,7 @@ class OfficersController extends Controller
     }
     public function index()
     {
-         $data=Officer::OrderBy('created_at','desc')->paginate(8);
+         $data=officer::OrderBy('created_at','desc')->paginate(8);
         
         return view('officers.index')->with("all_officers",$data);
     }
@@ -45,7 +45,7 @@ class OfficersController extends Controller
      */
     public function store(Request $request)
     {
-         $officer=new Officer();
+         $officer=new officer();
         $this->validate($request,[
             'name'=>'required',
             'nic'=>"required|regex:/^[0-9]{9}$/"
@@ -77,7 +77,7 @@ class OfficersController extends Controller
      */
     public function edit($id)
     {
-        $data=Officer::find($id);
+        $data=officer::find($id);
         return view("officers.edit")->with('officer',$data);
     }
 
@@ -90,7 +90,7 @@ class OfficersController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $officer=Officer::find($id);
+         $officer=officer::find($id);
       
         $this->validate($request,[
             'name'=>'required',
@@ -112,7 +112,7 @@ class OfficersController extends Controller
      */
     public function destroy($id)
     {
-        $officer=Officer::find($id);
+        $officer=officer::find($id);
        $officer->delete();
        return redirect('/officers')->with('success',"officer<strong> $officer->name </strong>removed successfully");
  

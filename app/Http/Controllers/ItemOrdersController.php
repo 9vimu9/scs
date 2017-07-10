@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\item_orders;
 use App\order;
-use Illuminate\Support\Facades\DB;
+
 use Validator;
 use Illuminate\Validation\Rule;
 
@@ -75,13 +75,7 @@ class ItemOrdersController extends Controller
     public function edit($id)
     {
         $data=item_orders::find($id);
-        // $results =  DB::table("items")->find($data->item_id);
-        // $data['item_name']= $results->name;
-        // $data['item_reorder']= $results->reorder;
-
-       
-     //echo($data);
-         
+             
        return view("itemorders.edit")->with('item_order',$data);
     }
 
@@ -118,8 +112,6 @@ class ItemOrdersController extends Controller
     private function AddUpdateCore($item_order,$request)
     {
         
-
-
         $item_id_validation;
         if( $item_order->id!=null)//0 wata wadaa wadi kiyanne update ekak
         {

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\issues;
 use Auth;
-use Illuminate\Support\Facades\DB;
 use Validator;
 class IssuesController extends Controller
 {

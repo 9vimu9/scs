@@ -6,7 +6,7 @@
         <div class="panel panel-default ">
             <div class="panel-heading">
                 <big>{{$item->name}}</big>
-                 &nbsp&nbsp    
+                &nbsp&nbsp    
                 category :<strong class="text-info"><big>{{$item->cat->name}}</big></strong>
                 &nbsp&nbsp    
                 item code : <strong class="text-info"><big>{{$item->code}}</big></strong>
@@ -19,39 +19,44 @@
                 &nbsp&nbsp    
                 reorder level: <strong class="text-info"><big>{{$item->reorder}}</big></strong>
                
-                </div>
+            </div>
                 
             
-            </div>
-                <div class="panel-body">
-                    @if(count($logs)>0)
-                        <?php
-                            $previous_date=0;
-                            $balance=0;
+            
+            <div class="panel-body">
+                @if(count($logs)>0)
+                    <?php
+                        $previous_date=0;
+                        $balance=0;
 
-                            $link_prhase="";   
-                            $title="";
-                            $no_col_header="";   
-                        ?>
-                        <table class="table  table-hover table-bordered" style="width: 55%" >
-                            <thead>
-                                <tr>
-                                    <th>type</th>
-                                    <th>#no</th>
-                                    <th>quantity</th>
-                                    <th>balance</th>
-                                </tr>
-                            </thead>
+                        $link_prhase="";   
+                        $title="";
+                        $no_col_header="";   
+                    ?>
+                    <table id="log" class="table  table-hover table-bordered" style="width: 55%" >
+                        <thead>
+                            <tr>
+                                <th>type</th>
+                                <th>#no</th>
+                                <th>quantity</th>
+                                <th>balance</th>
+                            </tr>
+                        </thead>
 
+                        <tbody>
                             @foreach($logs as $log)
-                            
+                                                    
                                 @if($previous_date!=$log->date)
                             
                                     <?php
                                         $previous_date=$log->date;
                                     ?>
-                                    <tr class="bg-info"><th colspan="4" style="text-align: center"> {{$log->date}}</th>
-
+                                    <tr class="bg-info">
+                                        <td colspan="4" style="text-align: center"> {{$log->date}}</td>
+                                        <td style="display: none;"></td>
+                                        <td style="display: none;"></td>
+                                        <td style="display: none;"></td>
+                                    </tr>                            
                                 @endif
 
                                 <tr>
@@ -98,22 +103,15 @@
                                         
                             
                             @endforeach
+                        </tbody>
 
-                        </table>
+                    </table>
 
-
-
-
-
-
-
- 
-
-                    @else
-                   no history
-                    
-                    @endif
-                </div>
+                @else
+                no history
+                
+                @endif
+            </div>
             
         </div>
       
@@ -121,3 +119,22 @@
 </div>
 
 @endsection
+
+@section('script')
+<script>
+  $(function () {
+   
+    $('#log').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
+@endsection
+
+
+

@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\item_loanissuereturn;
 use App\loanissuereturns;
 use App\loanissues;
-use Illuminate\Support\Facades\DB;
+
 use Validator;
 class ItemLoanIssueReturnsController extends Controller
 {

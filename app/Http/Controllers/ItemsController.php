@@ -33,7 +33,7 @@ class ItemsController extends Controller
     
     public function index()
     {
-        $data=item::OrderBy('name','desc')->paginate(8);
+        $data=item::OrderBy('name','desc')->get();
         
         return view('items.index')->with("all_items",$data);
   

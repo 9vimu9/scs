@@ -10,45 +10,43 @@
             </div>
                 <div class="panel-body">
                     @if(count($all_items)>0)
-                      <table class="table table-striped table-hover"style="width: 75%" >
-                     <thead>
-                        <tr>
-                            <th style="width: 25%">name</th>
-                            <th style="width: 15%">categoty</th>
-                            <th style="width: 15%">created</th>
-                            <th style="width: 20%">last updated</th>
-                            <th style="width: 15%"></th>
-                           
-                        </tr>
-                    
-                        @foreach($all_items as $item)
-                            <tr>
-                                <td> <big><a href="/items/{{$item->id}}">{{$item->name}}</a></big></td>
-                                
-                                <td>{{$item->cat->name}}</td> 
-                                <td>{{$item->created_at->format('Y-m-d_H:m')}}</td>
-                                <td>{{$item->updated_at->format('Y-m-d_H:m')}}</td>
-                                <td> 
-                                   
+                        <table id="example1" class="table table-bordered table-striped" width="75%">
+                            <thead>
+                                <tr>
+                                    <th width="25%">name</th> 
+                                    <th width="15%">categoty</th>
+                                    <th width="15%">created</th>
+                                    <th width="20%">last updated</th>
+                                    <th width="15%"></th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                                @foreach($all_items as $item)
+                                    <tr>
+                                        <td> <big><a href="/items/{{$item->id}}">{{$item->name}}</a></big></td>
+                                        
+                                        <td>{{$item->cat->name}}</td> 
+                                        <td>{{$item->created_at->format('Y-m-d_H:m')}}</td>
+                                        <td>{{$item->updated_at->format('Y-m-d_H:m')}}</td>
+                                        <td> 
+                                            
 
-                                    <form action="/items/{{$item->id}}" class="pull-right" method="POST">
-                                        {{ csrf_field() }}
-                                        <a href="/items/{{$item->id}}/edit" class="btn btn-warning btn-xs">edit</a>
-                                        <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                    </form>
-                                </td>
-                            </tr>
-                           
-                               
-                              
+                                        <form action="/items/{{$item->id}}" class="pull-right" method="POST">
+                                            {{ csrf_field() }}
+                                            <a href="/items/{{$item->id}}/edit" class="btn btn-warning btn-xs">edit</a>
+                                            <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                        </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                             
-                    @endforeach
-                    </table>
-                        {{$all_items->links()}}
                     @else
                     no items<br>click add item button
-                    
+
                     @endif
                 </div>
             
@@ -58,3 +56,22 @@
 </div>
 
 @endsection
+
+
+@section('script')
+<script>
+  $(function () {
+   
+    $('#example1').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
+@endsection
+
+
