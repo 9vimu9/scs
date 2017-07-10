@@ -15,12 +15,14 @@ class SupplyMiddleware
      */
     public function handle($request, Closure $next)
     {
-         if ($request->user()->type == 2 || $request->user()->type == 0)
+          if (!Auth::guest() && $request->user()->type !== 2 || $request->user()->type !== 0)
 		{
-		    return $next($request);
+		   
+            return redirect('home');
 		}
+         return $next($request);
 
 		
-        	return redirect('home');
+        	
     }
 }
