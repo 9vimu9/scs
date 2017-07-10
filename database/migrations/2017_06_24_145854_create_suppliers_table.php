@@ -13,10 +13,13 @@ class CreateSuppliersTable extends Migration
     public function up()
     {
         Schema::create('suppliers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('address');
-            $table->string('tel');
+              $table->increments('id');
+              $table->string('name');
+              $table->string('address');
+              $table->string('tel');
+             $table->string('email'); // add this line
+             $table->integer('cat_id')->unsigned(); // add this line
+             $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
             $table->timestamps();
         });
     }

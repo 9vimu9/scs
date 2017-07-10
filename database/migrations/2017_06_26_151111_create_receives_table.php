@@ -16,8 +16,12 @@ class CreateReceivesTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->integer('order_id')->length(10)->unsigned();
-            $table->timestamps();
+            $table->double('vat')->unsigned(); // add this line
+            $table->double('discount')->unsigned(); // add this line
+            $table->integer('user_id')->unsigned(); // add this line
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

@@ -16,12 +16,11 @@ class StockMiddleware
      */
     public function handle($request, Closure $next)
     {
-      
-            if (!Auth::guest() && $request->user()->type != 1 && $request->user()->type != 0)
-            {
-                return redirect('home');
-            }
-
-		return $next($request);
+       if (!Auth::guest() && ( $request->user()->type == 1 || $request->user()->type == 0))
+		{
+		  return $next($request); 
+            
+		}
+         return redirect('home');
     }
 }

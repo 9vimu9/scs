@@ -15,10 +15,12 @@ class CreateLoanIssueReturnsTable extends Migration
         Schema::create('loanissuereturns', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
-            
+
             $table->integer('loanissue_id')->length(10)->unsigned();
             $table->timestamps();
             $table->foreign('loanissue_id')->references('id')->on('loanissues')->onDelete('cascade');
+            $table->integer('user_id')->unsigned(); // add this line
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

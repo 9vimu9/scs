@@ -23,7 +23,7 @@ class ItemreceivesController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         //
@@ -67,8 +67,8 @@ class ItemreceivesController extends Controller
          $order=order::find($receive->order_id);
          $data=["order"=>$order];
         return view('itemreceives.index')->with($data);
-       
-        
+
+
     }
 
     /**
@@ -122,27 +122,17 @@ class ItemreceivesController extends Controller
             'rejected'=>'required|numeric',
             'receive_id'=>"required",
             'item_id' => 'required'
-            
+
         ]);
         if (!$validator->fails()){
             $item_receive->amount=$request['amount'];
             $item_receive->rejected=$request['rejected'];
             $item_receive->receive_id=$request['receive_id'];
             $item_receive->item_id=$request['item_id'];
-
-           
-            if($request['precentage']=="on"){
-                $item_receive->precentage=DB::table('meta')->latest()->value("discount");
-               
-            }
-            else{
-                
-                $item_receive->precentage=0;
-            }
             $item_receive->save();
  }
         return $validator;
-      
-    
+
+
     }
 }

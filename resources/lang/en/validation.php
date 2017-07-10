@@ -108,6 +108,34 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'cat_id' => 'category',
+        'tel' => 'telephone number',
+        'nic' => 'NIC',
+        'item_id' =>  'item',
+        'issue_id' => 'issue order',
+        'officer_id' => 'officer',
+        'issue_date' => 'date of issue',
+        'return_date' => 'item return date',
+        'unit_price' => 'unit price',
+
+'receive_id' => 'GRN',
+'rejected' => 'rejected amount',
+'max' => 'maximum level',
+'min' => 'minimum level',
+'reorder' => 'reorder level',
+'supplier_id' => 'supplier',
+'order_id' => 'order',
+// '' => '',
+// '' => '',
+// '' => '',
+// '' => '',
+
+
+
+
+
+
+    ],
 
 ];

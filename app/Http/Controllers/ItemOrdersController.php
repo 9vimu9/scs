@@ -23,7 +23,7 @@ class ItemOrdersController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         //
@@ -50,7 +50,7 @@ class ItemOrdersController extends Controller
     {
         $item_order=new item_orders();
         $this->AddUpdateCore($item_order,$request);
-            
+
        return redirect('/itemorders/'.$item_order->order_id);
     }
 
@@ -75,7 +75,7 @@ class ItemOrdersController extends Controller
     public function edit($id)
     {
         $data=item_orders::find($id);
-             
+
        return view("itemorders.edit")->with('item_order',$data);
     }
 
@@ -90,10 +90,12 @@ class ItemOrdersController extends Controller
     {
          $item_order=item_orders::find($id);
          $this->AddUpdateCore($item_order,$request);
-            
+
        return redirect('/itemorders/'.$item_order->order_id);
-       
+
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -106,22 +108,22 @@ class ItemOrdersController extends Controller
         $item_order=item_orders::find($id);
        $item_order->delete();
        return redirect('/itemorders/'.$item_order->order_id)->with('success',"item removed successfully");
-  
+
     }
 
     private function AddUpdateCore($item_order,$request)
     {
-        
+
         $item_id_validation;
         if( $item_order->id!=null)//0 wata wadaa wadi kiyanne update ekak
         {
-           
+
             $item_id_validation='required|unique_with:item_orders,order_id,'.$item_order->id;
-           
+
         }
         else
         {
-            
+
              $item_id_validation='required|unique_with:item_orders,order_id';
         }
  echo($request['order_id']."gfsgssd");
@@ -130,30 +132,29 @@ class ItemOrdersController extends Controller
             'unit_price'=>"required|numeric",
             'item_id' => $item_id_validation,
            //  'order_id'=>"required|numeric"
-           
+
         ]);
-      
+
             $item_order->amount=$request['amount'];
             $item_order->unit_price=$request['unit_price'];
             $item_order->item_id=$request['item_id'];
             $item_order->order_id=$request['order_id'];
-            
+
             $item_order->save();
-        
-      
-      
-    
-    }
-
-
-
-
-
-
-
 
 
 
 
     }
 
+
+
+
+
+
+
+
+
+
+
+    }

@@ -21,11 +21,11 @@ class ReceivesController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
          $data=receives::OrderBy('id','desc')->paginate(8);
-       
+
         return view('receives.index')->with("receives",$data);
         //
     }
@@ -50,9 +50,9 @@ class ReceivesController extends Controller
     {
         $receive=new receives();
          $this->AddUpdateCore($receive,$request);
-           
+
         return redirect('/itemreceives/'.$receive->id);
-      
+
 
     }
 
@@ -76,7 +76,7 @@ class ReceivesController extends Controller
     public function edit($id)
     {
         $data=receives::find($id);
-                   
+
        return view("receives.edit")->with('receive',$data);
     }
 
@@ -91,10 +91,10 @@ class ReceivesController extends Controller
     {
         $receive=receives::find($id);
         $this->AddUpdateCore($receive,$request);
-      
+
         return redirect('/itemreceives/'.$receive->id);
         // return redirect("/receives/");
-    
+
     }
 
     /**
@@ -120,17 +120,28 @@ class ReceivesController extends Controller
 
         $this->validate($request,[
             'order_id'=>$order_id_validation,
-            'date'=>"required|date"
+            'date'=>"required|date",
+            'discount'=>"numeric"
         ]);
-        
+
+        if($request['vat']=="on"){
+            $receive->vat=DB::table('meta')->latest()->value("vat");
+
+        }
+        else{
+
+            $receive->vat=0;
+        }
+      
+        $receive->discount=$request['discount'];
         $receive->order_id=$request['order_id'];
         $receive->date=$request['date'];
-       
+
         $receive->user_id=Auth::user()->id;
-        
+
         $receive->save();
 
-      
+
 
     }
 }

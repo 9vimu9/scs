@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\item;
+use App\cat;
 use App\item_orders;
 use App\item_receives;
 use App\issue_item;
@@ -24,19 +25,19 @@ class ItemsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     
+
  public function __construct()
     {
         $this->middleware('auth');
-    }     
+    }
 
-    
+
     public function index()
     {
         $data=item::OrderBy('name','desc')->get();
-        
+
         return view('items.index')->with("all_items",$data);
-  
+
     }
 
     /**
@@ -74,7 +75,7 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        
+
         $data_o = item_orders::select(DB::raw('"o" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,order_id as id,amount,created_at'))
                     ->where('item_id', '=', $id);
 
@@ -85,11 +86,11 @@ class ItemsController extends Controller
 
         $data_li = item_loanissue::select(DB::raw('"li" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissue_id as id,amount,created_at'))
                     ->where('item_id', '=', $id);
-        
+
         $data_lir = item_loanissuereturn::select(DB::raw('"lir" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissuereturn_id as id,(amount-rejected)as amount,created_at'))
                     ->where('item_id', '=', $id);
-    
-                
+
+
         $logs = issue_item::select(DB::raw('"i" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,issue_id as id,(amount)as amount,created_at'))
                     ->where('item_id', '=', $id)
                     ->union($data_r)
@@ -100,10 +101,10 @@ class ItemsController extends Controller
                     ->get();
 
 //return $logs;
-      
+
         return view("items.log")->with(['logs'=>$logs,'item'=>item::find($id)]);
 
-       
+
     }
 
     /**
@@ -135,7 +136,7 @@ class ItemsController extends Controller
         return redirect('/items/')->with('success','successfully updated');
 
 
-       
+
     }
 
     /**
@@ -149,10 +150,11 @@ class ItemsController extends Controller
         $item=item::find($id);
        $item->delete();
        return redirect('/items')->with('success',"item<strong> $item->name </strong>removed successfully");
-  
+
     }
     private function AddUpdateCore($item,$request)
     {//'email' => 'required|unique:users,email,' . $user->id
+
         $validator = Validator::make($request->all(), [
             'name'=>'required',
             'code'=>"required",
@@ -171,15 +173,17 @@ class ItemsController extends Controller
             $item->min=$request['min'];
             $item->reorder=$request['reorder'];
             $item->cat_id=$request['cat_id'];
-                
+
             $item->save();
+            session(['cat_name' => cat::find($request['cat_id'])->name,'cat_id' => $request['cat_id'],'cat_symbol' =>cat::find($request['cat_id'])->symbol]);
+
         }
         return $validator;
-      
-    
+
+
     }
 
-    
 
-    
+
+
 }

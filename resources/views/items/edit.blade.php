@@ -13,13 +13,17 @@
                            <div class="form-group">
                             <label class="col-md-4 col-sm-4 control-label">category</label>
                             <div class="col-md-3 col-sm-3">
-                               
-                                <select id="cat"  name="cat" class="form-control" data-width="100%"><option value="{{$item->cat_id}}" selected="{{$item->cat->name}}">{{$item->cat->name}}</option></select>
+
+                                <select id="cat"  name="cat" class="form-control" data-width="100%">
+                                  <option value="{{$item->cat_id}}" selected="{{$item->cat->name}}">
+                                      {{$item->cat->name}}
+                                  </option>
+                                </select>
                                  <input type="hidden" id="cat_id" value="{{$item->cat_id}}" name="cat_id"/>
-                                
+
                             </div>
-                             
-                           
+
+
                         </div>
 
                         <input type="hidden" name="_method" value="PUT">
@@ -56,7 +60,7 @@
                             </div>
                         </div>
 
-                          
+
 
                           <div class="form-group">
                             <label class="col-md-4 control-label">reorder level</label>
@@ -65,10 +69,10 @@
                             </div>
                         </div>
 
-                         
-                       
+
+
                     </form>
-                
+
             </div>
         </div>
     </div>
@@ -87,12 +91,12 @@
          var cat_id=evt.params.data.id;
            $('#cat_id').val(cat_id);
            GetColumnData(cat_id,"symbol","cats","#code");
-       
-   
+
+
     });
 
  $("#max,#min,#reorder").change(function(){
-       
+
       //  checkReorder();
         var max=parseInt($('#max').val());
         var min=parseInt($("#min").val());
@@ -100,7 +104,7 @@
 
 
         if(max<=min){
-          
+
               $(document).trigger("add-alerts", [
                 {
                 "message": "check your max and min  values",
@@ -112,7 +116,7 @@
         }
 
         if( max<=reorder || min>=reorder){
-         
+
            $(document).trigger("add-alerts", [
                 {
                 "message": "check your reorder value",
@@ -122,7 +126,7 @@
            $("#reorder").focus();
           $("#reorder").val('');
      }
-       
+
     });
 </script>
 

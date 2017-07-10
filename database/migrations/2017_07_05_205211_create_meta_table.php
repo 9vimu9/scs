@@ -8,10 +8,10 @@ class CreateMetaTable extends Migration
     public function up()
     {//delete  FROM `migrations` WHERE migration=
         Schema::create('meta', function (Blueprint $table) {
-          
-            $table->double('discount');
+            $table->increments('id');
+            $table->double('vat')->unsigned(); // add this line
             $table->timestamps();
-          
+
         });
     }
 

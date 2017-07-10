@@ -20,10 +20,11 @@ class CreateItemsTable extends Migration
             $table->integer('max');
             $table->integer('min');
             $table->integer('reorder');
-            $table->integer('cat');
+            $table->integer('cat_id')->unsigned(); // add this line
+            $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
             $table->timestamps();
-            
-            
+
+
         });
     }
 
