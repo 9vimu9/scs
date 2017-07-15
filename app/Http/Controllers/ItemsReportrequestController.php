@@ -45,9 +45,9 @@ class ItemsReportrequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {       
+    {
         $items_reportrequest=new items_reportrequest();
-       
+
         $validator = Validator::make($request->all(), [
             'amount'=>'required|numeric',
             'amount_in_store'=>"required|numeric",
@@ -56,14 +56,14 @@ class ItemsReportrequestController extends Controller
         ]);
 
         if (!$validator->fails()){
-           
+
             $items_reportrequest->requested_amount=$request['amount'];
             $items_reportrequest->amount_in_store=$request['amount_in_store'];
             $items_reportrequest->item_id=$request['item_id'];
             $items_reportrequest->reportrequest_id=$request['reportrequest_id'];
-             
+
             $items_reportrequest->save();
-            
+
             return redirect('/requestselected/'.$items_reportrequest->reportrequest_id)->with('success','successfully saved');
         }
         else{
@@ -117,10 +117,8 @@ class ItemsReportrequestController extends Controller
      */
     public function destroy(Request $request)
     {
-      
-
-         items_reportrequest::find ( $request->id )->delete ();
-        return response ()->json ();
+      items_reportrequest::find ( $request->id )->delete ();
+      return response ()->json ();
     }
 
 
@@ -130,13 +128,13 @@ class ItemsReportrequestController extends Controller
 
 //         if( $items_reportrequest->id!=null){
 //            $item_id_validation='required|unique_with:items_reportrequests,reportrequest_id,'.$items_reportrequest->id;
-    
+
 //         }
 //         else{
-         
+
 //             $item_id_validation='required|unique_with:items_reportrequests,reportrequest_id';
-//         }      
- 
+//         }
+
 //         $validator = Validator::make($request->all(), [
 //             'amount'=>'required|numeric',
 //             'amount_in_store'=>"required|numeric",
@@ -151,9 +149,9 @@ class ItemsReportrequestController extends Controller
 //             $items_reportrequest->amount_in_store=$request['amount_in_store'];
 //             $items_reportrequest->item_id=$request['item_id'];
 //             $items_reportrequest->reportrequest_id=$request['reportrequest_id'];
-             
+
 //             $items_reportrequest->save();
-            
+
 //             return redirect('/requestselected/{{items_reportrequest->reportrequest_id}}')->with('success','successfully saved');
 //         }
 //         else{
@@ -163,8 +161,8 @@ class ItemsReportrequestController extends Controller
 // //             print_r($validator->fails());
 // // die(" dddd");
 
- 
-    
+
+
 //     }
 
 
@@ -173,31 +171,31 @@ class ItemsReportrequestController extends Controller
         $selected_items = session('selected_items_for_report');
         session(['selected_items_for_report' => "0"]);
 
-    
-       
+
+
         if( $selected_items !=0){
             $arrray_selected_items_for_report  = explode(",", $selected_items);
             $selected_items = item::whereIn('id',$arrray_selected_items_for_report)->get();
 
-            foreach($selected_items as $item) 
+            foreach($selected_items as $item)
             {
-            
+
                 $result=DB::table('items_reportrequests')->where('reportrequest_id', '=', $id)->where('item_id', '=', $item->id)->get();
-               
+
                 if(count($result)==0){
 
                     $items_reportrequest=new items_reportrequest();
                     $items_reportrequest->amount_in_store=app('App\Http\Controllers\QuantityController')->QuanitiyPerItem($item->id);
                     $items_reportrequest->item_id=$item->id;
-                
+
                     $items_reportrequest->reportrequest_id=$id;
                     $items_reportrequest->save();
                 }
             }
         }
         $reportrequest= reportrequest::find($id);
-       
-        return view('stores.requestreport')->with("reportrequest",$reportrequest); 
+
+        return view('stores.requestreport')->with("reportrequest",$reportrequest);
 
 
 

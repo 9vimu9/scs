@@ -21,7 +21,7 @@
 
 
 <div class="container">
-
+  {{ csrf_field() }}
 
     <div class="row">
         <div class="panel panel-default">
@@ -60,14 +60,14 @@
                         <tr>
                             <th style="width: 20%">item name</th>
                             <th style="width: 10%">total(Rs)</th>
-                            <th style="width: 8%">rate(Rs)</th>
+                            <th style="width: 10%">rate(Rs)</th>
                             <th style="width: 10%">amount</th>
 
-                            <th style="width: 8%">received amount</th>
-                            <th style="width: 8%">rejected amount</th>
-                            <th style="width: 8%">actual amount</th>
-                            <th style="width: 12%">total(Rs)</th>
-                            <th style="width: 15%"></th>
+                            <th style="width: 10%">received amount</th>
+                            <th style="width: 10%">rejected amount</th>
+                            <th style="width: 10%">actual amount</th>
+                            <th style="width: 15%">total(Rs)</th>
+                            <th style="width: 12%"><button type="button"  id ="add_update_all"  class="btn btn-info btn-xs" >Add/Update all</button></th>
                         </tr>
                     </thead>
 
@@ -121,43 +121,26 @@
                             ?>
 
                             @if($item_receive_id===0)
-                            <form action="/itemreceives" class="form-inline" method="POST">
-                                    {{ csrf_field() }}
-                                    <td><input id="amount_{{++$counter_for_checkboxes}}" type="text" class="form-control input-sm" name="amount" value="{{$item_order->pivot->amount}}"></td>
-                                    <td><input id="rejected_{{$counter_for_checkboxes}}" type="text" class="form-control input-sm" name="rejected" value="0"></td>
 
-                                    <input type="hidden" name="item_id" value="{{$item_order->pivot->item_id}}">
-                                    <input type="hidden" name="receive_id" value="{{$order->receive->id}}">
-
-                                    <td></td>
-                                    <td></td>
-
-                                   <td>
-                                        <input type="submit" name="delete" value="add" class="btn btn-primary btn-xs">
-                                   </td>
-                                </form>
-
+                              {{ csrf_field() }}
+                              <td><input id="amount_{{++$counter_for_checkboxes}}" type="text" class="form-control input-sm" name="amount" value="{{$item_order->pivot->amount}}"></td>
+                              <td><input id="rejected_{{$counter_for_checkboxes}}" type="text" class="form-control input-sm" name="rejected" value="0"></td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                   <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-primary btn-xs" name="store">Add</button>
+                              </td>
                             @else
+                              <td><input id="amount_{{++$counter_for_checkboxes}}" type="text" class="form-control" name="amount" value="{{$item_receive_amount}}"></td>
+                              <td><input id="rejected_{{$counter_for_checkboxes}}" type="text" class="form-control" name="rejected" value="{{$item_receive_reject}}"></td>
+                              <td>{{$item_receive_amount-$item_receive_reject}}</td>
+                              <td>{{($item_receive_amount-$item_receive_reject)*$item_order->pivot->unit_price}}</td>
+                              <td>
+                                <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-warning btn-xs" name="update">Edit</button>
+                                <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-danger btn-xs" name="destroy">Delte</button>
 
-                                <form action="/itemreceives/{{$item_receive_id}}" class="pull-right" method="POST">
-                                    {{ csrf_field() }}
-                                    <td><input id="amount_{{++$counter_for_checkboxes}}" type="text" class="form-control" name="amount" value="{{$item_receive_amount}}"></td>
-                                    <td><input id="rejected_{{$counter_for_checkboxes}}" type="text" class="form-control" name="rejected" value="{{$item_receive_reject}}"></td>
-                                    <td>{{$item_receive_amount-$item_receive_reject}}</td>
-                                    <td>{{($item_receive_amount-$item_receive_reject)*$item_order->pivot->unit_price}}</td>
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <input type="hidden" name="receive_id" value="{{$order->receive->id}}">
-                                    <input type="hidden" name="item_id" value="{{$item_order->pivot->item_id}}">
-                                   <td>
-                                    <input type="submit" name="edit" value="update" class="btn btn-warning btn-xs">
+                              </td>
 
-                                </form>
-                                 <form action="/itemreceives/{{$item_receive_id}}" class="pull-right" method="POST">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
-                                   </td>
-                                </form>
                             @endif
 
 
@@ -253,6 +236,43 @@ $(document).ready(function(){
   }
 
 
+
+  var all_child_store=$('[name="store"]').click(function(){
+    var receive_id=$(this).attr('id').split('_')[0];
+    var item_id=$(this).attr('id').split('_')[1];
+      $.ajax({
+          type: 'post',
+          url: '/item_receive_store',
+          data: {
+              '_token': $('input[name=_token]').val(),
+              'amount': $(this).closest('tr').find('input[name="amount"]').val(),
+              'rejected': $(this).closest('tr').find('input[name="rejected"]').val(),
+              'receive_id': receive_id,
+              'item_id': item_id
+          },
+          success: function(data) {
+              if ((data.errors)) {
+
+
+
+                  $(document).trigger("add-alerts", [
+                 {
+                 "message":data.errors.rejected+"<br>"+data.errors.amount,
+                 "priority": 'danger'
+                 }
+                 ]);
+              } else {
+                $(document).trigger("add-alerts", [
+               {
+               "message":'sucessfully updated',
+               "priority": 'success'
+               }
+               ]);
+              }
+          },
+      });
+
+    });
 
 });
 

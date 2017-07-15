@@ -45,15 +45,48 @@ class ItemreceivesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    // public function store(Request $request)
+    // {
+    //      $item_receive=new item_receives();
+    //      $val= $this->AddUpdateCore($item_receive,$request);
+    //          if ($val->fails())
+    //         return redirect()->back()->withErrors($val)->withInput();
+    //     else
+    //    return redirect('/itemreceives/'.$item_receive->receive_id);
+    // }
+    public function add(Request $request)
     {
-         $item_receive=new item_receives();
-         $val= $this->AddUpdateCore($item_receive,$request);
-             if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
-       return redirect('/itemreceives/'.$item_receive->receive_id);
+      $item_receive=new item_receives();
+      $val= $this->AddUpdateCore($item_receive,$request);
+      if ($val->fails()){
+        return \Response::json(array(
+                'errors' => $val->getMessageBag()->toArray()
+        ) );
+      }
+      else{
+        return response ()->json ( $item_receive );
+      }
     }
+
+//     public function store(Request $request) {
+//
+//     if ($validator->fails ())
+//         return Response::json ( array (
+//
+//                 'errors' => $validator->getMessageBag ()->toArray ()
+//         ) );
+//         else {
+//             $data = new Data ();
+//             $data->name = $request->name;
+//             $data->save ();
+//             return response ()->json ( $data );
+//         }
+// }
+
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -89,16 +122,39 @@ class ItemreceivesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $item_receive=item_receives::find($id);
-        $val= $this->AddUpdateCore($item_receive,$request);
+    // public function update(Request $request, $id)
+    // {
+    //     $item_receive=item_receives::find($id);
+    //     $val= $this->AddUpdateCore($item_receive,$request);
+    //
+    //     if ($val->fails())
+    //         return redirect()->back()->withErrors($val)->withInput();
+    //     else
+    //         return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"updated successfully");
+    // }
 
-        if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
-            return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"updated successfully");
+    public function update(Request $request)
+    {
+        $item_receive=item_receives::find($request->id);
+        $val= $this->AddUpdateCore($item_receive,$request);
+        return response ()->json ( $item_receive );
+
+        // if ($val->fails())
+        //     return redirect()->back()->withErrors($val)->withInput();
+        // else
+        //     return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"updated successfully");
     }
+
+
+
+
+    // public function update(Request $request)
+    // {
+    //     $items_reportrequest = items_reportrequest::find ( $request->id );
+    //     $items_reportrequest->requested_amount=$request['requested_amount'];
+    //     $items_reportrequest->save ();
+    //     return response ()->json ( $items_reportrequest );
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -106,12 +162,25 @@ class ItemreceivesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    // public function destroy($id)
+    // {
+    //     $item_receive=item_receives::find($id);
+    //     $item_receive->delete();
+    //     return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"item removed successfully");
+    // }
+
+    public function destroy(Request $request)
     {
-        $item_receive=item_receives::find($id);
+        $item_receive=item_receives::find($request->id);
         $item_receive->delete();
-        return redirect('/itemreceives/'.$item_receive->receive_id)->with('success',"item removed successfully");
+        return response ()->json ();
     }
+
+    // public function destroy(Request $request)
+    // {
+    //   items_reportrequest::find ( $request->id )->delete ();
+    //   return response ()->json ();
+    // }
 
 
     private function AddUpdateCore($item_receive,$request)

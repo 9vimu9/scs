@@ -61,7 +61,7 @@ Route::get('/request_report_list', 'QuantityController@AllRequestReports');
 Route::group(['middleware' => 'App\Http\Middleware\StockMiddleware'], function()
 {
     Route::resource('items','ItemsController',['except' => ['index','show']]);
-   
+
 
     Route::resource('officers','OfficersController');
 
@@ -90,7 +90,11 @@ Route::group(['middleware' => 'App\Http\Middleware\StockMiddleware'], function()
     Route::post('itemrequestreportsupdate', 'ItemsReportrequestController@update');//update route for itemsreportrequest ajax
     Route::post('itemrequestreportsadd', 'ItemsReportrequestController@store');//aadd route for itemsreportrequest ajax
     Route::post('itemrequestreportsdelete', 'ItemsReportrequestController@destroy');//delet route for itemsreportrequest ajax
-    
+
+    Route::post('item_receive_update', 'ItemreceivesController@update');//update route for itemsreportrequest ajax
+    Route::post('item_receive_store', 'ItemreceivesController@add');//aadd route for itemsreportrequest ajax
+    Route::post('item_receive_destroy', 'ItemreceivesController@destroy');//delet route for itemsreportrequest ajax
+
     Route::delete('/destroy_request_report/{reportrequests}', 'QuantityController@DestroyRequestReport');
 });
 
@@ -118,9 +122,8 @@ Route::group(['middleware' => 'App\Http\Middleware\SupplyMiddleware'], function(
     Route::resource('orders','OrdersController',['except' => ['index']]);
 
     Route::resource('itemorders','ItemOrdersController',['except' => ['show']]);
-   
+
     Route::get('/itemorders/create/{id}', 'ItemOrdersController@create');
 
     Route::resource('suppliers','SuppliersController',['except' => ['index']]);
 });
- 
