@@ -66,13 +66,13 @@
                             <th style="width: 10%">received amount</th>
                             <th style="width: 10%">rejected amount</th>
                             <th style="width: 10%">actual amount</th>
-                            <th style="width: 15%">total(Rs)</th>
-                            <th style="width: 12%"><button type="button"  id ="add_update_all"  class="btn btn-info btn-xs" >Add/Update all</button></th>
+                            <th style="width: 12%">total(Rs)</th>
+                            <th style="width: 15%"><button type="button"  id ="add_update_all"  class="btn btn-info btn-xs" >Add/Update all</button></th>
                         </tr>
                     </thead>
 
 
-                        <?php $counter_for_checkboxes=0;?>
+
 
                     @foreach($order->items as $item_order)
 
@@ -107,6 +107,7 @@
 
                                         }
                                         else{
+                                          //  $item_receive_amount=$item_order->pivot->amount;
                                             // <td>badu natha</td>
                                             // {{-- mekata awwa kiyanne e item_order eke me item_id elkata adaalawa item_reeive ekak thibe kiyana eka --}}
 
@@ -120,28 +121,22 @@
                                 }
                             ?>
 
-                            @if($item_receive_id===0)
 
-                              {{ csrf_field() }}
-                              <td><input id="amount_{{++$counter_for_checkboxes}}" type="text" class="form-control input-sm" name="amount" value="{{$item_order->pivot->amount}}"></td>
-                              <td><input id="rejected_{{$counter_for_checkboxes}}" type="text" class="form-control input-sm" name="rejected" value="0"></td>
-                              <td></td>
-                              <td></td>
-                              <td>
-                                   <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-primary btn-xs" name="store">Add</button>
-                              </td>
-                            @else
-                              <td><input id="amount_{{++$counter_for_checkboxes}}" type="text" class="form-control" name="amount" value="{{$item_receive_amount}}"></td>
-                              <td><input id="rejected_{{$counter_for_checkboxes}}" type="text" class="form-control" name="rejected" value="{{$item_receive_reject}}"></td>
+                              <td><input  type="text" class="form-control" name="amount" value="{{$item_receive_amount}}"></td>
+                              <td><input  type="text" class="form-control" name="rejected" value="{{$item_receive_reject}}"></td>
                               <td>{{$item_receive_amount-$item_receive_reject}}</td>
                               <td>{{($item_receive_amount-$item_receive_reject)*$item_order->pivot->unit_price}}</td>
                               <td>
-                                <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-warning btn-xs" name="update">Edit</button>
-                                <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-danger btn-xs" name="destroy">Delte</button>
+                                <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="add btn btn-primary btn-xs" name="item_receive_store" style="display:{{$item_receive_id>0 ? "none" : "block"}};">Add</button>
+                                <input type="hidden" id ="item_receive_{{$order->receive->id}}_{{$item_order->pivot->item_id}}" value="{{$item_receive_id}}">
+                                <div id ="div_{{$order->receive->id}}_{{$item_order->pivot->item_id}}" style="display:{{$item_receive_id==0 ? "none" : "block"}};">
+                                  <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-warning btn-xs" name="item_receive_update" >Edit</button>
+                                  <button type="button"  id ="{{$order->receive->id}}_{{$item_order->pivot->item_id}}"  class="btn btn-danger btn-xs" name="item_receive_destroy" >Delete</button>
+                                </div>
 
                               </td>
 
-                            @endif
+
 
 
                         </tr>
@@ -173,8 +168,9 @@
 $(document).ready(function(){
 
 
-  var d=$('.form-control').keyup(validator).change(validator)
-  d.change();
+  $('.form-control').keyup(validator).change(validator).blur(validator)
+  // d.change();
+  grn_calculation();
 
   function grn_calculation(){
 
@@ -186,7 +182,7 @@ $(document).ready(function(){
           if(val.length>0){
               total += parseFloat(val);
           }
-          console.log(val);
+
       }
       var vat={{$order->receive->vat}};
       var discount={{$order->receive->discount}};
@@ -196,9 +192,11 @@ $(document).ready(function(){
   }
 
   function validator(){
-    var ordered_amount=$(this).closest('tr').find('td:eq(3)').text();
-    var amount=$(this).closest('tr').find('input[name="amount"]').val();
-    var rejected=$(this).closest('tr').find('input[name="rejected"]').val();
+
+    var ordered_amount=parseInt($(this).closest('tr').find('td:eq(3)').text());
+      console.log(ordered_amount);
+    var amount=parseInt($(this).closest('tr').find('input[name="amount"]').val());
+    var rejected=parseInt($(this).closest('tr').find('input[name="rejected"]').val());
 
     var actual_amount=amount-rejected;
     var unit_price= $(this).closest('tr').find('td:eq(2)').text();
@@ -213,7 +211,7 @@ $(document).ready(function(){
            "priority": 'danger'
        }
        ]);
-       $(this).val(" ");
+
        $(this).focus();
 
      } else if(amount-rejected<0){
@@ -224,7 +222,7 @@ $(document).ready(function(){
                "priority": 'danger'
            }
          ]);
-         $(this).val(" ");
+
          $(this).focus();
 
        } else {
@@ -237,42 +235,108 @@ $(document).ready(function(){
 
 
 
-  var all_child_store=$('[name="store"]').click(function(){
-    var receive_id=$(this).attr('id').split('_')[0];
-    var item_id=$(this).attr('id').split('_')[1];
-      $.ajax({
-          type: 'post',
-          url: '/item_receive_store',
-          data: {
-              '_token': $('input[name=_token]').val(),
-              'amount': $(this).closest('tr').find('input[name="amount"]').val(),
-              'rejected': $(this).closest('tr').find('input[name="rejected"]').val(),
-              'receive_id': receive_id,
-              'item_id': item_id
-          },
-          success: function(data) {
-              if ((data.errors)) {
+  var all_child_update=$('[name="item_receive_store"],[name="item_receive_update"]').click(function(){
+      var clicked_button=$(this);
 
+      var row_id=$(this).attr('id');
 
+      var receive_id=row_id.split('_')[0];
+      var item_id=row_id.split('_')[1];
 
+        $.ajax({
+            type: 'post',
+            url: '/'+$(this).attr('name'),
+            data: {
+                'id': $('#item_receive_'+row_id).val(),
+                '_token': $('input[name=_token]').val(),
+                'amount': $(this).closest('tr').find('input[name="amount"]').val(),
+                'rejected': $(this).closest('tr').find('input[name="rejected"]').val(),
+                'receive_id': receive_id,
+                'item_id': item_id
+            },
+            success: function(data) {
+                if ((data.errors)) {
+
+                    $(document).trigger("add-alerts", [
+                   {
+                   "message":data.errors.rejected+"<br>"+data.errors.amount,
+                   "priority": 'danger'
+                   }
+                   ]);
+                } else {
                   $(document).trigger("add-alerts", [
                  {
-                 "message":data.errors.rejected+"<br>"+data.errors.amount,
-                 "priority": 'danger'
+                 "message":'sucessfully updated',
+                 "priority": 'success'
                  }
                  ]);
-              } else {
-                $(document).trigger("add-alerts", [
-               {
-               "message":'sucessfully updated',
-               "priority": 'success'
-               }
-               ]);
-              }
-          },
+                 $('#item_receive_'+row_id).val(data.id);
+                  if(clicked_button.attr('name')=="item_receive_store"){
+
+                      clicked_button.hide();
+                      $("#div_"+row_id).show();
+
+                //    selected_span.toggle();
+                  }
+                }
+            },
+        });
+
       });
 
-    });
+      $('#add_update_all').click(function(){
+        all_child_update.click();
+      });
+
+      var all_child_destroy=$('[name="item_receive_destroy"]').click(function(){
+          var clicked_button=$(this);
+
+          var row_id=$(this).attr('id');
+
+          var receive_id=row_id.split('_')[0];
+          var item_id=row_id.split('_')[1];
+
+            $.ajax({
+                type: 'post',
+                url: '/'+$(this).attr('name'),
+                data: {
+                    'id': $('#item_receive_'+row_id).val(),
+                      '_token': $('input[name=_token]').val()
+
+                },
+                success: function(data) {
+                    if ((data.errors)) {
+
+
+
+                        $(document).trigger("add-alerts", [
+                       {
+                       "message":"data not removed well please try again",
+                       "priority": 'danger'
+                       }
+                       ]);
+                    } else {
+                      $(document).trigger("add-alerts", [
+                     {
+                     "message":'sucessfully removed',
+                     "priority": 'success'
+                     }
+                     ]);
+
+                      if(clicked_button.attr('name')=="item_receive_destroy"){
+
+                        $("#"+row_id+".add").show();
+                        $("#div_"+row_id).hide();
+                        clicked_button.closest('tr').find('input[name="amount"]').val(" ");
+                        clicked_button.closest('tr').find('input[name="rejected"]').val(" ");
+
+                    //    selected_span.toggle();
+                      }
+                    }
+                },
+            });
+
+          });
 
 });
 

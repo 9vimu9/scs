@@ -7,19 +7,19 @@
 
     <title>KUC | Stocks</title>
 
-   
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
     <!-- Styles -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     {{-- datatables --}}
    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css">
-   
+
     @yield('head')
     <style>
         body {
@@ -32,7 +32,7 @@
 
         .table {
             border-radius: 5px;
-            
+
             margin: 0px auto;
             float: none;
         }
@@ -61,25 +61,28 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     {{-- <li><a href="{{ url('/home') }}">store</a></li> --}}
+                      <li><a href="{{ url('/request_report_list') }}">store</a></li>
                     <li><a href="{{ url('/request_report_list') }}">item requests</a></li>
                     <li><a href="{{ url('/orders') }}">orders</a></li>
                      <li><a href="{{ url('/receives') }}">GRN</a></li>
                     <li><a href="{{ url('/issues') }}">issues</a></li>
                     {{-- <li><a href="{{ url('/loanissues') }}">loan account</a></li> --}}
                     {{-- <li><a href="{{ url('/loanissuereturns') }}">returns</a></li> --}}
-                     <li><a href="{{ url('/items') }}">store bin cards</a></li> 
+                     <li><a href="{{ url('/items') }}">store bin cards</a></li>
                     <li><a href="{{ url('/suppliers') }}">suppliers</a></li>
                     <li><a href="{{ url('/officers') }}">officers</a></li>
                      <li><a href="{{ url('/cats') }}">categories</a></li>
-                  
-                </ul>
 
+                </ul>
+<?php // TODO: add unit for officers create store page seect day button whend user select day from that input and then it will show the all the orders grn issue happens?>
+<?php // TODO: show all item current stock section in store and user can select all-G O R below reorder O R below min Rbutton and full search options  ?>
+<?php // TODO: save karanne nathuwa yanna hadaddi warning ekak denna hadanna  ?>
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
-                       <li><a href="{{ url('/register') }}">Register</a></li> 
+                       <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -90,7 +93,7 @@
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
-                        <li><a href="/change-password">settings</a></li> 
+                        <li><a href="/change-password">settings</a></li>
                     @endif
                 </ul>
             </div>
@@ -109,7 +112,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="{{ asset('js/jquery.bsAlerts.min.js') }}"></script>
 
-    
+
    	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
 	</script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js">
@@ -121,13 +124,13 @@
 
 
 
- 
+
   <script>
   $( function() {
     $( ".datepicker" ).datepicker({ minDate: "-1M", maxDate: "+6M", dateFormat:"yy-mm-dd" });
   } );
   </script>
-  
+
 
    @yield('script')
 

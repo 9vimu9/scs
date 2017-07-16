@@ -33,7 +33,7 @@
                          <div class="form-group">
                             <label class="col-md-4 control-label">description</label>
                             <div class="col-md-4">
-                               <textarea name="description" class="form-control">{{$issue->description}}</textarea>
+                               <textarea name="description" class="form-control">{{$issue->description}}</textarea>වැඩ සදහා ...
                             </div>
                         </div>
 
@@ -45,12 +45,12 @@
                             </div>
                         </div>
                     </form>
-                
+
             </div>
         </div>
     </div>
 </div>
-@endsection 
+@endsection
 
 @section('script')
  {{-- auto suggest --}}
@@ -65,8 +65,4 @@
         });
     </script>
     {{-- end of autosuggest --}}
-@endsection 
-
-
-
-
+@endsection
