@@ -76,28 +76,29 @@ class ItemsController extends Controller
     public function show($id)
     {
 
-        $data_o = item_orders::select(DB::raw('"o" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,order_id as id,amount,created_at'))
+        $data_o = item_orders::select(DB::raw('"1o" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,order_id as id,amount,created_at'))
                     ->where('item_id', '=', $id);
 
                    //  DATE_FORMAT(created_at, "%Y/%l/%d")
 
-        $data_r = item_receives::select(DB::raw('"r" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,receive_id as id,(amount-rejected)as amount,created_at'))
+        $data_r = item_receives::select(DB::raw('"2r" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,receive_id as id,(amount-rejected)as amount,created_at'))
                     ->where('item_id', '=', $id);
 
-        $data_li = item_loanissue::select(DB::raw('"li" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissue_id as id,amount,created_at'))
+        $data_li = item_loanissue::select(DB::raw('"4li" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissue_id as id,amount,created_at'))
                     ->where('item_id', '=', $id);
 
-        $data_lir = item_loanissuereturn::select(DB::raw('"lir" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissuereturn_id as id,(amount-rejected)as amount,created_at'))
+        $data_lir = item_loanissuereturn::select(DB::raw('"3lir" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissuereturn_id as id,(amount-rejected)as amount,created_at'))
                     ->where('item_id', '=', $id);
 
 
-        $logs = issue_item::select(DB::raw('"i" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,issue_id as id,(amount)as amount,created_at'))
+        $logs = issue_item::select(DB::raw('"5i" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,issue_id as id,(amount)as amount,created_at'))
                     ->where('item_id', '=', $id)
                     ->union($data_r)
                     ->union($data_o)
                     ->union($data_li)
                     ->union($data_lir)
                     ->orderBy('created_at')
+                    ->orderBy('type')
                     ->get();
 
 //return $logs;
@@ -179,7 +180,12 @@ class ItemsController extends Controller
 
         }
         return $validator;
+    }
 
+
+
+    public function LedgerShow($id)
+    {
 
     }
 

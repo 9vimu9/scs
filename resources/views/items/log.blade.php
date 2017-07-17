@@ -33,71 +33,84 @@
                         $title="";
                         $no_col_header="";
                     ?>
-                    <table id="log" class="table  table-hover table-bordered" style="width: 55%" >
+                    <table id="log" class="table table-bordered " width="75%">
                         <thead>
+                          <tr>
+                              <th colspan="3" style="text-align: center" ><big>ordered</big></th>
+                              <th colspan="3" style="text-align: center" ><big>received</big></th>
+                              <th colspan="3"style="text-align: center"><big>issued</big></th>
+                              <th  width="8%" rowspan="2" colspan="1" style="text-align: center"><big>balance</big></th>
+                          </tr>
                             <tr>
-                                <th>type</th>
-                                <th>#no</th>
-                                <th>quantity</th>
-                                <th>balance</th>
+                                <th width="10%">date</th>
+                                <th width="8%">order no</th>
+                                <th width="8%">quantity</th>
+                                <th width="10%">date</th>
+                                <th width="8%">GRN no</th>
+                                <th width="8%">quantity</th>
+                                <th width="10%">date</th>
+                                <th width="8%">IO no</th>
+                                <th width="8%">quantity</th>
+
+
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach($logs as $log)
 
-                                @if($previous_date!=$log->date)
 
-                                    <?php
-                                        $previous_date=$log->date;
-                                    ?>
-                                    <tr class="bg-info">
-                                        <td colspan="4" style="text-align: center"> {{$log->date}}</td>
-                                        <td style="display: none;"></td>
-                                        <td style="display: none;"></td>
-                                        <td style="display: none;"></td>
-                                    </tr>
-                                @endif
 
-                                <tr>
 
-                                    <?php
-                                        if($log->type=="o"){
-                                            $link_prhase="/itemorders/";
-                                            $title="ORDERED";
-                                            $no_col_header="order #";
+                                        @if($log->type=="1o")
+                                          <tr bgcolor="#FF0000">
+                                          <td>{{$log->date}}</td>
+                                          <td><a href="/itemorders/{{$log->id}}">order #{{$log->id}}</a></td>
+                                          <td>{{$log->amount}}</td>
+                                          <td  colspan="7"></td>
 
-                                        }else if($log->type=="r"){
-                                            $link_prhase="/itemreceives/";
-                                            $title="RECEIVED";
-                                            $no_col_header="GRN #";
-                                            $balance+=$log->amount;
 
-                                        }else if($log->type=="i"){
-                                            $link_prhase="/issueitems/";
-                                            $title="ISSUED";
-                                            $no_col_header="IO #";
-                                            $balance-=$log->amount;
 
-                                        }else if($log->type=="li"){
+                                        @elseif($log->type=="2r")
+                                            <tr bgcolor="#00FF00">
+                                            <td colspan="3"></td>
+                                            <td>{{$log->date}}</td>
+                                            <td><a href="/itemreceives/{{$log->id}}">GRN #{{$log->id}}</a></td>
+                                            <td>{{$log->amount}}</td>
+                                            @php
+                                                $balance+=$log->amount;
+                                            @endphp
+                                            <td colspan="3"></td>
+                                            <td>{{$balance}}</td>
+
+                                        @elseif($log->type=="5i")
+                                            <tr bgcolor="#0000FF">
+                                            <td colspan="6"></td>
+                                            <td>{{$log->date}}</td>
+                                            <td><a href="/issueitems/{{$log->id}}">IO #{{$log->id}}</a></td>
+                                            <td>{{$log->amount}}</td>
+
+                                            @php
+                                                $balance-=$log->amount;
+                                            @endphp
+                                            <td>{{$balance}}</td>
+
+                                        {{-- @elseif($log->type=="4li")
                                             $link_prhase="/itemloanissues/";
                                             $title="LOAN ACCOUNT ISSUED";
                                             $no_col_header="LIO #";
                                             $balance-=$log->amount;
 
 
-                                        }else if($log->type=="lir"){
+                                        @elseif($log->type=="3lir")
                                             $link_prhase="/itemloanissuereturns/";
                                             $title="LOAN ITEM RETURNED";
                                             $no_col_header="LIRO #";
-                                            $balance+=$log->amount;
+                                            $balance+=$log->amount; --}}
 
-                                        }
-                                    ?>
-                                    <td>{{$title}}</td>
-                                    <td><a href="{{ $link_prhase.$log->id}}">{{$no_col_header.$log->id}}</a></td>
-                                    <td>{{$log->amount}}</td>
-                                    <td>{{$balance}}</td>
+                                        @endif
+
+
 
                                 </tr>
 
