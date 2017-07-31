@@ -31,23 +31,43 @@
 
 }
 
-function GetColumnData (input_id,column,table,output_device) {
-    var data;
+    function GetSingleValue (input_id,column,table,output_device) {
+      var data;
+      $.ajax({
+          type:'GET',
+          url: '/GetSingleValue',
+          data:"?q="+input_id+"&c="+column+"&t="+table,
+          success:function(data){
+              $(output_device).val(data);
+              $(output_device).html(data);
+          }
+      });
+    }
+
+    function GetLatestPrice(item_id,output_device) {
+      var data;
+      $.ajax({
+          type:'GET',
+          url: '/GetLatestPrice',
+          data:"q="+item_id,
+          success:function(data){
+              $(output_device).val(data);
+              $(output_device).html(data);
+          }
+      });
+    }
+
+    function getStoreQuantitiy (item_id,output_device) {
 
         $.ajax({
             type:'GET',
-            url: '/getcolumndata',
-
-
-            data:"?q="+input_id+"&c="+column+"&t="+table,
-
+            url: '/checkquantity',
+            data:'q='+item_id,
             success:function(data){
 
                 $(output_device).val(data);
-                  $(output_device).html(data);
-                  //  $(output_device).text(data);
-
-
+                $(output_device).html(data);
+                return parseInt(data);
             }
         });
     }

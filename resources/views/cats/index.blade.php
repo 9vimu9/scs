@@ -14,21 +14,21 @@
                      <thead>
                         <tr>
                             <th style="width: 25%">name</th>
-                            <th style="width: 10%">symbol</th>
+
                             <th style="width: 20%">created</th>
                             <th style="width: 20%">last updated</th>
                             <th style="width: 15%"></th>
-                           
+
                         </tr>
                     </thead>
                         @foreach($cats as $cat)
                             <tr>
                                 <td> <big><a href="/cats/{{$cat->id}}">{{$cat->name}}</a></big></td>
-                                <td>{{$cat->symbol}}</td>
+                              
                                 <td>{{$cat->created_at->format('Y-m-d_H:m')}}</td>
                                 <td>{{$cat->updated_at->format('Y-m-d_H:m')}}</td>
-                                
-                                   
+
+
 
                                     <form action="/cats/{{$cat->id}}" class="pull-right" method="POST">
                                         {{ csrf_field() }}
@@ -37,23 +37,23 @@
                                         <input type="hidden" name="_method" value="DELETE">
                                          </td>
                                     </form>
-                               
+
                             </tr>
-                           
-                               
-                              
-                            
+
+
+
+
                     @endforeach
                     </table>
-                      
+
                     @else
                     no categories<br>click add category button
-                    
+
                     @endif
                 </div>
-            
+
         </div>
-      
+
     </div>
 </div>
 

@@ -8,12 +8,12 @@ use App\Http\Requests;
 use App\item;
 use App\cat;
 use App\item_orders;
-use App\item_receives;
-use App\issue_item;
-use App\item_loanissue;
-use App\item_loanissuereturn;
-use Illuminate\Support\Facades\DB;
+use App\item_grns;
+use App\sale_item;
+use App\huts;
 
+use Illuminate\Support\Facades\DB;
+use Auth;
 use Validator;
 
 
@@ -34,7 +34,7 @@ class ItemsController extends Controller
 
     public function index()
     {
-        $data=item::OrderBy('name','desc')->get();
+        $data=item::OrderBy('updated_at','desc')->get();
 
         return view('items.index')->with("all_items",$data);
 
@@ -60,11 +60,24 @@ class ItemsController extends Controller
     {
         $item=new item();
         $val=  $this->AddUpdateCore($item,$request);
-        if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
-            return redirect('/items/')->with('success','successfully saved');
+        if ($val->fails()){
 
+          return redirect()->back()->withErrors($val)->withInput();
+
+        }
+        else{
+            DB::table('change_prices')->insert(
+              [
+                'item_id' => $item->id,
+                'price' => 0,
+                'user_id'=>Auth::user()->id,
+                'created_at'=>$item->created_at,
+                'updated_at'=>$item->updated_at
+              ]
+            );
+            return redirect('/items/create')->with('success','successfully saved');
+
+          }
     }
 
     /**
@@ -81,17 +94,10 @@ class ItemsController extends Controller
 
                    //  DATE_FORMAT(created_at, "%Y/%l/%d")
 
-        $data_r = item_receives::select(DB::raw('"2r" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,receive_id as id,(amount-rejected)as amount,created_at'))
+        $data_r = item_grns::select(DB::raw('"2r" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,grn_id as id,(amount-rejected)as amount,created_at'))
                     ->where('item_id', '=', $id);
 
-        $data_li = item_loanissue::select(DB::raw('"4li" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissue_id as id,amount,created_at'))
-                    ->where('item_id', '=', $id);
-
-        $data_lir = item_loanissuereturn::select(DB::raw('"3lir" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,loanissuereturn_id as id,(amount-rejected)as amount,created_at'))
-                    ->where('item_id', '=', $id);
-
-
-        $logs = issue_item::select(DB::raw('"5i" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,issue_id as id,(amount)as amount,created_at'))
+        $logs = sale_item::select(DB::raw('"5i" as type,DATE_FORMAT(created_at, "%Y/%m/%d") as date,sale_id as id,(amount)as amount,created_at'))
                     ->where('item_id', '=', $id)
                     ->union($data_r)
                     ->union($data_o)
@@ -116,7 +122,7 @@ class ItemsController extends Controller
      */
     public function edit($id)
     {
-         $data=item::find($id);
+        $data=item::find($id);
         return view("items.edit")->with('item',$data);
     }
 
@@ -148,35 +154,38 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
-        $item=item::find($id);
-       $item->delete();
-       return redirect('/items')->with('success',"item<strong> $item->name </strong>removed successfully");
+
+      $item=item::find($id);
+
+        $item->delete();
+        if($item->ishut>0){
+
+          $hut=huts::find($item->ishut);// NOTE: when ishut>0 means it is pk of huts
+          $hut->delete();
+
+
+        }
+        return redirect('/items')->with('success',"item<strong> $item->name </strong>removed successfully");
+
+
 
     }
     private function AddUpdateCore($item,$request)
-    {//'email' => 'required|unique:users,email,' . $user->id
+    {
 
         $validator = Validator::make($request->all(), [
-            'name'=>'required',
-            'code'=>"required",
-            'location'=>"required",
-            'max'=>"required|numeric",
-            'min'=>"required|numeric",
-            'reorder'=>"required|numeric",
-            'cat_id'=>"required|numeric",
+            'name'=>"required",
+            'initial_quantity'=>"required|numeric",
+            'cat_id'=>"required|numeric"
         ]);
         if (!$validator->fails()){
 
             $item->name=$request['name'];
-            $item->code=$request['code'];
-            $item->location=$request['location'];
-            $item->max=$request['max'];
-            $item->min=$request['min'];
-            $item->reorder=$request['reorder'];
+            $item->initial_quantity=$request['initial_quantity'];
             $item->cat_id=$request['cat_id'];
 
+
             $item->save();
-            session(['cat_name' => cat::find($request['cat_id'])->name,'cat_id' => $request['cat_id'],'cat_symbol' =>cat::find($request['cat_id'])->symbol]);
 
         }
         return $validator;
@@ -184,10 +193,6 @@ class ItemsController extends Controller
 
 
 
-    public function LedgerShow($id)
-    {
-
-    }
 
 
 

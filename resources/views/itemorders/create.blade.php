@@ -8,7 +8,7 @@
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="/itemorders">
                         {{ csrf_field() }}
-                      
+
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">item name</label>
@@ -16,11 +16,11 @@
                                  <select id="item"  name="item" class="form-control" data-width="100%"></select>
                                  <input type="hidden" id="item_id"  name="item_id"/>
                                   <input type="hidden" id="order_id"  name="order_id" value="{{$order_id}}"/>
-                                 
+
                             </div>
-                             
+
                                {{-- reorder quantity <span class="label label-danger" id="reorder_badge"></span> --}}
-                            
+
                         </div>
 
                         <div class="form-group">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </form>
-                
+
             </div>
         </div>
     </div>
@@ -64,14 +64,14 @@
 @section('script')
 
     @include('layouts.suggest')
-   
+
     <script>
-  
+
     var reorder=parseInt($('#reorder_badge').text());
-    
+
 
     $("#unit_price,#amount").keyup(function(){
-       
+
       //  checkReorder();
         var price=$('#unit_price').val();
         var amount=$("#amount").val();
@@ -80,10 +80,10 @@
     });
 
     function checkReorder(){
-       
-      
+
+
         if(reorder==0){
-           
+
              $(document).trigger("add-alerts", [
             {
                 "message": "please select your item from item box",
@@ -91,9 +91,9 @@
             }
             ]);
         } else{
-            
+
             if(reorder<$("#amount").val()){
-               
+
                 $(document).trigger("add-alerts", [
                 {
                 "message": $( "#item option:selected" ).text()+"'s maximum reorder value is "+reorder+". apply below that",
@@ -112,12 +112,10 @@
         var seletedItemId=evt.params.data.id;
        // console.log(seletedItemId);
         $('#item_id').val(seletedItemId);
-          GetColumnData(seletedItemId,"reorder","items","#reorder_badge");
-     
+        GetSingleValue(seletedItemId,"reorder","items","#reorder_badge");
+
     });
  // $('#item').select2('data', {id: $('#item_id').val(), a_key: $('#item_name').val()});
     </script>
 
-@endsection 
-
-
+@endsection

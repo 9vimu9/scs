@@ -8,64 +8,41 @@
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="/items/{{$item->id}}">
                         {{ csrf_field() }}
-
+                        <input type="hidden" name="_method" value="PUT">
 
                            <div class="form-group">
                             <label class="col-md-4 col-sm-4 control-label">category</label>
                             <div class="col-md-3 col-sm-3">
-
                                 <select id="cat"  name="cat" class="form-control" data-width="100%">
                                   <option value="{{$item->cat_id}}" selected="{{$item->cat->name}}">
                                       {{$item->cat->name}}
                                   </option>
                                 </select>
                                  <input type="hidden" id="cat_id" value="{{$item->cat_id}}" name="cat_id"/>
-
                             </div>
+                          </div>
 
 
-                        </div>
 
-                        <input type="hidden" name="_method" value="PUT">
                         <div class="form-group">
                             <label class="col-md-4 control-label">name</label>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <input id="name" type="text" class="form-control" name="name" value="{{$item->name}}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">code</label>
-                            <div class="col-md-3">
-                                <input id="code" type="text" class="form-control" name="code" value="{{$item->code}}">
+                            <label class="col-md-4 control-label">initial quantity</label>
+                            <div class="col-md-2">
+                                <input id="initial_quantity" type="text" class="form-control" name="initial_quantity" value={{$item->initial_quantity}}>
                             </div>
                         </div>
 
-                          <div class="form-group">
-                            <label class="col-md-4 control-label">location</label>
-                            <div class="col-md-3">
-                                <input id="location" type="text" class="form-control" name="location" value="{{$item->location}}">
-                            </div>
-                        </div>
-
-                          <div class="form-group">
-                            <label class="col-md-4 control-label">max level</label>
-                            <div class="col-md-1">
-                                <input id="max" type="text" class="form-control" name="max" value="{{$item->max}}">
-                            </div>
-
-                             <label class="col-md-1 control-label">min level</label>
-                            <div class="col-md-1">
-                                <input id="min" type="text" class="form-control" name="min" value="{{$item->min}}">
-                            </div>
-                        </div>
-
-
-
-                          <div class="form-group">
-                            <label class="col-md-4 control-label">reorder level</label>
-                            <div class="col-md-1">
-                                <input id="reorder" type="text" class="form-control" name="reorder" value="{{$item->reorder}}">
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-btn fa-plus"></i> update
+                                </button>
                             </div>
                         </div>
 
@@ -90,44 +67,11 @@
      $('#cat').on('select2:select', function (evt) {
          var cat_id=evt.params.data.id;
            $('#cat_id').val(cat_id);
-           GetColumnData(cat_id,"symbol","cats","#code");
 
 
-    });
-
- $("#max,#min,#reorder").change(function(){
-
-      //  checkReorder();
-        var max=parseInt($('#max').val());
-        var min=parseInt($("#min").val());
-        var reorder=parseInt($("#reorder").val());
-
-
-        if(max<=min){
-
-              $(document).trigger("add-alerts", [
-                {
-                "message": "check your max and min  values",
-                "priority": 'danger'
-                }
-                ]);
-            $(this).focus();
-            $(this).val('');
-        }
-
-        if( max<=reorder || min>=reorder){
-
-           $(document).trigger("add-alerts", [
-                {
-                "message": "check your reorder value",
-                "priority": 'danger'
-                }
-                ]);
-           $("#reorder").focus();
-          $("#reorder").val('');
-     }
 
     });
+
 </script>
 
 @endsection

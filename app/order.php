@@ -12,9 +12,9 @@ class order extends Model
     // }
 
 
-    public function receive()
+    public function grn()
     {
-        return $this->hasOne('App\receives');
+        return $this->hasOne('App\grns');
     }
 
     public function supplier(){

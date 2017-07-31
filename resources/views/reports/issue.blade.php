@@ -3,7 +3,7 @@
 
 
  
-print time: {{date("Y-m-d H:i:sa")}} report create time:{{$issue->created_at->format('Y-m-d H:i:sa')}} issue id:{{$issue->id}}
+print time: {{date("Y-m-d H:i:sa")}} report create time:{{$sale->created_at->format('Y-m-d H:i:sa')}} sale id:{{$sale->id}}
 
 
    <div class="wrapper">
@@ -18,7 +18,7 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$issue->created_at->fo
         <div class="row">
             <div class="col-xs-1"></div>
             <div class="col-xs-11">
-                <p>{{$issue->description}} වැඩ සදහා පහත සදහන් ද්‍රව්‍ය {{$issue->issue_date}} දින ඉල්ලුම්පතකින් ඉල්ලා ඇත.</p>
+                <p>{{$sale->description}} වැඩ සදහා පහත සදහන් ද්‍රව්‍ය {{$sale->sale_date}} දින ඉල්ලුම්පතකින් ඉල්ලා ඇත.</p>
             </div>
             
         </div>
@@ -26,18 +26,18 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$issue->created_at->fo
          <div class="row">
             <div class="col-xs-1"></div>
             <div class="col-xs-7">
-              <p><strong>අංකය : <font size="4">{{$issue->id}}</font></strong></p>
+              <p><strong>අංකය : <font size="4">{{$sale->id}}</font></strong></p>
             </div>
             
             <div class="col-xs-4">
-               <p><strong><font size="3">{{$issue->officer->name}}</font><br>ඉල්ලුම් කරන නිලධාරි තැන</strong></p> 
+               <p><strong><font size="3">{{$sale->customer->name}}</font><br>ඉල්ලුම් කරන නිලධාරි තැන</strong></p> 
             </div>
             
         </div>
 
         
         <div class="panel-body">
-            @if(count($issue->items)>0)
+            @if(count($sale->items)>0)
                 <table class="table table-bordered "style="width: 50%" >
                     
                     <tr>
@@ -48,11 +48,11 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$issue->created_at->fo
                             
                     </tr>
 
-                    @foreach($issue->items as $issue_item)
+                    @foreach($sale->items as $sale_item)
                         <tr>
-                            <td>{{$issue_item->name}}</td>
-                            <td>{{$issue_item->code}}</a></td>
-                            <td>{{$issue_item->pivot->amount}}</a></td>
+                            <td>{{$sale_item->name}}</td>
+                            <td>{{$sale_item->code}}</a></td>
+                            <td>{{$sale_item->pivot->amount}}</a></td>
                            
                         </tr>
                     @endforeach

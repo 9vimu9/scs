@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class item extends Model
 {
-    public function orders()
-    {
-        return $this->belongsToMany('App\order','item_orders')->withPivot('amount', 'unit_price','id','created_at','updated_at');
-    }
 
      public function cat()
     {
         return $this->belongsTo('App\cat');
     }
+
+    public function prices()
+   {
+       return $this->hasMany('App\change_prices');
+   }
+
+
 }

@@ -19,8 +19,8 @@ class CreateItemOrdersTable extends Migration
             $table->integer('item_id')->length(10)->unsigned();
             $table->integer('order_id')->length(10)->unsigned();
             $table->timestamps();
-            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
             $table->unique(['order_id', 'item_id'], 'composite_index');
 
         });

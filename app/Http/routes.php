@@ -16,7 +16,11 @@ Route::get('/','HomeController@index');
 
 Route::get('/suggest', 'SuggestsController@suggest');
 
-Route::get('/getcolumndata', 'ColumnDataController@GetColumnData');
+Route::get('/GetSingleValue', 'AjaxDataController@GetSingleValue');
+Route::get('/GetLatestPrice', 'AjaxDataController@GetLatestPrice');
+
+Route::get('/item_price_history', 'ChangePricesController@getItemPriceHistory');
+Route::post('item_price_store', 'ChangePricesController@store');//ajax route
 
 Route::get('/home', 'HomeController@index');
 
@@ -24,8 +28,8 @@ Route::get('/checkquantity', 'QuantityController@CheckQuantity');
 
 
 
-Route::get('change-password', 'Auth\UpdatePasswordController@ShowUserProfile');
-Route::post('change-password', 'Auth\UpdatePasswordController@update');
+Route::get('settings/user', 'Auth\UpdatePasswordController@ShowUserProfile');
+Route::post('settings/user', 'Auth\UpdatePasswordController@update');
 Route::post('change-profile', 'Auth\UpdatePasswordController@UpdateUserProfile');
 
 Route::auth();
@@ -34,7 +38,10 @@ Route::auth();
 /////////////////////////////////////////////////////////////////common(some features only)
 
 
- Route::resource('items','ItemsController');
+Route::resource('items','ItemsController');
+
+Route::get('/change_prices', 'ChangePricesController@index');
+
 
 Route::resource('orders','OrdersController');
 
@@ -44,11 +51,18 @@ Route::resource('suppliers','SuppliersController');
 
 Route::resource('itemorders','ItemOrdersController');
 
-Route::get('/requestselected/{id}', 'ItemsReportrequestController@seedinfo');
-Route::get('/stores/current', 'QuantityController@GetCurrentStore');
-Route::get('/to_request_report', 'QuantityController@GetDataSelectedForReport');
+Route::resource('quotations','QuotationsController');
+Route::resource('quotationitems','QuotationItemsController');
+Route::get('/quotationitems/create/{id}', 'QuotationItemsController@create');
 
-Route::get('/request_report_list', 'QuantityController@AllRequestReports');
+Route::get('/stores/current', 'QuantityController@GetCurrentStore');
+
+Route::resource('huts','HutsController');
+Route::resource('hutitems','HutItemsController');
+Route::get('/hutitems/create/{id}', 'HutItemsController@create');
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,39 +77,27 @@ Route::group(['middleware' => 'App\Http\Middleware\StockMiddleware'], function()
     Route::resource('items','ItemsController',['except' => ['index','show']]);
 
 
-    Route::resource('officers','OfficersController');
+    Route::resource('customers','CustomersController');
 
-    Route::resource('receives','ReceivesController');
+    Route::resource('grns','grnsController');
 
-    Route::resource('itemreceives','itemreceivesController');
+    Route::resource('itemgrns','itemgrnsController');
 
-    Route::resource('issues','IssuesController');
+    Route::resource('sales','SalesController');
 
-    Route::resource('issueitems','IssueItemsController');
-    Route::get('/issueitems/create/{id}', 'IssueItemsController@create');
+    Route::resource('saleitems','SaleItemsController');
+    Route::get('/saleitems/create/{id}', 'SaleItemsController@create');
 
-    Route::resource('loanissues','LoanIssuesController');
 
-    Route::resource('itemloanissues','ItemLoanIssuesController');
-    Route::get('/itemloanissues/create/{id}', 'ItemLoanIssuesController@create');
-
-    Route::resource('loanissuereturns','LoanIssueReturnsController');
-
-    Route::resource('itemloanissuereturns','ItemLoanIssueReturnsController');
-
-    Route::get('/reports/requestmonthly/{id}', 'ReportsController@ShowMonthlyRequestReport');
     Route::get('/reports/grn/{id}', 'ReportsController@ShowGrnReport');
-    Route::get('/reports/issue/{id}', 'ReportsController@ShowIssueReport');
+    Route::get('/reports/sale/{id}', 'ReportsController@ShowSaleReport');
 
-    Route::post('itemrequestreportsupdate', 'ItemsReportrequestController@update');//update route for itemsreportrequest ajax
-    Route::post('itemrequestreportsadd', 'ItemsReportrequestController@store');//aadd route for itemsreportrequest ajax
-    Route::post('itemrequestreportsdelete', 'ItemsReportrequestController@destroy');//delet route for itemsreportrequest ajax
 
-    Route::post('item_receive_update', 'ItemreceivesController@update');//update route for itemsreportrequest ajax
-    Route::post('item_receive_store', 'ItemreceivesController@add');//aadd route for itemsreportrequest ajax
-    Route::post('item_receive_destroy', 'ItemreceivesController@destroy');//delet route for itemsreportrequest ajax
+    Route::post('item_grn_update', 'ItemgrnsController@update');//update route ajax
+    Route::post('item_grn_store', 'ItemgrnsController@add');//aadd route ajax
+    Route::post('item_grn_destroy', 'ItemgrnsController@destroy');//delet route ajax
 
-    Route::delete('/destroy_request_report/{reportrequests}', 'QuantityController@DestroyRequestReport');
+
 });
 
 

@@ -101,7 +101,7 @@
         var seletedItemId=evt.params.data.id;
        // console.log(seletedItemId);
         $('#item_id').val(seletedItemId);
-         GetColumnData(seletedItemId,"reorder","items","#reorder_badge");
+         GetSingleValue(seletedItemId,"reorder","items","#reorder_badge");
     });
  // $('#item').select2('data', {id: $('#item_id').val(), a_key: $('#item_name').val()});
     </script>

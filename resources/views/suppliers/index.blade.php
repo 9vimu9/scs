@@ -14,24 +14,18 @@
                      <thead>
                         <tr>
                             <th style="width: 25%">name</th>
-                             <th style="width: 15%">category</th>
-
                             <th style="width: 12%">tel</th>
-                            <th style="width: 17%">created</th>
-                            <th style="width: 17%">last updated</th>
+                            <th style="width: 35%">address</th>
+
                             <th style="width: 20%"></th>
-                           
+
                         </tr>
                         @foreach($all_suppliers as $supplier)
                             <tr>
                                 <td> <big><a href="/suppliers/{{$supplier->id}}">{{$supplier->name}}</a></big></td>
-                                <td>{{$supplier->cat->name}}</td>
                                 <td>{{$supplier->tel}}</td>
-                                <td>{{$supplier->created_at->format('Y-m-d_H:m')}}</td>
-                                <td>{{$supplier->updated_at->format('Y-m-d_H:m')}}</td>
+                                <td>{{$supplier->address}}</td>
                                 <td>
-                                   
-
                                     <form action="/suppliers/{{$supplier->id}}" class="pull-right" method="POST">
                                         {{ csrf_field() }}
                                          <a href="/suppliers/{{$supplier->id}}/edit" class="btn btn-warning btn-xs">edit</a>
@@ -40,21 +34,21 @@
                                     </form>
                                 </td>
                             </tr>
-                           
-                               
-                              
-                            
+
+
+
+
                     @endforeach
                     </table>
                         {{$all_suppliers->links()}}
                     @else
                     no suppliers<br>click add supplier button
-                    
+
                     @endif
                 </div>
-            
+
         </div>
-      
+
     </div>
 </div>
 

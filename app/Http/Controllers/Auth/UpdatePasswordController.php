@@ -26,31 +26,31 @@ class UpdatePasswordController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    
+
      public function ShowUserProfile(){
          $user = User::find(Auth::id());
-         return view('users.change-password')->with("user",$user);    
+         return view('users.usersettings')->with("user",$user);
      }
 
 
     public function UpdateUserProfile(Request $request){
-      
+
        $user = User::find(Auth::id());
-       
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|regex:/^[0-9]{9}$/|unique:users',
         ]);
 
         if (!$validator->fails()){
-           
+
             $user = User::find(Auth::id());
             $user->name=$request['name'];
             $user->email=$request['email'];
-             
+
             $user->save();
-            
-            return redirect('/change-password')->with('success','successfully updated');
+
+            return redirect('/settings/user')->with('success','successfully updated');
         }
         else{
              return redirect()->back()->withErrors($validator)->withInput();
@@ -63,7 +63,7 @@ class UpdatePasswordController extends Controller
 
 
      }
-    
+
     public function update(Request $request)
     {
         $this->validate($request, [

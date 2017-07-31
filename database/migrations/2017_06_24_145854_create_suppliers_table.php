@@ -17,10 +17,7 @@ class CreateSuppliersTable extends Migration
               $table->string('name');
               $table->string('address');
               $table->string('tel');
-             $table->string('email'); // add this line
-             $table->integer('cat_id')->unsigned(); // add this line
-             $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
-            $table->timestamps();
+              $table->timestamps();
         });
     }
 

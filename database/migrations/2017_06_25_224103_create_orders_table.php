@@ -19,8 +19,8 @@ class CreateOrdersTable extends Migration
             $table->integer('supplier_id')->length(10)->unsigned();
             $table->integer('user_id')->length(10)->unsigned();
             $table->timestamps();
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

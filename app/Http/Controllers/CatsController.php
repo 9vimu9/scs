@@ -24,9 +24,9 @@ class CatsController extends Controller
     public function index()
     {
         $data=cat::OrderBy('name','desc')->paginate(8);
-        
+
         return view('cats.index')->with("cats",$data);
-      
+
     }
 
     /**
@@ -54,7 +54,7 @@ class CatsController extends Controller
         else
           return redirect('/cats/')->with('success','successfully saved');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -89,7 +89,7 @@ class CatsController extends Controller
     public function update(Request $request, $id)
     {
          $cat=cat::find($id);
-      
+
         $val=  $this->AddUpdateCore($cat,$request);
               if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
@@ -105,25 +105,27 @@ class CatsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $cat=cat::find($id);
+      $cat->delete();
+      return redirect('/cats')->with('success','cat <strong>'.$cat->name.'</strong> updated');
+
     }
 
 
      private function AddUpdateCore($cat,$request)
     {
         $validator = Validator::make($request->all(), [
-            'name'=>'required',
-            'symbol'=>"required|"
+            'name'=>'required'
         ]);
          if (!$validator->fails()){
         $cat->name=$request['name'];
-        $cat->symbol=$request['symbol'];
-       
-        
+
+
+
         $cat->save();
  }
         return $validator;
-        
+
         # code...
     }
 }

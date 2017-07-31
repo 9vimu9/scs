@@ -20,12 +20,12 @@ class SuppliersController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
-        
+
         $data=Supplier::OrderBy('name','desc')->paginate(8);
-        
+
         return view('suppliers.index')->with("all_suppliers",$data);
     }
 
@@ -88,7 +88,7 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $supplier=Supplier::find($id);
-      
+
         $val=  $this->AddUpdateCore($supplier,$request);
               if ($val->fails())
             return redirect()->back()->withErrors($val)->withInput();
@@ -114,21 +114,18 @@ class SuppliersController extends Controller
         $validator = Validator::make($request->all(), [
             'name'=>'required',
             'tel'=>"required|regex:/^[0-9]{10}$/",
-            'email'=>'required|email',
-            'cat_id'=>'required|integer'
+
+
         ]);
         if (!$validator->fails()){
             $supplier->name=$request['name'];
             $supplier->address=$request['address'];
             $supplier->tel=$request['tel'];
-            $supplier->email=$request['email'];
-            $supplier->cat_id=$request['cat_id'];
-            
             $supplier->save();
         }
-        
+
         return $validator;
-        
+
         # code...
     }
 }

@@ -5,29 +5,12 @@
 
 
  <link rel="stylesheet" href="{{ asset('css/checkbox.css') }}" >
- 
+
 @endsection
 
 @section('content')
-<div class="container" >
-<form  method="GET" action="/to_request_report">
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="btn-toolbar">
-                    <big>current situation</big>
-               
-              
-                    {{ csrf_field() }}
-                    <input type="hidden" name="selected_ids" id="selected_ids" value="0">
-                    
-                    <input type="submit" id="to_this_month_button" class="pull-right btn btn-primary btn-sm" value="this month report" name="btn_this_month">
-                    <input type="submit" id="to_quick_button" class="pull-right btn btn-warning btn-sm" value="quick item request"  name="btn_quick"> 
-                   
-                </form>
 
-                </div>
-            </div>
+          
             <div class="panel-body">
             @if(count($items)>0)
                 <table id="current" class="table table-hover table-striped"  width="100%">
@@ -39,17 +22,17 @@
                             <th width="15%">category</th>
                             <th width="10%">code</th>
                             <th width="10%">location</th>
-                           
+
                             <th width="8%">max</th>
-                            
+
                             <th width="8%">min</th>
                             <th width="20%">add
-                            
+
                                         <div class="material-switch pull-right">
                                             <input id="mainAdd" name="mainAdd" type="checkbox" />
                                             <label for="mainAdd" class="label-default"></label>
                                         </div>
-                                   
+
 
 
                             </th>
@@ -59,20 +42,20 @@
                     <tbody>
                         @foreach($items as $item)
                             @if(($item->reorder-$item->current)>=0)
-                            
+
                                 <tr>
                                     <td> <a href="/items/{{$item->id}}">{{$item->name}}</a></td>
                                     <td>{{$item->current}}</td>
                                     <td>{{$item->reorder}}</td>
                                     <td>{{$item->cat->name}}</td>
-                                
+
                                     <td>{{$item->code}}</td>
                                     <td>{{$item->location}}</td>
-                                    
+
                                     <td>{{$item->max}}</td>
-                                
+
                                     <td>{{$item->min}}</td>
-                                
+
                                     <td>
 
                                         <div class="material-switch ">
@@ -81,31 +64,31 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
-                                    
-                                    
-                            @endif        
-                        @endforeach   
-              
+
+
+
+                            @endif
+                        @endforeach
+
                     </tbody>
-                
+
                 </table>
             @else
-                no officers<br>click add officer button
-                    
+                no customers<br>click add customer button
+
             @endif
 
             </div>
-            
+
         </div>
-      
+
     </div>
 </div>
 
 @endsection
 
 @section("script")
-<script> 
+<script>
 $(document).ready(function() {
 
     $("#to_this_month_button, #to_quick_button").click(function() {
@@ -117,7 +100,7 @@ $(document).ready(function() {
 
 
             }
-            
+
         })
 
         $("#selected_ids").val(selected_ids);
@@ -128,7 +111,7 @@ $(document).ready(function() {
 
      $('#mainAdd').change(function(){
           $('.to_report').prop("checked", this.checked);
-        
+
      });
 
     $('#current').DataTable( {
@@ -140,13 +123,13 @@ $(document).ready(function() {
              if(diffrence>0){
                 val=265-(diffrence/data[6])*255-50;
                 val=parseInt(val);
-             
+
              }
              console.log(val);
-           
-            
+
+
                 $('td', row).eq(1).css({'font-size':' 120%',"font-weight": "bold", "background-color": "rgb(200, "+val+",100 )"});
-            
+
         }
     } );
 //window.onload = function() { window.print(); }

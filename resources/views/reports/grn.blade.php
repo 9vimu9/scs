@@ -1,29 +1,29 @@
-කැස්බෑව  නගර සභාව 
-ගබඩා  ලැබීම් සටහන් 
-බඩු බාර ගැනීමේ ඉන්වොයිස් අංකය 
-ඇනවුම් අංකය 
-ඉන්ඩෙන්ටඩ් අංකය 
-දින දරන ඇනවුම් පරිදි පහත සදහන් බඩු / ද්‍රව්‍ය භාර ගතිමි. 
-ගබඩා භාරකරු 
-විස්තර ප්‍රමාණය ප්‍රතික්ෂ්ප කරන ලද ප්‍රමාණය ඉතිරි රේට් ගණන ගෙවිය යුතු මුලු මුදල 
-කාර්මික නිලධාරියාගේ වාර්තාව  
+කැස්බෑව  නගර සභාව
+ගබඩා  ලැබීම් සටහන්
+බඩු බාර ගැනීමේ ඉන්වොයිස් අංකය
+ඇනවුම් අංකය
+ඉන්ඩෙන්ටඩ් අංකය
+දින දරන ඇනවුම් පරිදි පහත සදහන් බඩු / ද්‍රව්‍ය භාර ගතිමි.
+ගබඩා භාරකරු
+විස්තර ප්‍රමාණය ප්‍රතික්ෂ්ප කරන ලද ප්‍රමාණය ඉතිරි රේට් ගණන ගෙවිය යුතු මුලු මුදල
+කාර්මික නිලධාරියාගේ වාර්තාව
 ලැබී ඇති ඉහත සදහන් බඩු/ ද්‍රව්‍ය  වැඩ විස්තර හා කාර්මික යෝග්‍යතාවයන්ට අනුකූල බව සහතික කරමි.
-ලේඛනයේ සටහන් කලා ගබඩා භාරකරු 
-සහතික කරන නිලධාරි 
-ගෙවීම් සදහා අනුමත කරමි බලයලත් නිලධාරි 
-සටහන් :ඕනැම මිලදි ගැනීමකටම මෙම ගබඩා ලැබීම් සටහන ලැබීමෙන් පසු මේවා ගබඩා අත්තිකාරම් ගිණුමට හර කොට සමාගමේ ගිණුමට බැර කල යුතුය (මිලදි ගන්නා විටම මුදල් ගෙවන්නේ නම් අදාල නොවේ ) 
+ලේඛනයේ සටහන් කලා ගබඩා භාරකරු
+සහතික කරන නිලධාරි
+ගෙවීම් සදහා අනුමත කරමි බලයලත් නිලධාරි
+සටහන් :ඕනැම මිලදි ගැනීමකටම මෙම ගබඩා ලැබීම් සටහන ලැබීමෙන් පසු මේවා ගබඩා අත්තිකාරම් ගිණුමට හර කොට සමාගමේ ගිණුමට බැර කල යුතුය (මිලදි ගන්නා විටම මුදල් ගෙවන්නේ නම් අදාල නොවේ )
 
 
 
 @include('layouts.reportheader')
- receive
+
 
 
     <?php $sub_tot=0;?>
-    @if(count($order->item_order)>0)
-        @foreach($order->items as $item_order)
+    @if(count($grn->item_grn)>0)
+        @foreach($grn->items as $item_grn)
             <?php
-                $sub_tot+=$item_order->pivot->amount*$item_order->pivot->unit_price;
+                $sub_tot+=$item_grn->pivot->amount*$item_order->pivot->unit_price;
             ?>
         @endforeach
     @endif
@@ -37,25 +37,25 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$order->created_at->fo
                 <p>දුරකතනය:2618100</p>
             </div>
             <div class="col-xs-4">
-               <p>ඇනවුම් අංකය | order No. <font size="5">{{$order->id}}</font></p> 
-        
+               <p>ඇනවුම් අංකය | order No. <font size="5">{{$order->id}}</font></p>
+
             </div>
         </div>
         <div class="row">
         <div class="col-xs-1"></div>
             <div class="col-xs-10">
-            <h2>  <p class="text-center" ><strong>කැස්බෑව නගර සභාව<br>පිලියන්දල<br>KESBEWA URBAN COUNCIL</p></strong></h2>  
-        
+            <h2>  <p class="text-center" ><strong>කැස්බෑව නගර සභාව<br>පිලියන්දල<br>KESBEWA URBAN COUNCIL</p></strong></h2>
+
             </div>
         </div>
 
         <div class="row">
          <div class="col-xs-1"></div>
             <div class="col-xs-10">
-                <p><h4>{{$order->supplier->name}}</h4></p> 
-                <p><h4>{{$order->supplier->address}}</h4></p> 
-                <p><h4>{{$order->date}}<h4></p> 
-        
+                <p><h4>{{$order->supplier->name}}</h4></p>
+                <p><h4>{{$order->supplier->address}}</h4></p>
+                <p><h4>{{$order->date}}<h4></p>
+
             </div>
         </div>
 
@@ -67,8 +67,8 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$order->created_at->fo
                     නියමිත කාල සීමාව ඇතුලත මෙම ඇනවුම් සපුරාලීමට ඔබ අපොහොසත් වුවහොත් වෙනත් කිසිදු දැනුම් දීමකින් තොරව ඇනවුම අවලංගු  වූවා සේ, සැලකීමට කරුණාකර සටහන් කර ගන්න<br>
                     please supply the following materials within {{(strtotime($order->deadline)-strtotime($order->date))/86400}} dates hereof an submit the bill and payment Materials should be delivered to the stores here durung office hours Please note that if this order in not executed within stipulated time herein.This order wil treated as canceled without further notice.
 
-                </p> 
-     
+                </p>
+
 
 <style>
 
@@ -89,7 +89,7 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$order->created_at->fo
                         <th style="width: 30%">ද්‍රව්‍ය පිලිබඳ විස්තර<br>description of articles</th>
                         <th style="width: 15%">ගණන<br>rate</th>
                         <th style="width: 20%">මුදල<br>amount</th>
-                            
+
                     </tr>
 
                     @foreach($order->items as $item_order)
@@ -101,21 +101,21 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$order->created_at->fo
                         </tr>
                     @endforeach
                 </table>
-                
+
             @else
             no items
-            
+
             @endif
         </div>
         <div class="row">
              <div class="col-xs-1"></div>
             <div class="col-xs-11">
-               <p >...............................<br>  කැස්බෑව නගර සභාව </p> 
-        
+               <p >...............................<br>  කැස්බෑව නගර සභාව </p>
+
             </div>
         </div>
 
-         
+
 
     </div>
 
@@ -124,6 +124,3 @@ print time: {{date("Y-m-d H:i:sa")}} report create time:{{$order->created_at->fo
 
 
 </html>
-
-
-  

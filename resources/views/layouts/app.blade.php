@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>KUC | Stocks</title>
+    <title>SCS | Stocks</title>
 
 
     <!-- Fonts -->
@@ -40,7 +40,12 @@
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default">
+      <a class="navbar-brand" href="{{ url('/home') }}">
+         <strong>SCS </strong> | <small>Sarathchandra Catering Services</small>
+      </a>
         <div class="container">
+          <!-- Branding Image -->
+
             <div class="navbar-header">
 
                 <!-- Collapsed Hamburger -->
@@ -51,30 +56,92 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                   <strong>KUC</strong>
-                </a>
+
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    {{-- <li><a href="{{ url('/home') }}">store</a></li> --}}
-                      <li><a href="{{ url('/request_report_list') }}">store</a></li>
-                    <li><a href="{{ url('/request_report_list') }}">item requests</a></li>
-                    <li><a href="{{ url('/orders') }}">orders</a></li>
-                     <li><a href="{{ url('/receives') }}">GRN</a></li>
-                    <li><a href="{{ url('/issues') }}">issues</a></li>
-                    {{-- <li><a href="{{ url('/loanissues') }}">loan account</a></li> --}}
-                    {{-- <li><a href="{{ url('/loanissuereturns') }}">returns</a></li> --}}
-                     <li><a href="{{ url('/items') }}">store bin cards</a></li>
-                    <li><a href="{{ url('/suppliers') }}">suppliers</a></li>
-                    <li><a href="{{ url('/officers') }}">officers</a></li>
-                     <li><a href="{{ url('/cats') }}">categories</a></li>
+
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      SUPPLY
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{{ url('/suppliers') }}">Suppliers</a></li>
+                      <li><a href="{{ url('/orders') }}">Orders</a></li>
+                      <li><a href="{{ url('/grns') }}">GRNs</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      SALES
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{{ url('/customers') }}">Customers</a></li>
+                      <li><a href="{{ url('/orders') }}">Quotations</a></li>
+                      <li><a href="{{ url('/sales') }}">Sale Order</a></li>
+                    
+                    </ul>
+                  </li>
+
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      RETURNINGS
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{{ url('/customers') }}">Returnings</a></li>
+                      <li><a href="{{ url('/orders') }}">Damages</a></li>
+
+                    </ul>
+                  </li>
+                  <li><a href="settings/user">PAYMENTS</a></li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      ITEMS
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{{ url('/cats') }}">categories</a></li>
+                      <li><a href="{{ url('/items/create') }}">Add item</a></li>
+                      <li><a href="{{ url('/change_prices') }}">Set item prices</a></li>
+                      <li><a href="{{ url('/huts') }}">huts</a></li>
+
+                    </ul>
+                  </li>
+
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      STOCKS
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{{ url('/customers') }}">Customers</a></li>
+                      <li><a href="{{ url('/orders') }}">Quotations</a></li>
+                      <li><a href="{{ url('/sales') }}">Sale Order</a></li>
+                      <li><a href="{{ url('/grns') }}">Item Returns</a></li>
+                    </ul>
+                  </li>
+
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      REPORTS
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{{ url('/customers') }}">Customers</a></li>
+                      <li><a href="{{ url('/orders') }}">Quotations</a></li>
+                      <li><a href="{{ url('/sales') }}">Sale Order</a></li>
+                      <li><a href="{{ url('/grns') }}">Item Returns</a></li>
+                    </ul>
+                  </li>
+
 
                 </ul>
-<?php // TODO: add unit for officers create store page seect day button whend user select day from that input and then it will show the all the orders grn issue happens?>
+<?php // TODO: add unit for customers create store page seect day button whend user select day from that input and then it will show the all the orders grn sale happens?>
 <?php // TODO: show all item current stock section in store and user can select all-G O R below reorder O R below min Rbutton and full search options  ?>
 <?php // TODO: save karanne nathuwa yanna hadaddi warning ekak denna hadanna  ?>
                 <!-- Right Side Of Navbar -->
@@ -93,7 +160,7 @@
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
-                        <li><a href="/change-password">settings</a></li>
+                        <li><a href="settings/user">settings</a></li>
                     @endif
                 </ul>
             </div>

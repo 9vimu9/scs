@@ -37,8 +37,8 @@
                         <thead>
                           <tr>
                               <th colspan="3" style="text-align: center" ><big>ordered</big></th>
-                              <th colspan="3" style="text-align: center" ><big>received</big></th>
-                              <th colspan="3"style="text-align: center"><big>issued</big></th>
+                              <th colspan="3" style="text-align: center" ><big>grnd</big></th>
+                              <th colspan="3"style="text-align: center"><big>saled</big></th>
                               <th  width="8%" rowspan="2" colspan="1" style="text-align: center"><big>balance</big></th>
                           </tr>
                             <tr>
@@ -63,7 +63,7 @@
 
 
                                         @if($log->type=="1o")
-                                          <tr bgcolor="#FF0000">
+                                          <tr bgcolor="#DADADA">
                                           <td>{{$log->date}}</td>
                                           <td><a href="/itemorders/{{$log->id}}">order #{{$log->id}}</a></td>
                                           <td>{{$log->amount}}</td>
@@ -72,10 +72,10 @@
 
 
                                         @elseif($log->type=="2r")
-                                            <tr bgcolor="#00FF00">
+                                            <tr bgcolor="#D9EDF7">
                                             <td colspan="3"></td>
                                             <td>{{$log->date}}</td>
-                                            <td><a href="/itemreceives/{{$log->id}}">GRN #{{$log->id}}</a></td>
+                                            <td><a href="/itemgrns/{{$log->id}}">GRN #{{$log->id}}</a></td>
                                             <td>{{$log->amount}}</td>
                                             @php
                                                 $balance+=$log->amount;
@@ -84,10 +84,10 @@
                                             <td>{{$balance}}</td>
 
                                         @elseif($log->type=="5i")
-                                            <tr bgcolor="#0000FF">
+                                            <tr bgcolor="#F2DEDE">
                                             <td colspan="6"></td>
                                             <td>{{$log->date}}</td>
-                                            <td><a href="/issueitems/{{$log->id}}">IO #{{$log->id}}</a></td>
+                                            <td><a href="/saleitems/{{$log->id}}">IO #{{$log->id}}</a></td>
                                             <td>{{$log->amount}}</td>
 
                                             @php
@@ -95,19 +95,7 @@
                                             @endphp
                                             <td>{{$balance}}</td>
 
-                                        {{-- @elseif($log->type=="4li")
-                                            $link_prhase="/itemloanissues/";
-                                            $title="LOAN ACCOUNT ISSUED";
-                                            $no_col_header="LIO #";
-                                            $balance-=$log->amount;
-
-
-                                        @elseif($log->type=="3lir")
-                                            $link_prhase="/itemloanissuereturns/";
-                                            $title="LOAN ITEM RETURNED";
-                                            $no_col_header="LIRO #";
-                                            $balance+=$log->amount; --}}
-
+                                      
                                         @endif
 
 

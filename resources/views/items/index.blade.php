@@ -13,28 +13,31 @@
                         <table id="example1" class="table table-bordered table-striped" width="75%">
                             <thead>
                                 <tr>
-                                    <th width="25%">name</th> 
+                                    <th width="25%">name</th>
                                     <th width="15%">categoty</th>
-                                    <th width="15%">created</th>
-                                    <th width="20%">last updated</th>
+
+                                    <th width="15%">current price</th>
+
                                     <th width="15%"></th>
                                 </tr>
                             </thead>
-                        
+
                             <tbody>
                                 @foreach($all_items as $item)
                                     <tr>
                                         <td> <big><a href="/items/{{$item->id}}">{{$item->name}}</a></big></td>
-                                        
-                                        <td>{{$item->cat->name}}</td> 
-                                        <td>{{$item->created_at->format('Y-m-d_H:m')}}</td>
-                                        <td>{{$item->updated_at->format('Y-m-d_H:m')}}</td>
-                                        <td> 
-                                            
 
-                                        <form action="/items/{{$item->id}}" class="pull-right" method="POST">
+                                        <td>{{$item->cat->name}}</td>
+                                        <td>{{$item->prices[count($item->prices)-1]->price}}</td>
+                                        <?php // NOTE: at ItemsController->index we set orderby as updated_at desc so $item->prices array created at same manner (updated_at desc so 0th index is the last price change)  ?>
+
+
+                                        <td>
+<?php // NOTE:ishut>0 means its =hut_id ?>
+
+                                        <form action="/items/{{$item->id }}" class="pull-right" method="POST">
                                             {{ csrf_field() }}
-                                            <a href="/items/{{$item->id}}/edit" class="btn btn-warning btn-xs">edit</a>
+                                            <a href="{{ $item->ishut>0 ? "/huts/".$item->ishut : "/items/".$item->id }}/edit" class="btn btn-warning btn-xs">edit</a>
                                             <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
                                             <input type="hidden" name="_method" value="DELETE">
                                         </form>
@@ -43,15 +46,15 @@
                                 @endforeach
                             </tbody>
                         </table>
-                            
+
                     @else
                     no items<br>click add item button
 
                     @endif
                 </div>
-            
+
         </div>
-      
+
     </div>
 </div>
 
@@ -61,17 +64,15 @@
 @section('script')
 <script>
   $(function () {
-   
+
     $('#example1').DataTable({
       'paging'      : true,
       'lengthChange': true,
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : true
+      'autoWidth'   : false
     })
   })
 </script>
 @endsection
-
-

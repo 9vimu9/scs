@@ -19,11 +19,11 @@ class OrdersController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
-        $data=order::OrderBy('id','desc')->paginate(8);
-        
+        $data=order::OrderBy('created_at','desc')->get();
+
         return view('orders.index')->with("orders",$data);
     }
 
@@ -51,7 +51,7 @@ class OrdersController extends Controller
             return redirect()->back()->withErrors($val)->withInput();
         else
         return redirect("/itemorders/".$order->id);
-  
+
         //
     }
 
@@ -75,8 +75,8 @@ class OrdersController extends Controller
     public function edit($id)
     {
          $data=order::find($id);
-       
-     
+
+
        return view("orders.edit")->with('order',$data);
     }
 
@@ -113,7 +113,7 @@ class OrdersController extends Controller
 
     private function AddUpdateCore($order,$request)
     {
-        
+
  $validator = Validator::make($request->all(), [
             'supplier_id'=>'required',
             'date'=>"required|date|before:deadline",
@@ -125,11 +125,11 @@ class OrdersController extends Controller
         $order->date=$request['date'];
         $order->deadline=$request['deadline'];
         $order->user_id=Auth::user()->id;
-        
+
         $order->save();
   }
         return $validator;
-       
+
 
     }
 }
