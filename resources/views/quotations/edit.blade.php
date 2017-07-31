@@ -17,8 +17,7 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">for</label>
                             <div class="col-xs-1">
-                                <input id="days" type="text" class="form-control" name="days" value={{old('days')}}>
-
+                                <input id="days" type="text" class="form-control" name="days" value="{{$quotation->days}}" />
                             </div>
                               <label class="control-label">days</label>
                         </div>
@@ -26,7 +25,7 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">customer</label>
                             <div class="col-xs-3">
-                              <select id="customer"  name="customer" class="form-control" data-width="100%">
+                              <select id="name"  name="customer" class="form-control" data-width="100%">
                                 <option value="{{$quotation->customer_id}}" selected="{{$quotation->customer->name}}">
                                     {{$quotation->customer->name}}
                                 </option>
@@ -34,6 +33,8 @@
                             <input type="hidden" id="customer_id" name="customer_id" value="{{$quotation->customer_id}}" />
                             </div>
                         </div>
+
+                      
 
 
                         <div class="form-group">

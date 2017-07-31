@@ -2,6 +2,22 @@
 
 @section('content')
 
+  <?php
+    $sub_tot=0;
+    $final_tot=0;
+  ?>
+  @if(count($quotation->quotation_item)>0)
+      @foreach($quotation->items as $quotation_item)
+          <?php
+              $sub_tot+=$quotation_item->pivot->total;
+          ?>
+      @endforeach
+      <?php
+          $final_tot=$quotation->service_charge+$sub_tot-($sub_tot-$quotation->advance)*($quotation->discount)/100;
+      ?>
+
+  @endif
+
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
@@ -14,37 +30,48 @@
                 <form action="/quotations/{{$quotation->id}}" class="form-group pull-right" method="POST">
                     {{ csrf_field() }}
 
-                    <a href="/reports/quotation/{{$quotation->id}}" class="btn btn-info btn-xs">print</a>
-                    <a href="/reports/quotation/{{$quotation->id}}" class="btn btn-info btn-xs">email</a>&nbsp&nbsp&nbsp&nbsp
-                    <a href="/quotations/{{$quotation->id}}/edit" class="btn btn-warning btn-xs ">edit this quotation</a>
-                    <input type="submit" name="delete" value="delete this quotation" class="btn btn-danger btn-xs">
+                    <a href="/reports/quotation/{{$quotation->id}}" class="btn btn-info btn-sm">print</a>
+                    <a href="/reports/quotation/{{$quotation->id}}" class="btn btn-info btn-sm">email</a>&nbsp&nbsp&nbsp&nbsp
+                    <a href="/quotations/{{$quotation->id}}/edit" class="btn btn-warning btn-sm ">edit this quotation</a>
+                    <input type="submit" name="delete" value="delete this quotation" class="btn btn-danger btn-sm">
                     <input type="hidden" name="_method" value="DELETE">
                 </form>
 
-
             </div>
             <div class="panel-body">
-
+              <div class="col-sm-2">
+                service charge(Rs) :<strong class="text-info"><big>{{$quotation->service_charge}}</big></strong>&nbsp&nbsp
+              </div>
+              <div class="col-sm-2">
+                advance(Rs) :<strong class="text-info"><big>{{$quotation->advance}}</big></strong>&nbsp&nbsp
+              </div>
+              <div class="col-sm-2">
+                discount :<strong class="text-info"><big>{{$quotation->discount}}</big></strong>%&nbsp&nbsp
+              </div>
+              <div class="pull-right">
+                <font size="3">total: </font> <span class="badge"><font size="4">Rs.{{$sub_tot}}</font></span>&nbsp&nbsp
+                <font size="4">final total: </font> <span class="badge"><font size="5">Rs.{{$final_tot}}</font></span>&nbsp&nbsp
+              </div>
 
             @if(count($quotation->items)>0)
-                <table class="table table-striped table-hover" style="width: 75%" >
+                <table class="table table-bordered table-hover" style="width: 95%" >
                     <thead>
                         <tr>
                             <th style="width: 25%">item name</th>
+                            <th style="width: 15%">unit price(Rs)</th>
                             <th style="width: 15%">amount</th>
-                            <th style="width: 20%">created</th>
+                            <th style="width: 15%">for {{$quotation->days}} days(Rs)</th>
                             <th style="width: 20%">last updated</th>
-                            <th style="width: 15%"> <a href="/quotationitems/create/{{$quotation->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a></th>
+                            <th style="width: 20%"> <a href="/quotationitems/create/{{$quotation->id}}" class="btn btn-info btn-xs"> <i class="fa fa-btn fa-plus"></i>add new item</a></th>
                         </tr>
                     </thead>
                     @foreach($quotation->items as $quotation_item)
                         <tr>
                             <td>{{$quotation_item->name}}</td>
+                            <td>{{$quotation_item->pivot->unit_price}}</td>
                             <td>{{$quotation_item->pivot->amount}}</td>
-                             <td> {{$quotation_item->pivot->created_at->format('Y-m-d_H:m')}}</td>
-                                   <td> {{$quotation_item->pivot->updated_at->format('Y-m-d_H:m')}}</td>
-
-
+                            <td>{{$quotation_item->pivot->total}}</td>
+                            <td> {{$quotation_item->pivot->updated_at->format('Y-m-d_H:m')}}</td>
                             <td>
                                 <form action="/quotationitems/{{$quotation_item->pivot->id}}" class="form-inline" method="POST">
                                     {{ csrf_field() }}
@@ -65,13 +92,9 @@
             @endif
 
             </div>
-
-
-
         </div>
     </div>
 
 </div>
-
 
 @endsection

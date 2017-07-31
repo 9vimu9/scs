@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,7 +14,7 @@ class AddUnitpricTotalUserIdColumnsForQuotationItemsTable extends Migration
     {
       Schema::table('quotation_items', function($table) {
         $table->decimal('unit_price',7,2);
-        $table->decimal('total',7,2);
+        $table->decimal('total',10,2);
         $table->integer('user_id')->length(5)->unsigned();
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
@@ -36,4 +36,4 @@ class AddUnitpricTotalUserIdColumnsForQuotationItemsTable extends Migration
       });
 
     }
-}
+} -->

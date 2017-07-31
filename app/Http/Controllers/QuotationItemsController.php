@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;
 use App\Http\Requests;
 use App\quotation_item;
 use App\quotation;
@@ -118,11 +118,16 @@ class QuotationItemsController extends Controller
          $this->validate($request,[
             'amount'=>'required|numeric',
             'item_id' => $item_id_validation,
-            'quotation_id'=>"required|numeric"
+            'quotation_id'=>"required|numeric",
+            'unit_price'=>"required|numeric",
+            'total'=>"required|numeric"
         ]);
             $quotation_item->amount=$request['amount'];
             $quotation_item->quotation_id=$request['quotation_id'];
             $quotation_item->item_id=$request['item_id'];
+            $quotation_item->total=$request['total'];
+            $quotation_item->unit_price=$request['unit_price'];
+            $quotation_item->user_id=Auth::user()->id;
             $quotation_item->save();
 
     }

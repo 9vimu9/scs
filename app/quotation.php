@@ -17,6 +17,6 @@ class quotation extends Model
 
   public function items()
  {
-     return $this->belongsToMany('App\item','quotation_items')->withPivot('amount','id','created_at','updated_at');
+     return $this->belongsToMany('App\item','quotation_items')->withPivot('amount','id','unit_price','total','user_id','created_at','updated_at');
  }
 }

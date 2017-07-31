@@ -120,19 +120,87 @@ class QuotationsController extends Controller
             'discount'=>'numeric'
 
         ]);
+        $sales_type=$request['checkfuneral']=="on" ? 1:0;
+        $days=$request['days'];
+
+        if ($quotation!=null && $quotation->sales_type!=$sales_type ){
+          $this->ItemTotalPriceUpdateByType($quotation);
+        }
+
+        if ($quotation!=null && $quotation->days!=$days ){
+          $this->ItemTotalPriceUpdateByDays($quotation,$days);
+        }
 
         if (!$validator->fails()){
-          $quotation->days=$request['days'];
+          $quotation->days=$days;
           $quotation->customer_id=$request['customer_id'];
           $quotation->service_charge=$request['service_charge'];
           $quotation->advance=$request['advance'];
           $quotation->discount=$request['discount'];
           $quotation->user_id=Auth::user()->id;
-          $quotation->sales_type=$request['checkfuneral']=="on" ? 1:0;
+          $quotation->sales_type=$sales_type;
           // NOTE: sales_type ==1 means funeral 0 means any other occasion
           $quotation->save();
         }
 
         return $validator;
+    }
+
+    public function ItemTotalPriceUpdateByDays($quotation,$days)
+    {
+
+      $halfDays=$days-1;
+
+        foreach ($quotation->items as $quotation_item){
+          $unit_price=$quotation_item->pivot->unit_price;
+          $half_price=$quotation_item->pivot->unit_price/2;
+          $amount=$quotation_item->pivot->amount;
+          $new_tot;
+          if ($quotation->sales_type==1)// NOTE: this is true means new salestype is funeral
+          {
+            if($halfDays>3){
+              $new_tot=($unit_price+3*$half_price)*$amount;
+            }
+            else{
+              $new_tot=($unit_price+$halfDays*$half_price)*$amount;
+            }
+          }
+          else {
+            $new_tot=($unit_price+$halfDays*$half_price)*$amount;
+          }
+          DB::table('quotation_items')
+            ->where('id', $quotation_item->pivot->id)
+            ->update(['total' => $new_tot]);
+        }
+    }
+
+    public function ItemTotalPriceUpdateByType($quotation)
+    {
+      $days=$quotation->days;
+      $halfDays=$days-1;
+
+        foreach ($quotation->items as $quotation_item){
+          $unit_price=$quotation_item->pivot->unit_price;
+          $half_price=$quotation_item->pivot->unit_price/2;
+          $amount=$quotation_item->pivot->amount;
+          $new_tot;
+          if ($quotation->sales_type==0)// NOTE: this is true means new salestype is funeral
+          {
+            if($halfDays>3){
+              $new_tot=($unit_price+3*$half_price)*$amount;
+            }
+            else{
+              $new_tot=($unit_price+$halfDays*$half_price)*$amount;
+            }
+          }
+          else {
+            $new_tot=($unit_price+$halfDays*$half_price)*$amount;
+          }
+          DB::table('quotation_items')
+            ->where('id', $quotation_item->pivot->id)
+            ->update(['total' => $new_tot]);
+
+        }
+
     }
 }

@@ -25,8 +25,8 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">customer</label>
                             <div class="col-xs-3">
-                               <select id="name"  class="form-control" ></select>
-                            <input type="hidden" id="customer_id" name="customer_id" value="" />
+                               <select id="name"  class="form-control" data-width="100%"></select>
+                               <input type="hidden" id="customer_id" name="customer_id" value="" />
                             </div>
                         </div>
 
