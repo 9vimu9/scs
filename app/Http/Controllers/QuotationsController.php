@@ -111,8 +111,7 @@ class QuotationsController extends Controller
        return redirect('/quotations')->with('success',"quotation no <strong> $quotation->id </strong>removed successfully");
     }
 
-    private function AddUpdateCore($quotation,$request)
-    {
+    private function AddUpdateCore($quotation,$request){
       $validator = Validator::make($request->all(), [
             'customer_id'=>'required',
             'service_charge'=>'numeric',

@@ -14,8 +14,7 @@
 
 Route::get('/','HomeController@index');
 
-Route::get('/suggest', 'SuggestsController@suggest');
-
+Route::get('/suggest',        'AjaxDataController@suggest');
 Route::get('/GetSingleValue', 'AjaxDataController@GetSingleValue');
 Route::get('/GetLatestPrice', 'AjaxDataController@GetLatestPrice');
 
@@ -84,14 +83,11 @@ Route::group(['middleware' => 'App\Http\Middleware\StockMiddleware'], function()
     Route::resource('itemgrns','itemgrnsController');
 
     Route::resource('sales','SalesController');
-
     Route::resource('saleitems','SaleItemsController');
     Route::get('/saleitems/create/{id}', 'SaleItemsController@create');
 
-
     Route::get('/reports/grn/{id}', 'ReportsController@ShowGrnReport');
     Route::get('/reports/sale/{id}', 'ReportsController@ShowSaleReport');
-
 
     Route::post('item_grn_update', 'ItemgrnsController@update');//update route ajax
     Route::post('item_grn_store', 'ItemgrnsController@add');//aadd route ajax

@@ -32,16 +32,25 @@
 }
 
     function GetSingleValue (input_id,column,table,output_device) {
-      var data;
+      var singleValue;
       $.ajax({
+          async: false,
           type:'GET',
           url: '/GetSingleValue',
           data:"?q="+input_id+"&c="+column+"&t="+table,
           success:function(data){
+
               $(output_device).val(data);
               $(output_device).html(data);
+              singleValue=data;
+
+
+
           }
       });
+
+return singleValue;
+
     }
 
     function GetLatestPrice(item_id,output_device) {

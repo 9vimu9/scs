@@ -120,7 +120,7 @@ class CustomersController extends Controller
           'nic'=>"required|regex:/^[0-9]{9}$/",
           'address'=>'required',
           'tel_1'=>"required|regex:/^[0-9]{10}$/",
-          'tel_2'=>"required|regex:/^[0-9]{10}$/",
+          'tel_2'=>"regex:/^[0-9]{10}$/",
           'email'=>'email'
         ]);
         if (!$validator->fails()){

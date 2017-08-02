@@ -5,8 +5,9 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
+              <a href="/hutitems/{{$hut_item->hut_id}}" class="btn btn-info btn-sm">back</a>
+
               Hut <big>{{$hut_item->item->name}} </big>edit item </strong></big>
-              <a href="/hutitems/{{$hut_item->hut_id}}" class="btn btn-info btn-sm pull-right">back</a>
 
             </div>
             <div class="panel-body">

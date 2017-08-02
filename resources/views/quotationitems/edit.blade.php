@@ -5,9 +5,9 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
+              <a href="/quotationitems/{{$quotation_item->quotation_id}}" class="btn btn-info btn-sm">back</a>
               <big>EDIT ITEMS OF quotation : {{$quotation_item->quotation_id}}</big></strong></big>
-                <a href="/quotationitems/{{$quotation_item->quotation_id}}" class="btn btn-info btn-sm pull-right">back</a>
-            </div>
+                  </div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="/quotationitems/{{$quotation_item->id}}">
 

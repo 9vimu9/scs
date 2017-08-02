@@ -17,9 +17,13 @@ class CreateSaleItemsTable extends Migration
             $table->integer('amount');
             $table->integer('item_id')->length(10)->unsigned();
             $table->integer('sale_id')->length(10)->unsigned();
+            $table->decimal('unit_price',7,2);
+            $table->decimal('total',10,2);
+            $table->integer('user_id')->length(5)->unsigned();
             $table->timestamps();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unique(['sale_id', 'item_id'], 'composite_index3');
         });
     }

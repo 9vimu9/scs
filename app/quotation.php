@@ -10,6 +10,10 @@ class quotation extends Model
       return $this->belongsTo("App\customer");
   }
 
+  public function user(){
+      return $this->belongsTo("App\user");
+  }
+
   public function quotation_item()
   {
       return $this->hasMany('App\quotation_item');
@@ -18,5 +22,10 @@ class quotation extends Model
   public function items()
  {
      return $this->belongsToMany('App\item','quotation_items')->withPivot('amount','id','unit_price','total','user_id','created_at','updated_at');
+ }
+
+ public function sale()
+ {
+     return $this->hasOne('App\sales');
  }
 }

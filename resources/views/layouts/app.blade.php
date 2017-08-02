@@ -81,9 +81,9 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li><a href="{{ url('/customers') }}">Customers</a></li>
-                      <li><a href="{{ url('/orders') }}">Quotations</a></li>
+                      <li><a href="{{ url('/quotations') }}">Quotations</a></li>
                       <li><a href="{{ url('/sales') }}">Sale Order</a></li>
-                    
+
                     </ul>
                   </li>
 
