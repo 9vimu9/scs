@@ -1,21 +1,18 @@
-sale_item@extends('layouts.app')
+@extends('layouts.app')
 
 @section('head')
-
-
  <link rel="stylesheet" href="{{ asset('css/checkbox.css') }}" >
-
 @endsection
 
 @section('content')
 
 <?php
-  $sub_tot=0;
+  $quotation_sub_total=0;
   if(count($sale->quotation->items)>0){
     foreach($sale->quotation->items as $quotation_item){
-      $sub_tot+=$quotation_item->pivot->total;
+      $quotation_sub_total+=$quotation_item->pivot->total;
     }
-    $sub_tot=$sale->quotation->service_charge+$sub_tot-($sub_tot-$sale->quotation->advance)*$sale->quotation->discount/100;// NOTE: total price cal
+    $quotation_sub_total=$sale->quotation->service_charge+$quotation_sub_total-($quotation_sub_total-$sale->quotation->advance)*$sale->quotation->discount/100;// NOTE: total price cal
   }
 ?>
 
@@ -27,34 +24,32 @@ sale_item@extends('layouts.app')
         <div class="panel panel-default">
             <div class="panel-heading"><big>sale <span class="label label-primary"><big>#{{$sale->id}}</big></span></big>
                 &nbsp&nbsp&nbsp&nbsp
-                for quotation : <strong class="text-info"><big><a href="/saleitems/{{$sale->id}}">#{{$sale->id}}</a></big></strong>
+                for quotation : <strong class="text-info"><big><a href="/quotationitems/{{$sale->quotation->id}}">#{{$sale->quotation->id}}</a></big></strong>
                 &nbsp&nbsp&nbsp&nbsp
-                customer : <strong class="text-info"><big>{{$sale->customer->name}}</big></strong>
+                customer : <strong class="text-info"><big>{{$sale->quotation->customer->name}}</big></strong>
 
                 <form action="/sales/{{$sale->id}}" class="form-group pull-right" method="POST">
                     {{ csrf_field() }}
-                      &nbsp&nbsp   sale-discount : <span class="badge" id="final_tot"></span>
+                    sale-discount+service charge : <span class="badge" id="sale_final_total"></span>
 
                     <a href="/reports/sale/{{$sale->id}}" class="btn btn-danger btn-xs">print</a>
                     <a href="/sales/{{$sale->id}}/edit" class="btn btn-warning btn-xs ">edit this sale</a>&nbsp&nbsp
                     <input type="submit" name="delete" value="delete this sale" class="btn btn-danger btn-xs">
                     <input type="hidden" name="_method" value="DELETE">
                 </form>
-
-
             </div>
             <div class="panel-body">
+                {{-- {{die('fff'.count($sale->items))}} --}}
+              {{-- {{die($sale_quotation)}} --}}
+            @if(count($sale->quotation->items)>0)
 
-
-            @if(count($sale->items)>0)
                 <table class="table table-bordered table-hover" id ="table" style="width: 100%" >
                     <thead>
                         <tr>
                             <th colspan="3" style="text-align: center" >item details</th>
-                            <th colspan="2" style="text-align: center" ><big>quotation items details</big> &nbsp&nbsp    value:<span class="badge"><font size="4"> Rs.{{$sub_tot}}</font></span></th>
+                            <th colspan="2" style="text-align: center" ><big>quotation</big> &nbsp&nbsp    value:<span class="badge"><font size="4"> Rs.{{$quotation_sub_total}}</font></span></th>
                             <th colspan="3"style="text-align: center"><big>SALE ORDER</big> &nbsp&nbsp    value:<span class="badge" id="sale_tot"></span></th>
                         </tr>
-
                         <tr>
                             <th style="width: 20%">item name</th>
                             <th style="width: 10%">unit price</th>
@@ -66,8 +61,7 @@ sale_item@extends('layouts.app')
                             <th style="width: 10%"><button type="button"  id ="add_update_all"  class="btn btn-info btn-xs" >Add/Update all</button></th>
                         </tr>
                     </thead>
-
-                    @foreach($sale->items as $sale_item)
+                    @foreach($sale->quotation->items as $sale_item)
                         <tr >
                             <?php
                                 $quotation_item_id=0;
@@ -104,14 +98,14 @@ sale_item@extends('layouts.app')
                             <td><input  type="text" class="form-control" name="amount" value="{{$sale_item->amount}}"></td>
                             <td>{{$sale_item->total}}</td>
                               <td>
-                                <button type="button"  id ="{{$sale->id}}_{{$sale_item->pivot->item_id}}"  class="add btn btn-primary btn-xs" name="sale_item_store" style="display:{{$quotation_item_id>0 ? "none" : "block"}};">Add</button>
-                                <input type="hidden" id ="sale_item_{{$sale->id}}_{{$sale_item->pivot->item_id}}" value="{{$quotation_item_id}}">
-                                <div id ="div_{{$sale->id}}_{{$sale_item->pivot->item_id}}" style="display:{{$quotation_item_id==0 ? "none" : "block"}};">
+                                <button type="button"  id ="{{$sale_item->pivot->item_id}}"  class="add btn btn-primary btn-xs" name="sale_item_store" style="display:{{$quotation_item_id>0 ? "none" : "block"}};">Add</button>
+                                <input type="hidden" id ="sale_item_{{$sale_item->pivot->item_id}}" value="{{$quotation_item_id}}">
+                                <div id ="div_{{$sale_item->pivot->item_id}}" style="display:{{$quotation_item_id==0 ? "none" : "block"}};">
                                   <button type="button"  id ="{{$sale->id}}_{{$sale_item->pivot->item_id}}"  class="btn btn-warning btn-xs" name="sale_item_update" >Edit</button>
                                   <button type="button"  id ="{{$sale->id}}_{{$sale_item->pivot->item_id}}"  class="btn btn-danger btn-xs" name="sale_item_destroy" >Delete</button>
                                 </div>
                               </td>
-                              <?php // NOTE: check from here ?>
+
                         </tr>
                     @endforeach
                 </table>
@@ -131,9 +125,7 @@ sale_item@extends('layouts.app')
 @section('script')
 @include('layouts.suggest')
 <script>
-
 $(document).ready(function(){
-
 
   $('.form-control').keyup(validator).change(validator).blur(validator)
   sale_calculation();
@@ -147,62 +139,60 @@ $(document).ready(function(){
               total += parseFloat(val);
           }
       }
-      var discount={{$quotation->sale->discount}};
-      var final_tot=total-total*(discount)/100;
-      $('#final_tot').html('<font size="5">Rs.'+final_tot+'</font>');
+      var discount={{$sale->discount}};
+      var serviceCharge={{$sale->service_charge}};
+      var advance={{$sale->advance}};
+      var isFuneral={{$sale->quotation->sales_type}}// NOTE: 1 is funeral 0 is not
+      var saleId={{$sale->id}};
+
+      var sale_final_total=service_charge+total-(total-advance)*(discount)/100;
+      $('#sale_final_total').html('<font size="5">Rs.'+sale_final_total+'</font>');
       $('#sale_tot').html('<font size="4">Rs.'+total+'</font>');
   }
 
   function validator(){
-    var current_item_amount=parseInt($(this).closest('tr').find('td:eq(3)').text());// NOTE: have to get current item amount in store
+    var currentItemAmount=parseInt($(this).closest('tr').find('td:eq(2)').text());// NOTE: have to get current item amount in store
     var amount=parseInt($(this).closest('tr').find('input[name="amount"]').val());
-    var unit_price= $(this).closest('tr').find('td:eq(2)').text();
-    var total=amount*unit_price;
+    var unitPrice= parseFloat($(this).closest('tr').find('td:eq(1)').text());
+    var halfDays=days-1;
+    var itemTotalPrice;
 
+    if(isFuneral==1 && halfDays>3){
+      halfDays=3;
+    }
+    itemTotalPrice=(unitPrice+halfDays*(unitPrice/2))*amount;// NOTE: item total price calculation eaasy way
 
-    if(current_item_amount<amount){
+    if(amount<0 || currentItemAmount<amount){
 
        $(document).trigger("add-alerts", [
        {
-           "message": "please enter below than store amount",
+           "message": "amount you enterd invalid",
            "priority": 'danger'
        }
        ]);
 
        $(this).focus();
 
-     }else if(amount<0){
-
-      $(document).trigger("add-alerts", [
-         {
-             "message": "amount cant be minus",
-             "priority": 'danger'
-         }
-       ]);
-
-       $(this).focus();
-
       } else {
-         $(this).closest('tr').find('td:eq(5)').text(total);
+         $(this).closest('tr').find('td:eq(6)').text(itemTotalPrice);
          sale_calculation();
       }
   }
 
   var all_child_update=$('[name="sale_item_store"],[name="sale_item_update"]').click(function(){
       var clicked_button=$(this);
-      var row_id=$(this).attr('id');
-      var sale_id=row_id.split('_')[0];
-      var item_id=row_id.split('_')[1];
+      var itemId=$(this).attr('id');
+
 
         $.ajax({
             type: 'post',
             url: '/'+$(this).attr('name'),
             data: {
-                'id': $('#sale_item_'+row_id).val(),
+                'id': $('#sale_item_'+itemId).val(),
                 '_token': $('input[name=_token]').val(),
                 'amount': $(this).closest('tr').find('input[name="amount"]').val(),
-                'sale_id': sale_id,
-                'item_id': item_id
+                'sale_id': saleId,
+                'item_id': itemId
             },
             success: function(data) {
 
@@ -212,10 +202,10 @@ $(document).ready(function(){
                    "priority": 'success'
                    }
                    ]);
-                   $('#sale_item_'+row_id).val(data.id);
+                   $('#sale_item_'+itemId).val(data.id);
                     if(clicked_button.attr('name')=="sale_item_store"){
                         clicked_button.hide();
-                        $("#div_"+row_id).show();
+                        $("#div_"+itemId).show();
                     }
 
             },
@@ -230,24 +220,17 @@ $(document).ready(function(){
       var all_child_destroy=$('[name="sale_item_destroy"]').click(function(){
           var clicked_button=$(this);
 
-          var row_id=$(this).attr('id');
-
-          var sale_id=row_id.split('_')[0];
-          var item_id=row_id.split('_')[1];
-
+          var itemId=$(this).attr('id');
             $.ajax({
                 type: 'post',
                 url: '/'+$(this).attr('name'),
                 data: {
-                    'id': $('#sale_item_'+row_id).val(),
+                    'id': $('#sale_item_'+itemId).val(),
                       '_token': $('input[name=_token]').val()
 
                 },
                 success: function(data) {
                     if ((data.errors)) {
-
-
-
                         $(document).trigger("add-alerts", [
                        {
                        "message":"data not removed , please try again",
@@ -264,8 +247,8 @@ $(document).ready(function(){
 
                       if(clicked_button.attr('name')=="item_sale_destroy"){
 
-                        $("#"+row_id+".add").show();
-                        $("#div_"+row_id).hide();
+                        $("#"+itemId+".add").show();
+                        $("#div_"+itemId).hide();
                         clicked_button.closest('tr').find('input[name="amount"]').val(" ");
 
                     //    selected_span.toggle();

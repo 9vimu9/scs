@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class sales extends Model
 {
-    public function customer(){
-        return $this->belongsTo("App\customer");
+
+    public function quotation(){
+      return $this->belongsTo("App\quotation");
     }
 
     public function sale_item()

@@ -62,7 +62,17 @@ class SaleItemsController extends Controller
     public function show($id)
     {
         $sale=sales::find($id);
-        return view('saleitems.index')->with('sale',$sale);
+
+
+        $sale_quotation = DB::table('sale_items')
+          ->rightJoin('quotation_items','sale_items.item_id', '=', 'quotation_items.item_id')
+          ->Join('items','items.id', '=', 'quotation_items.item_id')
+          ->Where('quotation_items.quotation_id', '=', $sale->quotation_id)
+          ->get(['items.name']);
+
+        $data=['sale'=>$sale,'sale_quotation'=>$sale_quotation];
+         var_dump($sale_quotation[0]->name);
+      //  return view('saleitems.index',$data);
     }
 
     /**

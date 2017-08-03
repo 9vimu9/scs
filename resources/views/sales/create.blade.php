@@ -22,6 +22,13 @@
                         <hr>
 
                         <div class="form-group">
+                            <label class="col-sm-5 control-label">customer name</label>
+                            <div class="col-sm-2">
+                              <span id="customer_name"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-5 control-label">from</label>
                             <div class="col-sm-2">
                                 <input id="datepicker" type="text" class="datepicker form-control" name="deliver_date" value="{{date('Y-m-d')}}">
@@ -34,21 +41,6 @@
                                 <input id="datepicker2" type="text" class="datepicker form-control" name="return_date" >
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">customer</label>
-                            <div class="col-xs-3">
-                               <select id="customer_name"  class="form-control" data-width="100%">
-                                 {{-- <option value="1" selected="">
-
-                                 </option> --}}
-                               </select>
-                               <input type="hidden" id="customer_id" name="customer_id" value="" />
-                            </div>
-                        </div>
-
-
-
 
                         <div class="form-group">
                             <label class="col-xs-5 control-label">service charge(Rs)</label>
@@ -93,11 +85,7 @@
     @include('layouts.suggest');
 
     <script>
-       GetSuggestions("customer_name","name","customers");
 
-       var customer_select= $('#customer_name').on('select2:select', function (evt) {
-            $('#customer_id').val(evt.params.data.id);
-        });
 
         GetSuggestions("quotation_no","id","quotations");
 
@@ -117,22 +105,18 @@
                   var discount=data[0].discount;
                   var days=data[0].days;
                   var isFuneral=data[0].sales_type=='1' ? 'funeral' : 'other occasion';
-                  var customer_id=data[0].customer_id;
-                  var customer_name=  GetSingleValue (customer_id,'name','customers',null);
+                  var customerId=data[0].customer_id;
+                  var customerName=GetSingleValue (customerId,'name','customers',null);
 
                   var result = new Date($('#datepicker').val());
                   result.setDate(result.getDate() + days);
                   var deliveryDate=result.getFullYear()+'-'+(result.getMonth() + 1) + '-' + result.getDate();
 
-                  var option = new Option(customer_name, '0', true, true);
-                  customer_select.append(option);
-                  customer_select.trigger('change');
-
                   $('#datepicker2').val(deliveryDate);
                   $('#service_charge').val(serviceCharge);
                   $('#advance').val(advance);
                   $('#discount').val(discount);
-                  $('#customer_id').val(customer_id);
+                  $('#customer_name').html(customerName);
                   $('#funeral_badge').html('<font size="5">'+isFuneral+'</font>');// NOTE: becasuse salestype 1 means funeral
 
               }
@@ -140,5 +124,4 @@
 
         });
     </script>
-    {{-- end of autosuggest --}}
 @endsection

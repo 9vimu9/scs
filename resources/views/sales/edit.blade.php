@@ -19,6 +19,13 @@
                           <input type="hidden" name="quotation_id" value="{{$sale->quotation_id}}">
 
                         <div class="form-group">
+                            <label class="col-xs-5 control-label">customer</label>
+                            <div class="col-xs-4">
+                                <span>{{$sale->quotation->customer->name}}</span>
+                        </div>
+                      </div>
+
+                        <div class="form-group">
                             <label class="col-sm-5 control-label">from</label>
                             <div class="col-sm-2">
                                 <input id="datepicker" type="text" class="datepicker form-control" name="deliver_date" value="{{$sale->deliver_date}}">
@@ -32,17 +39,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">customer</label>
-                            <div class="col-xs-3">
-                               <select id="customer_name"  class="form-control" data-width="100%">
-                                 <option value="{{$sale->customer_id}}" selected="{{$sale->customer->name}}">
-                                     {{$sale->customer->name}}
-                                 </option>
-                               </select>
-                               <input type="hidden" id="customer_id" name="customer_id" value="{{$sale->customer_id}}" />
-                            </div>
-                        </div>
+
 
                         <div class="form-group">
                             <label class="col-xs-5 control-label">service charge(Rs)</label>
@@ -77,22 +74,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('script')
- {{-- auto suggest --}}
-    @include('layouts.suggest');
-
-    <script>
-       GetSuggestions("customer_name","name","customers");
-
-       var customer_select= $('#customer_name').on('select2:select', function (evt) {
-            $('#customer_id').val(evt.params.data.id);
-        });
-
-
-
-        });
-    </script>
-    {{-- end of autosuggest --}}
 @endsection

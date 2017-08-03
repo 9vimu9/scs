@@ -14,7 +14,6 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sales_type')->unsigned();//0=funaral 1=normal sale
             $table->date('deliver_date');
             $table->date('return_date');
             $table->decimal('service_charge',7,2);
@@ -22,10 +21,8 @@ class CreateSalesTable extends Migration
             $table->double('discount',5,3);
             $table->integer('user_id')->unsigned();
             $table->integer('quotation_id')->unsigned();
-            $table->integer('customer_id')->length(10)->unsigned();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('cascade')->onUpdate('cascade');
 
         });
