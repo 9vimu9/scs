@@ -50,7 +50,7 @@
               {{-- {{$returning->sale->items}} --}}
               {{$returning->sale_items}}
             @if(count($returning->sale->items)>0)
-              <form action="/returningitems/{{$returning->id}}" method="get">
+              <form action="/returningitems/{{$returning->id}}" method="post">
                   {{ csrf_field() }}
                   <input type="hidden" name="_method" value="PUT">
                 <table class="table table-bordered table-hover" style="width: 60%" >

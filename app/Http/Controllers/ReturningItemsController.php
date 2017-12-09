@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\returning;
 use App\returning_item;
+use Illuminate\Support\Facades\DB;
+
 
 
 class ReturningItemsController extends Controller
@@ -83,7 +85,13 @@ class ReturningItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request->all();
+      $returning_item_ids=$request->returning_item_id;
+      $returning_item_amounts=$request->amount;
+
+      for ($i=0; $i <count($returning_item_ids) ; $i++) {
+        DB::table('returning_items')->where('id',$returning_item_ids[$i])->update(['amount' => $returning_item_amounts[$i]]);
+      }
+      return redirect('/returningitems/'.$id);
     }
 
     /**
