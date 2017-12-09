@@ -30,14 +30,10 @@
                                         <td>{{$item->cat->name}}</td>
                                         <td>{{$item->prices[count($item->prices)-1]->price}}</td>
                                         <?php // NOTE: at ItemsController->index we set orderby as updated_at desc so $item->prices array created at same manner (updated_at desc so 0th index is the last price change)  ?>
-
-
                                         <td>
-<?php // NOTE:ishut>0 means its =hut_id ?>
-
                                         <form action="/items/{{$item->id }}" class="pull-right" method="POST">
                                             {{ csrf_field() }}
-                                            <a href="{{ $item->ishut>0 ? "/huts/".$item->ishut : "/items/".$item->id }}/edit" class="btn btn-warning btn-xs">edit</a>
+                                            <a href="{{ $item->hut_id>0 ? "/huts/".$item->hut_id : "/items/".$item->id }}/edit" class="btn btn-warning btn-xs">edit</a>
                                             <input type="submit" name="delete" value="remove" class="btn btn-danger btn-xs">
                                             <input type="hidden" name="_method" value="DELETE">
                                         </form>

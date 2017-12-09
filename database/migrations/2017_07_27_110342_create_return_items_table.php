@@ -12,15 +12,15 @@ class CreateReturnItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('return_items', function (Blueprint $table) {
+        Schema::create('returning_items', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('amount');
-          $table->integer('item_id')->length(10)->unsigned();
-          $table->integer('return_id')->length(10)->unsigned();
+          $table->integer('sale_item_id')->length(10)->unsigned();
+          $table->integer('returning_id')->length(10)->unsigned();
           $table->timestamps();
-          $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
-          $table->foreign('return_id')->references('id')->on('returns')->onDelete('cascade')->onUpdate('cascade');
-          $table->unique(['return_id', 'item_id'], 'composite_index5');
+          $table->foreign('sale_item_id')->references('id')->on('sale_items')->onDelete('cascade')->onUpdate('cascade');
+          $table->foreign('returning_id')->references('id')->on('returnings')->onDelete('cascade')->onUpdate('cascade');
+          $table->unique(['returning_id', 'sale_item_id'], 'composite_index9');
 
         });
     }
@@ -32,6 +32,6 @@ class CreateReturnItemsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('return_items');
+        Schema::drop('returning_items');
     }
 }

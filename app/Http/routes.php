@@ -61,6 +61,12 @@ Route::resource('hutitems','HutItemsController');
 Route::get('/hutitems/create/{id}', 'HutItemsController@create');
 
 
+Route::resource('returnings','ReturningsController');
+Route::get('change_actual_return_Date', 'ReturningsController@change_actual_return_Date');
+
+Route::resource('returningitems','ReturningItemsController');
+
+
 
 
 
@@ -83,6 +89,9 @@ Route::group(['middleware' => 'App\Http\Middleware\StockMiddleware'], function()
     Route::resource('itemgrns','itemgrnsController');
 
     Route::resource('sales','SalesController');
+
+
+
     Route::resource('saleitems','SaleItemsController');
     Route::get('/saleitems/create/{id}', 'SaleItemsController@create');
 

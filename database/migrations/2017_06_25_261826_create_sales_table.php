@@ -16,6 +16,7 @@ class CreateSalesTable extends Migration
             $table->increments('id');
             $table->date('deliver_date');
             $table->date('return_date');
+            $table->date('actual_return_date');
             $table->decimal('service_charge',7,2);
             $table->decimal('advance',10,2);
             $table->double('discount',5,3);

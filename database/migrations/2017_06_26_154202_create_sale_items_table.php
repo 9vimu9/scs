@@ -25,6 +25,8 @@ class CreateSaleItemsTable extends Migration
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unique(['sale_id', 'item_id'], 'composite_index3');
+
+
         });
     }
 

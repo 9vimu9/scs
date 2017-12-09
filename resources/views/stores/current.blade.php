@@ -10,7 +10,7 @@
 
 @section('content')
 
-          
+
             <div class="panel-body">
             @if(count($items)>0)
                 <table id="current" class="table table-hover table-striped"  width="100%">

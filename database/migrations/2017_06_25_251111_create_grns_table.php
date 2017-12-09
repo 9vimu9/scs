@@ -16,7 +16,6 @@ class CreategrnsTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->integer('order_id')->length(10)->unsigned();
-
             $table->double('discount')->unsigned(); // add this line
             $table->integer('user_id')->unsigned(); // add this line
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');

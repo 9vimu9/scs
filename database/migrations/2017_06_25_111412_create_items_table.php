@@ -16,9 +16,8 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('initial_quantity');
-            $table->integer('ishut')->default(0);
-            // 0 means not a hut 1 means hut I set 0 as its default value so when 
-            // you deals with items forms you dont need to store valu for ishut column
+            $table->integer('hut_id')->length(10)->nullable()->unsigned();
+            $table->foreign('hut_id')->references('id')->on('huts')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('cat_id')->unsigned(); // add this line
             $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

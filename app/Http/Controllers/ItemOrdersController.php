@@ -126,7 +126,7 @@ class ItemOrdersController extends Controller
 
              $item_id_validation='required|unique_with:item_orders,order_id';
         }
- echo($request['order_id']."gfsgssd");
+        echo($request['order_id']."gfsgssd");
          $this->validate($request,[
             'amount'=>'required|numeric',
             'unit_price'=>"required|numeric",

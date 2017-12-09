@@ -88,7 +88,7 @@
 
 
         GetSuggestions("quotation_no","id","quotations");
-
+        $.fn.datepicker.defaults.format = "yyyy/mm/dd";
         $('#quotation_no').on('select2:select', function (evt) {
           var quotation_id=evt.params.data.id;
           $('#quotation_id').val(quotation_id);

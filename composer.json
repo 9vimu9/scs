@@ -22,7 +22,9 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files" : ["app/Helpers/pricing_logic.php"
+                  ]
     },
     "autoload-dev": {
         "classmap": [

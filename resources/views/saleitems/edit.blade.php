@@ -5,29 +5,27 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-              <a href="/quotationitems/{{$quotation_item->quotation_id}}" class="btn btn-info btn-sm">back</a>
-              <big>EDIT ITEMS OF quotation : {{$quotation_item->quotation_id}}</big></strong></big>
+              <a href="/saleitems/{{$sale_item->sale->id}}" class="btn btn-info btn-sm ">back</a>
+              <big>EDIT ITEMS OF SALE ORDER #{{$sale_item->sale->id}}</big></strong></big>
                   </div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="/quotationitems/{{$quotation_item->id}}">
-
+                <form class="form-horizontal" role="form" method="POST" action="/saleitems/{{$sale_item->id}}">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
-
                         <div class="form-group">
                             <label class="col-sm-4 control-label">item name</label>
                             <div class="col-sm-4">
                                 <select id="item"  name="item" class="form-control" data-width="100%">
-                                  <option value="{{$quotation_item->item_id}}" selected="{{$quotation_item->item->name}}">
-                                      {{$quotation_item->item->name}}
+                                  <option value="{{$sale_item->item_id}}" selected="{{$sale_item->item->name}}">
+                                      {{$sale_item->item->name}}
                                   </option>
                                 </select>
-                                <input type="hidden" id="item_id"  name="item_id" value="{{$quotation_item->item_id}}"/>
+                                <input type="hidden" id="item_id"  name="item_id" value="{{$sale_item->item_id}}"/>
 
                             </div>
                         </div>
 
-                        <input type="hidden" id="quotation_id"  name="quotation_id" value="{{$quotation_item->quotation_id}}"/>
+                        <input type="hidden" id="sale_id"  name="sale_id" value="{{$sale_item->sale->id}}"/>
                         <input type="hidden" id="unit_price"  name="unit_price"/>
                         <input type="hidden" id="total"  name="total"/>
 
@@ -49,7 +47,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">amount</label>
                             <div class="col-sm-2">
-                                <input id="amount" type="text" class="form-control" name="amount" value="{{$quotation_item->amount}}">
+                                <input id="amount" type="text" class="form-control" name="amount" value={{$sale_item->amount}}>
                             </div>
                         </div>
 
@@ -73,11 +71,20 @@
 @include('layouts.suggest')
 <script>
 $(document).ready(function(){
-  // getStoreQuantitiy({{$quotation_item->item_id}});
+
 
     var item_stock_amount=0;
-    var days={{$quotation_item->quotation->days}};
-    var type={{$quotation_item->quotation->sales_type}};// NOTE: 1 means funeral 0 means other occasion
+    var deliver_date='{{$sale_item->sale->deliver_date}}';
+    var return_date='{{$sale_item->sale->return_date}}';
+    var actual_return_date='{{$sale_item->sale->actual_return_date}}';
+    if (actual_return_date=='0000-00-00') {
+      actual_return_date=return_date;
+    }
+    deliver_date = new Date(deliver_date);
+    actual_return_date = new Date(actual_return_date);
+    var timeDiff = Math.abs(actual_return_date.getTime() - deliver_date.getTime());
+    var days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    var type={{$sale_item->sale->quotation->sales_type}};// NOTE: 1 means funeral 0 means other occasion
 
     var iniitial_quantity=parseInt($('#amount').val());
     var iniitial_id=parseInt($('#item_id').val());
@@ -162,5 +169,6 @@ $(document).ready(function(){
 });
 
 </script>
+
 
 @endsection

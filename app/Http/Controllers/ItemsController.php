@@ -158,13 +158,6 @@ class ItemsController extends Controller
       $item=item::find($id);
 
         $item->delete();
-        if($item->ishut>0){
-
-          $hut=huts::find($item->ishut);// NOTE: when ishut>0 means it is pk of huts
-          $hut->delete();
-
-
-        }
         return redirect('/items')->with('success',"item<strong> $item->name </strong>removed successfully");
 
 

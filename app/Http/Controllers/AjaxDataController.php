@@ -17,7 +17,6 @@ class AjaxDataController extends Controller
 
     public function suggest(Request $request)
     {
-
         $term = trim($request->q);
         $table = trim($request->t);
         $column = trim($request->c);

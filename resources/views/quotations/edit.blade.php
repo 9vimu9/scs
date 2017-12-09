@@ -34,9 +34,6 @@
                             </div>
                         </div>
 
-                      
-
-
                         <div class="form-group">
                           <label class="col-xs-5 control-label">funeral ?</label>
                             <div class="col-xs-3">

@@ -40,12 +40,12 @@
                             </div>
                         </div>
                     </form>
-                
+
             </div>
         </div>
     </div>
 </div>
-@endsection 
+@endsection
 
 @section('script')
  {{-- auto suggest --}}
@@ -60,8 +60,4 @@
         });
     </script>
     {{-- end of autosuggest --}}
-@endsection 
-
-
-
-
+@endsection

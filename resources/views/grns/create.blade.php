@@ -62,7 +62,7 @@
 
     <script>
         GetSuggestions("order_no","id","orders");
-      
+
         $('#order_no').on('select2:select', function (evt) {
             console.log(evt.params.data.id);
             $('#order_id').val(evt.params.data.id);

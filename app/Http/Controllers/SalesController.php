@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\sales;
+use App\quotation_item;
+use App\sale_item;
 use Auth;
 use Validator;
 class SalesController extends Controller
@@ -46,12 +48,29 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        $sale=new sales();
-         $val= $this->AddUpdateCore($sale,$request);
-              if ($val->fails())
-            return redirect()->back()->withErrors($val)->withInput();
-        else
+      $sale=new sales();
+      $val= $this->AddUpdateCore($sale,$request);
+
+      if ($val->fails()){
+        return redirect()->back()->withErrors($val)->withInput();
+      }
+      else{
+        $quotation_items=quotation_item::where('quotation_id',$sale->quotation_id)->get();
+        foreach ($quotation_items as $quotation_item) {
+          $sale_item=new sale_item();
+          $sale_item->amount=$quotation_item['amount'];
+          $sale_item->unit_price=$quotation_item->unit_price;
+          $sale_item->sale_id=$sale->id;
+          $sale_item->item_id=$quotation_item['item_id'];
+          $sale_item->user_id=Auth::user()->id;
+          $sale_item->total=$quotation_item->total;
+          $sale_item->save();
+          ItemTotalPriceUpdate($sale);
+        }
+
         return redirect("/saleitems/".$sale->id);
+
+      }
     }
 
     /**
@@ -76,6 +95,8 @@ class SalesController extends Controller
       $data=sales::find($id);
       return view("sales.edit")->with('sale',$data);
     }
+
+    
 
     /**
      * Update the specified resource in storage.
@@ -104,7 +125,7 @@ class SalesController extends Controller
     {
          $sale=sales::find($id);
          $sale->delete();
-         return redirect("/sales");
+         return redirect('/sales')->with('success',"sale no <strong> $sale->id </strong>removed successfully");
     }
 
 
@@ -122,7 +143,7 @@ class SalesController extends Controller
 
         $days=$request['days'];
 
-      
+
         // if ($sale!=null && $sale->days!=$days ){
         //   $this->ItemTotalPriceUpdateByDays($sale,$days);
         // }
@@ -138,7 +159,8 @@ class SalesController extends Controller
           $sale->quotation_id=$request['quotation_id'];
 
           $sale->save();
+          ItemTotalPriceUpdate($sale);
         }
-        return $validator;
+      return $validator;
     }
 }

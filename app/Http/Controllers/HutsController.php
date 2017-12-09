@@ -153,9 +153,7 @@ class HutsController extends Controller
             if ($hut->id==null){
               $hut->item_id=$item->id;
               $hut->save();
-              // NOTE: so when in items table if ishut>0 means
-              //ishut equal to hut_id
-              $item->ishut=$hut->id;
+              $item->hut_id=$hut->id;
               $item->save();
             }
             if ($request['price']!=$last_price) {

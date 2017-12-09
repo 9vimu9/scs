@@ -19,6 +19,8 @@
     {{-- datatables --}}
    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/datepicker.css') }}" rel="stylesheet" >
+
 
     @yield('head')
     <style>
@@ -41,7 +43,7 @@
 <body id="app-layout">
     <nav class="navbar navbar-default">
       <a class="navbar-brand" href="{{ url('/home') }}">
-         <strong>SCS </strong> | <small>Sarathchandra Catering Services</small>
+         {{-- <strong>SCS </strong> | <small>Sarathchandra Catering Services</small> --}}
       </a>
         <div class="container">
           <!-- Branding Image -->
@@ -87,18 +89,9 @@
                     </ul>
                   </li>
 
-                  <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                      RETURNINGS
-                      <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a href="{{ url('/customers') }}">Returnings</a></li>
-                      <li><a href="{{ url('/orders') }}">Damages</a></li>
+                  <li><a href="#">RETURNINGS</a></li>
 
-                    </ul>
-                  </li>
-                  <li><a href="settings/user">PAYMENTS</a></li>
+                  {{-- <li><a href="#">PAYMENTS</a></li> --}}
                   <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                       ITEMS
@@ -113,20 +106,12 @@
                     </ul>
                   </li>
 
-                  <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                      STOCKS
-                      <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a href="{{ url('/customers') }}">Customers</a></li>
-                      <li><a href="{{ url('/orders') }}">Quotations</a></li>
-                      <li><a href="{{ url('/sales') }}">Sale Order</a></li>
-                      <li><a href="{{ url('/grns') }}">Item Returns</a></li>
-                    </ul>
-                  </li>
+                  <li class="dropdown"><a href="#">STOCKS</a></li>
 
-                  <li class="dropdown">
+                  <li class="dropdown"><a href="#">NOT RETURNED</a></li>
+
+
+                  {{-- <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                       REPORTS
                       <span class="caret"></span>
@@ -137,7 +122,7 @@
                       <li><a href="{{ url('/sales') }}">Sale Order</a></li>
                       <li><a href="{{ url('/grns') }}">Item Returns</a></li>
                     </ul>
-                  </li>
+                  </li> --}}
 
 
                 </ul>
@@ -160,7 +145,7 @@
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
-                        <li><a href="settings/user">settings</a></li>
+                        <li><a href="{{ url('/settings/user') }}">settings</a></li>
                     @endif
                 </ul>
             </div>
@@ -178,6 +163,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="{{ asset('js/jquery.bsAlerts.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+
 
 
    	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">

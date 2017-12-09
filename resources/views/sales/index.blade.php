@@ -5,58 +5,81 @@
     <div class="row">
         <div class="panel panel-default" >
             <div class="panel-heading">
-                <big>QUOTATIONS </big>
-                <a href="/quotations/create" class="pull-right btn btn-primary btn-sm">add quotation</a>
+                <big>SALES </big>
+                <a href="{{url('/sales/create') }}" class="pull-right btn btn-primary btn-sm">add sale</a>
             </div>
                 <div class="panel-body">
-                    @if(count($quotations)>0)
+                    @if(count($sales)>0)
                     <div class="table-responsive">
-                     <table class="table table-striped table-hover" style="table-layout: fixed; width: 100%" >
+                     <table class="table table-striped table-hover" style="table-layout: fixed; width: 150%" >
                        <thead>
                         <tr>
-                            <th style="width: 8%">#</th>
-                            <th style="width: 15%">customer</th>
-                            <th style="width: 5%">days</th>
+                            <th style="width: 8%">S ID</th>
+                            <th style="width: 8%">Q ID</th>
+                            <th style="width: 12%">customer</th>
+                            <th style="width: 12%">deliver date</th>
+                            <th style="width: 12%">planned return date</th>
+                            <th style="width: 12%">actual return date</th>
                             <th style="width: 8%">service charge(Rs)</th>
-                            <th style="width: 10%">cost on items(Rs)</th>
+                            <th style="width: 10%">item charge</th>
                             <th style="width: 10%">advance(Rs)</th>
                             <th style="width: 15%">discount</th>
                             <th style="width: 10%">cost-discount</th>
                             <th style="width: 10%">service charge+cost-discount</th>
                             <th style="width: 10%">user</th>
-                            <th style="width: 12%"></th>
+                            <th style="width: 15%"></th>
                         </tr>
                     </thead>
-                        @foreach($quotations as $quotation)
+                        @foreach($sales as $sale)
                             <tr>
-                                <td> <big>{{$quotation->id}}</big></td>
-                                <td> {{$quotation->customer->name}}</td>
-                                <td> {{$quotation->days}}</td>
-                                <td> {{$quotation->service_charge}}</td>
+                                <td> <big>{{$sale->id}}</big></td>
+                                <td> <big>{{$sale->quotation_id}}</big></td>
+                                <td> {{$sale->quotation->customer->name}}</td>
+                                <td> {{$sale->deliver_date}}</td>
+                                <td> {{$sale->return_date}}</td>
+                                <td>
+                                   @if ($sale->actual_return_date=='0000-00-00')
+                                     n r
+                                   @else
+                                      {{$sale->actual_return_date}}
+                                   @endif
+                                 </td>
+                                <td> {{$sale->service_charge}}</td>
                                 <?php
                                   $tot=0;
                                   $discountValue=0;
-                                  if(count($quotation->quotation_item)>0){
-                                    foreach($quotation->quotation_item as $items){
+                                  if(count($sale->sale_item)>0){
+                                    foreach($sale->sale_item as $items){
+
                                         $tot+=$items->total;
+                                        echo $items;
                                     }
-                                    $discountValue=($tot-$quotation->advance)*($quotation->discount)/100;
+                                    $discountValue=($tot-$sale->advance)*($sale->discount)/100;
                                   }
                                   ?>
                                   <td> {{$tot}}</td>
-                                  <td> {{$quotation->advance}}</td>
-                                  <td> <span class="badge">{{$quotation->discount}}%</span> [Rs.{{$discountValue}}]</td>
+                                  <td> {{$sale->advance}}</td>
+                                  <td> <span class="badge">{{$sale->discount}}%</span> [Rs.{{$discountValue}}]</td>
                                   <td> {{$tot-$discountValue}}</td>
-                                  <td> {{$quotation->service_charge+$tot-$discountValue}}</td>
-                                  <td>{{$quotation->user->name}}</td>
+                                  <td> {{$sale->service_charge+$tot-$discountValue}}</td>
+                                  <td>{{$sale->user->name}}</td>
                                   <td>
-
-
-
                                     <div class="row">
                                       <div class="col-xs-12">
-                                        <a href="/quotationitems/{{$quotation->id}}" class="btn btn-info btn-xs">more</a>
-                                        <a href="/quotationitems/{{$quotation->id}}" class="btn btn-success btn-xs">SALE</a>
+                                        <a href="/saleitems/{{$sale->id}}" class="btn btn-info btn-xs">more</a>
+
+                                        <form class="change_actual_return_Date" action="{{ url('change_actual_return_Date') }}" method="get">
+                                          <input type="hidden" name="sale_id" value="{{$sale->id}}">
+                                          <input type="hidden" id="actual_return_date_{{$sale->id}}" name="actual_return_date" value="0000-00-00">
+                                          @if ($sale->actual_return_date=='0000-00-00')
+                                            <button  class="btn btn-success btn-xs datepicker_embedded_btn"  data-sale_id='{{$sale->id}}' data-date-format="yyyy-mm-dd" data-date="{{date('Y-m-d', time())}}">returned</button>
+                                          @else
+                                            <button type="submit" class="btn btn-warning btn-xs not_returned"  >
+                                              not returned
+                                            </button>
+                                          @endif
+                                        </form>
+
                                       </div>
                                     </div>
                                   </td>
@@ -65,11 +88,29 @@
                     </table>
                   </div>
                     @else
-                      no quotations<br>click add quotation button
+                      no sales<br>click add sale button
                     @endif
 
         </div>
     </div>
 </div>
+
+@endsection
+
+
+
+@section('script')
+  <script type="text/javascript">
+  $('.datepicker_embedded_btn').datepicker(
+
+  ).on('changeDate', function(ev){
+      $('.datepicker_embedded_btn').datepicker('hide');
+      var selected_date=$(this).data('date');
+      var selected_sale_id=$(this).data("sale_id");
+      $('#actual_return_date_'+selected_sale_id).val(selected_date);
+      alert($('#actual_return_date').val());
+      $(this).closest("form").submit();
+  });
+  </script>
 
 @endsection

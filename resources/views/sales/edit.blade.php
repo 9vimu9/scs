@@ -28,14 +28,14 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">from</label>
                             <div class="col-sm-2">
-                                <input id="datepicker" type="text" class="datepicker form-control" name="deliver_date" value="{{$sale->deliver_date}}">
+                                <input id="datepicker" type="text" class="datepicker form-control" date-format="yyyy-mm-dd" name="deliver_date" value="{{$sale->deliver_date}}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">to</label>
                             <div class="col-sm-2">
-                                <input id="datepicker2" type="text" class="datepicker form-control" name="return_date" value="{{$sale->return_date}}" >
+                                <input id="datepicker2" type="text" class="datepicker form-control" date-format="yyyy-mm-dd" name="return_date" value="{{$sale->return_date}}" >
                             </div>
                         </div>
 
@@ -74,4 +74,15 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('script')
+ {{-- auto suggest --}}
+    @include('layouts.suggest');
+
+    <script>
+      $.fn.datepicker.defaults.format = "yyyy/mm/dd";
+    </script>
+
 @endsection

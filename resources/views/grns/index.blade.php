@@ -9,76 +9,53 @@
                 <a href="/grns/create" class="pull-right btn btn-primary btn-sm">add grn</a>
             </div>
                 <div class="panel-body">
-                {{($grns)}}
-                    @if(count($grns)>0)
-                     <table class="table table-striped table-hover" style="width: 100%" >
-                    <thead>
-                        <tr>
-                            <th style="width: 8%">grn #</th>
-                            <th style="width: 8%">order #</th>
-                            <th style="width: 12%">date</th>
-                            <th style="width: 10%">quantity</th>
+                  <div class="panel-body">
+                      <form class="form-horizontal" role="form" method="POST" action="/grns">
+                              {{ csrf_field() }}
+
+                              <div class="form-group">
+                                  <label class="col-md-5 control-label">type</label>
+                                  <div class="col-md-2">
+                                      <input id="discount" type="text" class="form-control" name="discount"  value={{old('discount')}}>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label class="col-md-5 control-label">amount</label>
+                                  <div class="col-md-2">
+                                      <input id="discount" type="text" class="form-control" name="discount"  value={{old('discount')}}>
+                                  </div>
+                              </div>
 
 
-                            <th style="width: 10%">total(Rs)</th>
-                            <th style="width: 15%">created</th>
-                            <th style="width: 15%">last updated</th>
-                            <th style="width: 10%"></th>
-                        </tr>
-                    </thead>
-                        @foreach($grns as $grn)
-                            <tr>
-                                <td> <big>{{$grn->id}}</big></td>
-                                <td> <a href="/itemorders/{{$grn->order_id}}">{{$grn->order_id}}</a></td>
-
-                                <td> {{$grn->date}}</td>
-
-                                @if(count($grn->items)>0)
-                                <?php
-                                    $amount=0;
-
-                                    $tot_rs=0;
-
-                                    foreach($grn->items as $item_grn){
-                                        $amount+=$item_grn->pivot->amount;
+                              <div class="form-group">
+                                  <label class="col-md-5 control-label">discount(%)</label>
+                                  <div class="col-md-1">
+                                      <input id="discount" type="text" class="form-control" name="discount"  value={{old('discount')}}>
+                                  </div>
+                              </div>
 
 
-                                        foreach($grn->order->items as $item_order){
 
-                                            if($item_order->pivot->item_id===$item_grn->pivot->item_id){
-                                                $tot_rs+=($item_grn->pivot->amount)*$item_order->pivot->unit_price;
-                                            }
-                                        }
-
-
-                                   }
-                                ?>
+                              <div class="form-group">
+                                  <label class="col-md-5 control-label">date</label>
+                                  <div class="col-md-2">
+                                      <input id="datepicker" type="text" class="datepicker form-control" name="date" value="{{date('Y-m-d')}}">
+                                  </div>
+                              </div>
 
 
-                                <td> {{$amount}}</td>
+                              <div class="form-group">
+                                  <div class="col-md-6 col-md-offset-5">
+                                      <button type="submit" class="btn btn-primary">
+                                          <i class="fa fa-btn fa-plus"></i> create
+                                      </button>
+                                  </div>
+                              </div>
+                          </form>
 
+                  </div>
 
-                                <td>{{$tot_rs}}</td>
-
-
-                                @else
-                                    <td>0</td>
-                                    <td>0</td>
-                                     <td>0</td>
-                                    <td>0</td>
-                                 @endif
-                                    <td>{{$grn->created_at->format('Y-m-d_H:m')}}</td>
-                                    <td>{{$grn->updated_at->format('Y-m-d_H:m')}}</td>
-                                <td> <a href="/itemgrns/{{$grn->id}}" class="btn btn-warning btn-xs">more</a> </td>
-                            </tr>
-
-                    @endforeach
-                    </table>
-                        {{$grns->links()}}
-                    @else
-                    no GRN<br>click add GRN button
-
-                    @endif
                 </div>
 
         </div>

@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\sale_item;
 use App\sales;
+use App\user;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use Auth;
+
 
 class SaleItemsController extends Controller
 {
@@ -34,7 +37,8 @@ class SaleItemsController extends Controller
      */
     public function create($sale_id)
     {
-          return view("saleitems.create")->with('sale_id',$sale_id);
+      $sale=sales::find($sale_id);
+      return view("saleitems.create")->with('sale',$sale);
     }
 
 
@@ -46,10 +50,9 @@ class SaleItemsController extends Controller
      */
     public function store(Request $request)
     {
-        $sale_item=new sale_item();
-       $this->AddUpdateCore($sale_item,$request);
-
-            return redirect('/saleitems/'.$sale_item->sale_id);
+      $sale_item=new sale_item();
+      $this->AddUpdateCore($sale_item,$request);
+      return redirect('/saleitems/'.$sale_item->sale_id);
 
     }
 
@@ -59,20 +62,22 @@ class SaleItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sale_id)
     {
-        $sale=sales::find($id);
+      $sale=sales::find($sale_id);
+      $sale_items=sale_item::where('sale_id',$sale_id)->get();
+      foreach ($sale->items as $sale_item) {
+        $sale_item['user_name']=user::find($sale_item->pivot->user_id)->name;
+      }
 
+      $delever_date = strtotime($sale->deliver_date );
+      $actual_return_date=$sale->actual_return_date=='0000-00-00' ? $sale->return_date : $sale->actual_return_date;
+      $actual_return_date = strtotime($actual_return_date);
+      $days = ($actual_return_date - $delever_date)/86400;// == return sec in difference
+      $sale['days']=$days;
 
-        $sale_quotation = DB::table('sale_items')
-          ->rightJoin('quotation_items','sale_items.item_id', '=', 'quotation_items.item_id')
-          ->Join('items','items.id', '=', 'quotation_items.item_id')
-          ->Where('quotation_items.quotation_id', '=', $sale->quotation_id)
-          ->get(['items.name']);
-
-        $data=['sale'=>$sale,'sale_quotation'=>$sale_quotation];
-         var_dump($sale_quotation[0]->name);
-      //  return view('saleitems.index',$data);
+      $data=['sale'=>$sale,'sale_items'=>$sale_items];
+      return view("saleitems.index",$data);
     }
 
     /**
@@ -99,8 +104,6 @@ class SaleItemsController extends Controller
     {
         $sale_item=sale_item::find($id);
         $this->AddUpdateCore($sale_item,$request);
-
-
         return redirect('/saleitems/'.$sale_item->sale_id);
     }
 
@@ -139,7 +142,8 @@ class SaleItemsController extends Controller
             $sale_item->amount=$request['amount'];
             $sale_item->sale_id=$request['sale_id'];
             $sale_item->item_id=$request['item_id'];
-
+            $sale_item->user_id=Auth::user()->id;
+            $sale_item->unit_price=$request['unit_price'];
             $sale_item->save();
 
 
