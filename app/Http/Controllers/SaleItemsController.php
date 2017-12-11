@@ -147,7 +147,5 @@ class SaleItemsController extends Controller
             $sale_item->save();
 
 
-
-
     }
 }

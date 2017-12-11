@@ -64,6 +64,9 @@ Route::get('/hutitems/create/{id}', 'HutItemsController@create');
 Route::resource('returnings','ReturningsController');
 Route::get('change_actual_return_Date', 'ReturningsController@change_actual_return_Date');
 
+Route::get('orders_not_returned', 'ReturningsController@orders_not_returned');
+
+
 Route::resource('returningitems','ReturningItemsController');
 
 

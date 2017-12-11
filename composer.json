@@ -23,7 +23,9 @@
         "psr-4": {
             "App\\": "app/"
         },
-        "files" : ["app/Helpers/pricing_logic.php"
+        "files" : [
+          "app/Helpers/pricing_logic.php",
+          "app/Helpers/quantity_per_item.php"
                   ]
     },
     "autoload-dev": {

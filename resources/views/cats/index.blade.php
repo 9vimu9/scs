@@ -10,7 +10,7 @@
             </div>
                 <div class="panel-body">
                     @if(count($cats)>0)
-                    <table class="table table-striped table-hover"style="width: 65%" >
+                    <table class="table table-striped table-hover table-center"style="width: 65%" >
                      <thead>
                         <tr>
                             <th style="width: 25%">name</th>
@@ -24,7 +24,7 @@
                         @foreach($cats as $cat)
                             <tr>
                                 <td> <big><a href="/cats/{{$cat->id}}">{{$cat->name}}</a></big></td>
-                              
+
                                 <td>{{$cat->created_at->format('Y-m-d_H:m')}}</td>
                                 <td>{{$cat->updated_at->format('Y-m-d_H:m')}}</td>
 

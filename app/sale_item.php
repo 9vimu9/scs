@@ -14,6 +14,10 @@ class sale_item extends Model
        return $this->belongsTo("App\sales");
    }
 
+   public function returning_item(){
+      return $this->hasOne('App\returning_item');
+  }
+
 
 
 }

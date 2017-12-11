@@ -33,23 +33,9 @@ class QuantityController extends Controller
 
     public function QuanitiyPerItem($item_id)
     {
-      $item_initial_quantity = DB::table('items')
-                                  ->where('id', '=', $item_id)
-                                  ->value('initial_quantity');
-        // $item_grn_amount = DB::table('item_grns')->select(DB::raw('sum(amount-rejected) as grn_amount'))
-        //              ->where('item_id', '=', $item_id)
-        //              ->groupBy('item_id')
-        //              ->value('grn_amount');
-        //
-        // $item_sale_amount = DB::table('sale_items')->select(DB::raw('sum(amount) as sale_amount'))
-        //              ->where('item_id', '=', $item_id)
-        //              ->groupBy('item_id')
-        //              ->value('sale_amount');
+      $data=quantity_per_item($item_id);
+      return $data['current_amount'];
 
-
-        $item_stock_amount=$item_initial_quantity;
-        //$item_grn_amount-($item_sale_amount);
-        return $item_stock_amount;
     }
 
 

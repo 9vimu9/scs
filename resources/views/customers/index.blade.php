@@ -10,7 +10,7 @@
             </div>
                 <div class="panel-body">
                     @if(count($all_customers)>0)
-                     <table id="all_customers_table" class="table table-striped table-hover"style="width: 95%" >
+                     <table id="all_customers_table"class="table table-striped table-hover table-center" cellspacing="0" style="table-layout:  width: 90%" >
                      <thead>
                         <tr>
                             <th style="width: 25%">name</th>
@@ -20,10 +20,23 @@
                             <th style="width: 10%">tel 2</th>
                             <th style="width: 25%">email</th>
 
-                            <th style="width: 20%">qqqqqqqqqqq</th>
+                            <th style="width: 20%"></th>
 
                         </tr>
                       </thead>
+                      <tfoot>
+                        <tr>
+
+                            <th ></th>
+                            <th ></th>
+                            <th ></th>
+                            <th ></th>
+                            <th ></th>
+                            <th ></th>
+                            <th ></th>
+
+                        </tr>
+                      </tfoot>
                       <tbody>
                         @foreach($all_customers as $customer)
                             <tr>
@@ -68,17 +81,25 @@
   <script>
 
     $(document).ready(function(){
-      $('#all_customers_table').DataTable({
+    var all_customers_table=  $('#all_customers_table').DataTable({
         'paging'      : false,
         'lengthChange': true,
         'searching'   : true,
         'ordering'    : true,
         'info'        : false,
-        'autoWidth'   : false
+        'autoWidth'   : true
 
       })
 
-
+      var searchArray = {
+        0:"name",//table column:id naem
+        1:"nic",//table column:id naem
+        2:"address",//table column:id naem
+        3:"tel_1",//table column:id naem
+        4:"tel_2",//table column:id naem
+        5:"email"//table column:id naem
+        };
+      AddColumnSearch(all_customers_table,searchArray,'#all_customers_table');
 
 
 

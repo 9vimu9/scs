@@ -25,9 +25,12 @@ class SalesController extends Controller
 
     public function index()
     {
-        $data=sales::OrderBy('id','desc')->paginate(8);
+        // $data=sales::OrderBy('id','desc')->paginate(6);
+        $sales=sales::all();
+        $title="SALES";
+        $data=['sales'=>$sales,'title'=>$title];
 
-        return view('sales.index')->with("sales",$data);
+        return view('sales.index',$data);
     }
 
     /**
@@ -96,7 +99,7 @@ class SalesController extends Controller
       return view("sales.edit")->with('sale',$data);
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.

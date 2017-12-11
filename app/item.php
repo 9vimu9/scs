@@ -17,5 +17,12 @@ class item extends Model
        return $this->hasMany('App\change_prices');
    }
 
+   public function sale_items()
+  {
+      return $this->hasMany('App\sale_item');
+  }
+
+
+
 
 }

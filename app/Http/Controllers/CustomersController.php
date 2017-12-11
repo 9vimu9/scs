@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\customer;
+use App\quotation;
+use App\sales;
 use Validator;
 
 class CustomersController extends Controller
@@ -63,7 +65,18 @@ class CustomersController extends Controller
      */
     public function show($id)
     {
-        //
+      // $quotations=quotation::where('customer_id',$id)->get();
+      $customer=customer::find($id);
+      $quotations=$customer->quotations()->with('sale')->get();
+      $sales=array();
+      foreach ($quotations as $quotation) {
+        array_push($sales,$quotation['sale']);
+      }
+      // return $sales;
+      $title="Customer history: $customer->name";
+      $data=['sales'=>$sales,'title'=>$title];
+
+      return view('sales.index',$data);
     }
 
     /**

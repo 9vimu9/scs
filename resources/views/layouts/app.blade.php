@@ -19,6 +19,7 @@
     {{-- datatables --}}
    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css">
+
   <link rel="stylesheet" type="text/css" href="{{ asset('css/datepicker.css') }}" rel="stylesheet" >
 
 
@@ -32,12 +33,26 @@
             margin-right: 6px;
         }
 
-        .table {
-            border-radius: 5px;
+        .table-center {
+              border-radius: 5px;
 
-            margin: 0px auto;
-            float: none;
-        }
+              margin: 0px auto;
+              float: none;
+          }
+
+
+          select[readonly] option, select[readonly] optgroup {
+              display: none;
+          }
+          /*this code use for place indivdual search box at top of the table*/
+  tfoot {
+      display: table-header-group;
+  }
+
+  /*for getting same width for inputs as columns*/
+  tfoot input {
+    width: 100%;
+  }
     </style>
 </head>
 <body id="app-layout">
@@ -64,6 +79,7 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
+                  <li class="dropdown"><a href="#"><strong>SCS</strong></a></li>
 
                   <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -89,7 +105,6 @@
                     </ul>
                   </li>
 
-                  <li><a href="#">RETURNINGS</a></li>
 
                   {{-- <li><a href="#">PAYMENTS</a></li> --}}
                   <li class="dropdown">
@@ -106,9 +121,9 @@
                     </ul>
                   </li>
 
-                  <li class="dropdown"><a href="#">STOCKS</a></li>
+                  <li class="dropdown"><a href="{{ url('/items') }}">STOCKS</a></li>
 
-                  <li class="dropdown"><a href="#">NOT RETURNED</a></li>
+                  <li class="dropdown"><a href="{{url('/orders_not_returned')}}">NOT RETURNED</a></li>
 
 
                   {{-- <li class="dropdown">
@@ -162,8 +177,8 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script src="{{ asset('js/jquery.bsAlerts.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+
+
 
 
 
@@ -176,7 +191,9 @@
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js">
 	</script>
 
-
+  <script src="{{ asset('js/jquery.bsAlerts.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+  <script src="{{ asset('js/tables.js') }}"></script>
 
 
   <script>

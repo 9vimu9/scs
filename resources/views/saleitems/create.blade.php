@@ -71,9 +71,9 @@ $(document).ready(function(){
     $('#amount').on('keyup',GetTotalPrice);
     var item_stock_amount=0;
 
-    var deliver_date={{$sale->deliver_date}};
-    var return_date={{$sale->return_date}};
-    var actual_return_date={{$sale->actual_return_date}};
+    var deliver_date='{{$sale->deliver_date}}';
+    var return_date='{{$sale->return_date}}';
+    var actual_return_date='{{$sale->actual_return_date}}';
     if (actual_return_date=='0000-00-00') {
       actual_return_date=return_date;
     }

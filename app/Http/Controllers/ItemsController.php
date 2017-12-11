@@ -176,7 +176,7 @@ class ItemsController extends Controller
             $item->name=$request['name'];
             $item->initial_quantity=$request['initial_quantity'];
             $item->cat_id=$request['cat_id'];
-
+          
 
             $item->save();
 

@@ -55,7 +55,6 @@ class ReturningsController extends Controller
           $returning_item->sale_item_id=$sale_item['id'];
           $returning_item->returning_id=$returning->id;
           $returning_item->save();
-          // $var="hi";
         }
         return redirect('/returningitems/'.$returning->id);
 
@@ -71,6 +70,19 @@ class ReturningsController extends Controller
 
 
 
+
+
+    }
+
+
+    public function orders_not_returned()
+    {
+
+      $sales=sales::where('actual_return_date','0000-00-00')->get();
+      $title="SALE ORDERS NOT RETURNED";
+      $data=['sales'=>$sales,'title'=>$title];
+
+      return view('sales.index',$data);
     }
 
     /**
