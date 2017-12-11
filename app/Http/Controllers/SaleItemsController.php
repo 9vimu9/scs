@@ -137,6 +137,9 @@ class SaleItemsController extends Controller
             'amount'=>'required|numeric',
             'item_id' => $item_id_validation,
             'sale_id'=>"required|numeric"
+            'total'=>"required|numeric"
+
+
         ]);
 
             $sale_item->amount=$request['amount'];
@@ -144,6 +147,7 @@ class SaleItemsController extends Controller
             $sale_item->item_id=$request['item_id'];
             $sale_item->user_id=Auth::user()->id;
             $sale_item->unit_price=$request['unit_price'];
+            $sale_item->total=$request['total'];
             $sale_item->save();
 
 
